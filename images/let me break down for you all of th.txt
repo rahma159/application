@@ -1,0 +1,850 @@
+let me break down for you all of this i am currently working in a smart consulting office project with C++ langage my task in this project is the payment and invoicing task this is what i created in the QT creator paymentwindow.ui file as it is shown i have mainwindow files also when i click on an btnOpenPayment in the mainwindow the payment window will appear the problem here is in the third page it is not organised or well constructured also in  this application i need to be more realistic in the payment side where the security of information need to be considered also the payment method is not that simple it has to enter the number of credit card for exaple the paypal one also .
+that means that i need you to improve this to me and if you have any suggestions for antthing the colors the style the names add things please tell me  and that's it
+
+
+
+
+
+
+
+
+
+let me break down for you all of this i am currently working in a smart consulting office project with C++ langage my task in this project is the payment and invoicing task this is what i created in the QT creator i've created the user interface and ow i want the custumer interface that means the backend of my work  the first pictures are the designe for the paymentwindow.ui and the seconds are some inspiration of the admin interface i want you to tell me if there is any missing in my user interface work also i was thinking to like devise the admin interface into pages beacause it is gonna be so much in one page i also need in my work to the crud les metiers ,et un analyse 
+
+
+
+
+
+let me break down for you all of this I am currently working in a smart consulting office project with C++ langage my task in this project is the payment and invoicing "gestion du payement" task this is what i created in the QT creator
+i've already created these interfaces of each page, i want you to correct if there is any errors or things that I have to add or delete, also for the qdialog buttom box, there is only inside it, 2 buttons, ok and cancel, so verify my interfaces, also i want you to help me add the last image as my background image for all the interfaces,  also i want you to give me a stylesheet code for these interfaces i want them to be professional and colored by degradation of blue and white
+
+
+
+now I want you to give me the codes related to these interfaces .cpp and .h to all of them related to each other also in our projwct we have the first interface is the
+ mainwindow so witch button should i put in the main windows to open my work give me also the object name of them
+
+
+
+ok can you tell me what are the buttons that should be presented in the mainwindow page that means the first page of  our application that will opens the pages of my task for those windows client dashbord , client payment widget create invoice invoice manegment and the setting page that should 
+
+
+
+
+
+Okay
+1. MainWindow (mainwindow.ui)
+Purpose: The main entry point and container for the application.
+Buttons:
+manageInvoicesButton (QPushButton):
+Action: Opens the (likely m)InvoiceManagementWidget.exec()). This is the main view for handling invoices.
+settingsButton (QPushButton - ):You'll need to add this
+Action: Opens the 'SettingsD (likely modally using SettingsDialog.exec()).
+adminPaymentsButton (QPushButton - ):Consider adding this if needed
+Action: Opens the 'AdminPaym (if this is a distinct admin view for payment transactions).AdminPaymentWindow
+(Optional) manageClientsButton (QPushButton - Consider adding if needed):
+Action: Opens a dedicated client management dialog/widget (You'd need to create 'ClientManagementWidget.ui/.h/.c).ClientManagementWidget.ui/.h/.cpp
+2. InvoiceManagementWidget (invoicemanagementwidget.ui)
+Purpose: The dashboard to view, filter, and manage the list of invoices.
+Buttons:
+createInvoiceButton (QPushButton):
+Action: Opens the in "Create New" mode.CreateEditInvoiceDialog
+editInvoiceButton (QPushButton):
+Action: Opens the 'CreateEditIn in "Edit" mode, loading the data for the currently selected invoice from the table. (Disabled if no invoice is selected).CreateEditInvoiceDialog
+deleteInvoiceButton (QPushButton):
+Action: Does not open a new page. Triggers deletion logic for the selected invoice (likely after a confirmation). (Disabled if no invoice is selected).QMessageBox::question
+markAsPaidButton (QPushButton):
+Action: Does not open a new page. Triggers status update logic for the selected invoice. (Disabled if no invoice is selected or if already paid).
+sendInvoiceButton (QPushButton):
+Action: Does not open a new page. Triggers logic to email/send the selected invoice. (Disabled if no invoice is selected).
+exportPdfButton (QPushButton):
+Action: Does not open a new page. Triggers logic to generate and save a PDF for the selected invoice (likely opens a QFileDialog
+exportFecButton (QPushButton):
+Action: Does not open a new page. Triggers logic to generate and save an FEC file (likely opens a ).QFileDialog
+applyFiltersButton (QPushButton):
+Action: Does not open a new page. Refreshes the invoice table ('invoiceTableVie) based on the filter criteria.invoiceTableView
+clearFiltersButton (QPushButton):
+Action: Does not open a new page. Resets filter controls and refreshes the invoice table.
+3. CreateEditInvoiceDialog (createeditinvoicedialog.ui)
+Purpose: Dialog to input or modify details of a single invoice.
+Buttons:
+saveDraftButton (QPushButton):
+Action: Does not open a new page. Saves the current invoice data (likely with "Draft" status) and closes this dialog (calling ).accept()
+saveAndSendButton (QPushButton):
+Action: Does not open a new page. Saves the current invoice data (likely with "Sent" status), potentially triggers sending logic, and closes this dialog (calling ).accept()
+previewButton (QPushButton):
+Action: Could open a separate (you would need to create this UI/class) showing what the generated invoice looks like, or perhaps generate a temporary PDF and open it.InvoicePreviewDialog
+cancelInvoiceButton (QPushButton):
+Action: Does not open a new page. Closes this dialog without saving changes (calling ).reject()
+addLineItemButton (QPushButton):
+Action: Does not open a new page. Adds a new row to the line items table ().lineItemsTableWidget
+removeLineItemButton (QPushButton):
+Action: Does not open a new page. Removes the selected row(s) from the line items table. (Disabled if no line item is selected).
+4. ClientPaymentWidget (clientpaymentwidget.ui)
+Purpose: Dialog displayed (potentially to a client) to view summary and pay a specific invoice.
+Buttons:
+downloadPdfButton (QPushButton):
+Action: Does not open a new page. Triggers logic to generate/retrieve the PDF for and opens a this specific invoiceQFileDialog to save it.
+proceedToPaymentButton (QPushButton):
+Action: Does not open a new page (usually). Initiates the payment process based on the selected method (Card/PayPal/Bank). This might involve communicating with external services (Stripe/PayPal APIs). It would likely close dialog (calling 'acceptthisaccept()) upon successful payment or acknowledgment (for bank transfer).
+(Optional) payPalPayButton (QPushButton - If you added one specifically on the PayPal page):
+Action: Similar to 'proceedToPa, specifically initiating the PayPal flow.proceedToPaymentButton
+5. SettingsDialog (settingsdialog.ui)
+Purpose: Configure various application settings.
+Buttons:
+saveButton (QPushButton):
+Action: Does not open a new page. Saves all settings from the different tabs and closes this dialog (calling ).accept()
+cancelButton (QPushButton):
+Action: Does not open a new page. Closes this dialog without saving changes (calling ).reject()
+browseButton (QPushButton - For Logo):
+Action: Does not open a custom page. Opens a standard to allow the user to select an image file.QFileDialog
+addVatRateButton (QPushButton):
+Action: Does not open a new page. Adds a row to the VAT rates table ().VATRatesTable
+removeVatRateButton (QPushButton):
+Action: Does not open a new page. Removes the selected row(s) from the VAT rates table.
+6. ClientDashboardWidget (clientdashboardwidget.ui)
+Purpose: A view for a client to see their list of invoices (potentially in a client portal).
+Buttons: (Currently none defined in skeleton, but potential additions)
+(Optional) viewDetailsButton / 'payNopayNowButton:
+Action: If added, these would likely open the 'ClientPaymentWi for the selected invoice.ClientPaymentWidget
+7. AdminPaymentWindow (adminpaymentwindow.ui)
+Purpose: (Assumed) Admin view to see/manage financial transactions.
+Buttons: (Speculative - depends on your design)
+(Optional) 'viewTransactionDetaiviewTransactionDetailsButton: Could open a 'TransactionDetailsD (needs creation).TransactionDetailsDialog
+(Optional) issueRefundButton: Could open a 'RefundD (needs creation) or trigger refund logic.RefundDialog
+This breakdown should help clarify the expected navigation flow between your different UI components. Remember to implement the logic within the button slots to actually create and show ( or ) the target windows/dialogs..exec().show()
+been 
+
+
+
+
+
+
+okay i've already now created the tables in the oracle sql developper now i have to do the "laison entre base de donne et les codes sur qt creator now let's start form the page of invoice management .ui give me the step by step what to do give me the .cpp .h code also how to link them with sql and this is the tables
+
+
+
+
+
+let me break down for you all of this I am currently working in a smart consulting office project with C++ langage my task in this project is the payment and invoicing "gestion du payement" task this is what i created in the QT creator
+i've already created these interfaces of each page,
+these errors appears and those are the codes that i work with please help me find a soltion for this error
+
+this is invoicemanageme.h
+#ifndef INVOICEMANAGEMENTWIDGET_H
+#define INVOICEMANAGEMENTWIDGET_H
+
+#include <QDialog>
+#include <QtSql>
+#include <QMessageBox>
+
+namespace Ui {
+class InvoiceManagementWidget;
+}
+
+class InvoiceManagementWidget : public QDialog
+{
+    Q_OBJECT
+
+public:
+    explicit InvoiceManagementWidget(QWidget *parent = nullptr);
+    ~InvoiceManagementWidget();
+
+private slots:
+    void on_createInvoiceButton_clicked();
+    void on_editInvoiceButton_clicked();
+    void on_deleteInvoiceButton_clicked();
+    void on_markAsPaidButton_clicked();
+    void on_sendInvoiceButton_clicked();
+    void on_exportPdfButton_clicked();
+    void on_exportFecButton_clicked();
+    void on_applyFiltersButton_clicked();
+    void on_clearFiltersButton_clicked();
+    void updateButtonStates();
+
+private:
+    Ui::InvoiceManagementWidget *ui;
+    QSqlQueryModel *invoiceQueryModel;
+
+    void setupModelAndTableView();
+    void setupConnections();
+    void refreshInvoiceList();
+    void updateSummaryLabels();
+    int getSelectedInvoiceId();
+
+    // Database operations
+    bool createInvoice(const QHash<QString, QVariant> &invoiceData);
+    bool updateInvoice(int invoiceId, const QHash<QString, QVariant> &invoiceData);
+    bool deleteInvoice(int invoiceId);
+    bool markInvoiceAsPaid(int invoiceId);
+    QHash<QString, QVariant> getInvoiceData(int invoiceId);
+
+    // Utility functions
+    QSqlDatabase getDatabaseConnection();
+    void showDatabaseError(const QSqlError &error);
+};
+
+#endif // INVOICEMANAGEMENTWIDGET_H
+
+invoicemanagement.cpp
+#include "invoicemanagementwidget.h"
+#include "ui_invoicemanagementwidget.h"
+#include "createeditinvoicedialog.h" // Assuming you have this for create/edit
+#include "dbconnection.h"
+
+InvoiceManagementWidget::InvoiceManagementWidget(QWidget *parent) :
+    QDialog(parent),
+    ui(new Ui::InvoiceManagementWidget),
+    invoiceQueryModel(new QSqlQueryModel(this))
+{
+    ui->setupUi(this);
+
+    // Initialize database connection
+    if (!createConnection()) {
+        QMessageBox::critical(this, "Database Error",
+                            "Failed to connect to database.\nPlease check your connection settings.");
+        return;
+    }
+
+    setupModelAndTableView();
+    setupConnections();
+    refreshInvoiceList();
+    updateSummaryLabels();
+}
+
+InvoiceManagementWidget::~InvoiceManagementWidget()
+{
+    delete ui;
+    delete invoiceQueryModel;
+}
+
+void InvoiceManagementWidget::setupModelAndTableView()
+{
+    // Configure the table view
+    ui->tableView->setModel(invoiceQueryModel);
+    ui->tableView->setSelectionBehavior(QAbstractItemView::SelectRows);
+    ui->tableView->setSelectionMode(QAbstractItemView::SingleSelection);
+    ui->tableView->horizontalHeader()->setStretchLastSection(true);
+}
+
+void InvoiceManagementWidget::setupConnections()
+{
+    connect(ui->tableView->selectionModel(), &QItemSelectionModel::selectionChanged,
+            this, &InvoiceManagementWidget::updateButtonStates);
+}
+
+void InvoiceManagementWidget::refreshInvoiceList()
+{
+    QSqlQuery query(getDatabaseConnection());
+    query.prepare("SELECT invoice_id, invoice_number, client_name, issue_date, "
+                 "due_date, total_amount, status FROM invoices ORDER BY issue_date DESC");
+
+    if (!query.exec()) {
+        showDatabaseError(query.lastError());
+        return;
+    }
+
+    invoiceQueryModel->setQuery(query);
+
+    // Set column headers
+    invoiceQueryModel->setHeaderData(0, Qt::Horizontal, tr("ID"));
+    invoiceQueryModel->setHeaderData(1, Qt::Horizontal, tr("Invoice #"));
+    invoiceQueryModel->setHeaderData(2, Qt::Horizontal, tr("Client"));
+    invoiceQueryModel->setHeaderData(3, Qt::Horizontal, tr("Issue Date"));
+    invoiceQueryModel->setHeaderData(4, Qt::Horizontal, tr("Due Date"));
+    invoiceQueryModel->setHeaderData(5, Qt::Horizontal, tr("Amount"));
+    invoiceQueryModel->setHeaderData(6, Qt::Horizontal, tr("Status"));
+}
+
+void InvoiceManagementWidget::updateSummaryLabels()
+{
+    QSqlQuery query(getDatabaseConnection());
+
+    // Total Invoices
+    query.prepare("SELECT COUNT(*) FROM invoices");
+    if (query.exec() && query.next()) {
+        ui->totalInvoicesLabel->setText(QString::number(query.value(0).toInt());
+    }
+
+    // Total Due
+    query.prepare("SELECT SUM(total_amount) FROM invoices WHERE status = 'unpaid'");
+    if (query.exec() && query.next()) {
+        ui->totalDueLabel->setText(QString::number(query.value(0).toDouble(), 'f', 2));
+    }
+
+    // Total Overdue
+    query.prepare("SELECT SUM(total_amount) FROM invoices WHERE status = 'unpaid' AND due_date < SYSDATE");
+    if (query.exec() && query.next()) {
+        ui->totalOverdueLabel->setText(QString::number(query.value(0).toDouble(), 'f', 2));
+    }
+}
+
+int InvoiceManagementWidget::getSelectedInvoiceId()
+{
+    QModelIndexList selected = ui->tableView->selectionModel()->selectedRows();
+    if (selected.isEmpty()) return -1;
+
+    return invoiceQueryModel->data(selected.first().siblingAtColumn(0)).toInt();
+}
+
+// CRUD Operations Implementation
+
+bool InvoiceManagementWidget::createInvoice(const QHash<QString, QVariant> &invoiceData)
+{
+    QSqlDatabase db = getDatabaseConnection();
+    db.transaction();
+
+    QSqlQuery query(db);
+    query.prepare("INSERT INTO invoices (invoice_number, client_id, issue_date, due_date, "
+                 "payment_terms, subtotal, tax_amount, total_amount, status, notes) "
+                 "VALUES (:invoice_number, :client_id, :issue_date, :due_date, "
+                 ":payment_terms, :subtotal, :tax_amount, :total_amount, :status, :notes)");
+
+    // Bind values
+    query.bindValue(":invoice_number", invoiceData["invoice_number"]);
+    query.bindValue(":client_id", invoiceData["client_id"]);
+    query.bindValue(":issue_date", invoiceData["issue_date"]);
+    query.bindValue(":due_date", invoiceData["due_date"]);
+    query.bindValue(":payment_terms", invoiceData["payment_terms"]);
+    query.bindValue(":subtotal", invoiceData["subtotal"]);
+    query.bindValue(":tax_amount", invoiceData["tax_amount"]);
+    query.bindValue(":total_amount", invoiceData["total_amount"]);
+    query.bindValue(":status", "unpaid");
+    query.bindValue(":notes", invoiceData["notes"]);
+
+    if (!query.exec()) {
+        showDatabaseError(query.lastError());
+        db.rollback();
+        return false;
+    }
+
+    // Get the newly created invoice ID
+    int invoiceId = query.lastInsertId().toInt();
+
+    // Insert line items
+    QVariantList lineItems = invoiceData["line_items"].toList();
+    foreach (const QVariant &item, lineItems) {
+        QHash<QString, QVariant> lineItem = item.toHash();
+
+        query.prepare("INSERT INTO invoice_line_items (invoice_id, description, quantity, "
+                     "unit_price, amount) "
+                     "VALUES (:invoice_id, :description, :quantity, :unit_price, :amount)");
+
+        query.bindValue(":invoice_id", invoiceId);
+        query.bindValue(":description", lineItem["description"]);
+        query.bindValue(":quantity", lineItem["quantity"]);
+        query.bindValue(":unit_price", lineItem["unit_price"]);
+        query.bindValue(":amount", lineItem["amount"]);
+
+        if (!query.exec()) {
+            showDatabaseError(query.lastError());
+            db.rollback();
+            return false;
+        }
+    }
+
+    db.commit();
+    return true;
+}
+
+bool InvoiceManagementWidget::updateInvoice(int invoiceId, const QHash<QString, QVariant> &invoiceData)
+{
+    QSqlDatabase db = getDatabaseConnection();
+    db.transaction();
+
+    QSqlQuery query(db);
+    query.prepare("UPDATE invoices SET "
+                 "invoice_number = :invoice_number, "
+                 "client_id = :client_id, "
+                 "issue_date = :issue_date, "
+                 "due_date = :due_date, "
+                 "payment_terms = :payment_terms, "
+                 "subtotal = :subtotal, "
+                 "tax_amount = :tax_amount, "
+                 "total_amount = :total_amount, "
+                 "notes = :notes "
+                 "WHERE invoice_id = :invoice_id");
+
+    // Bind values
+    query.bindValue(":invoice_id", invoiceId);
+    query.bindValue(":invoice_number", invoiceData["invoice_number"]);
+    query.bindValue(":client_id", invoiceData["client_id"]);
+    query.bindValue(":issue_date", invoiceData["issue_date"]);
+    query.bindValue(":due_date", invoiceData["due_date"]);
+    query.bindValue(":payment_terms", invoiceData["payment_terms"]);
+    query.bindValue(":subtotal", invoiceData["subtotal"]);
+    query.bindValue(":tax_amount", invoiceData["tax_amount"]);
+    query.bindValue(":total_amount", invoiceData["total_amount"]);
+    query.bindValue(":notes", invoiceData["notes"]);
+
+    if (!query.exec()) {
+        showDatabaseError(query.lastError());
+        db.rollback();
+        return false;
+    }
+
+    // Delete existing line items
+    query.prepare("DELETE FROM invoice_line_items WHERE invoice_id = :invoice_id");
+    query.bindValue(":invoice_id", invoiceId);
+    if (!query.exec()) {
+        showDatabaseError(query.lastError());
+        db.rollback();
+        return false;
+    }
+
+    // Insert updated line items
+    QVariantList lineItems = invoiceData["line_items"].toList();
+    foreach (const QVariant &item, lineItems) {
+        QHash<QString, QVariant> lineItem = item.toHash();
+
+        query.prepare("INSERT INTO invoice_line_items (invoice_id, description, quantity, "
+                     "unit_price, amount) "
+                     "VALUES (:invoice_id, :description, :quantity, :unit_price, :amount)");
+
+        query.bindValue(":invoice_id", invoiceId);
+        query.bindValue(":description", lineItem["description"]);
+        query.bindValue(":quantity", lineItem["quantity"]);
+        query.bindValue(":unit_price", lineItem["unit_price"]);
+        query.bindValue(":amount", lineItem["amount"]);
+
+        if (!query.exec()) {
+            showDatabaseError(query.lastError());
+            db.rollback();
+            return false;
+        }
+    }
+
+    db.commit();
+    return true;
+}
+
+bool InvoiceManagementWidget::deleteInvoice(int invoiceId)
+{
+    QSqlDatabase db = getDatabaseConnection();
+    db.transaction();
+
+    QSqlQuery query(db);
+
+    // First delete line items
+    query.prepare("DELETE FROM invoice_line_items WHERE invoice_id = :invoice_id");
+    query.bindValue(":invoice_id", invoiceId);
+    if (!query.exec()) {
+        showDatabaseError(query.lastError());
+        db.rollback();
+        return false;
+    }
+
+    // Then delete the invoice
+    query.prepare("DELETE FROM invoices WHERE invoice_id = :invoice_id");
+    query.bindValue(":invoice_id", invoiceId);
+    if (!query.exec()) {
+        showDatabaseError(query.lastError());
+        db.rollback();
+        return false;
+    }
+
+    db.commit();
+    return true;
+}
+
+bool InvoiceManagementWidget::markInvoiceAsPaid(int invoiceId)
+{
+    QSqlQuery query(getDatabaseConnection());
+    query.prepare("UPDATE invoices SET status = 'paid', payment_date = SYSDATE "
+                 "WHERE invoice_id = :invoice_id");
+    query.bindValue(":invoice_id", invoiceId);
+
+    if (!query.exec()) {
+        showDatabaseError(query.lastError());
+        return false;
+    }
+
+    return true;
+}
+
+QHash<QString, QVariant> InvoiceManagementWidget::getInvoiceData(int invoiceId)
+{
+    QHash<QString, QVariant> invoiceData;
+    QSqlQuery query(getDatabaseConnection());
+
+    // Get invoice header
+    query.prepare("SELECT * FROM invoices WHERE invoice_id = :invoice_id");
+    query.bindValue(":invoice_id", invoiceId);
+
+    if (!query.exec() || !query.next()) {
+        showDatabaseError(query.lastError());
+        return invoiceData;
+    }
+
+    // Populate invoice data
+    QSqlRecord record = query.record();
+    for (int i = 0; i < record.count(); ++i) {
+        invoiceData[record.fieldName(i)] = query.value(i);
+    }
+
+    // Get line items
+    query.prepare("SELECT * FROM invoice_line_items WHERE invoice_id = :invoice_id "
+                 "ORDER BY line_item_id");
+    query.bindValue(":invoice_id", invoiceId);
+
+    if (!query.exec()) {
+        showDatabaseError(query.lastError());
+        return invoiceData;
+    }
+
+    QVariantList lineItems;
+    while (query.next()) {
+        QHash<QString, QVariant> lineItem;
+        QSqlRecord itemRecord = query.record();
+        for (int i = 0; i < itemRecord.count(); ++i) {
+            lineItem[itemRecord.fieldName(i)] = query.value(i);
+        }
+        lineItems.append(lineItem);
+    }
+
+    invoiceData["line_items"] = lineItems;
+    return invoiceData;
+}
+
+// Button click handlers
+
+void InvoiceManagementWidget::on_createInvoiceButton_clicked()
+{
+    CreateEditInvoiceDialog dialog(this);
+    if (dialog.exec() == QDialog::Accepted) {
+        QHash<QString, QVariant> invoiceData = dialog.getInvoiceData();
+        if (createInvoice(invoiceData)) {
+            refreshInvoiceList();
+            updateSummaryLabels();
+            QMessageBox::information(this, "Success", "Invoice created successfully.");
+        }
+    }
+}
+
+void InvoiceManagementWidget::on_editInvoiceButton_clicked()
+{
+    int invoiceId = getSelectedInvoiceId();
+    if (invoiceId == -1) {
+        QMessageBox::warning(this, "Warning", "Please select an invoice to edit.");
+        return;
+    }
+
+    QHash<QString, QVariant> invoiceData = getInvoiceData(invoiceId);
+    if (invoiceData.isEmpty()) {
+        QMessageBox::warning(this, "Warning", "Could not load invoice data.");
+        return;
+    }
+
+    CreateEditInvoiceDialog dialog(this);
+    dialog.setInvoiceData(invoiceData);
+
+    if (dialog.exec() == QDialog::Accepted) {
+        QHash<QString, QVariant> updatedData = dialog.getInvoiceData();
+        if (updateInvoice(invoiceId, updatedData)) {
+            refreshInvoiceList();
+            updateSummaryLabels();
+            QMessageBox::information(this, "Success", "Invoice updated successfully.");
+        }
+    }
+}
+
+void InvoiceManagementWidget::on_deleteInvoiceButton_clicked()
+{
+    int invoiceId = getSelectedInvoiceId();
+    if (invoiceId == -1) {
+        QMessageBox::warning(this, "Warning", "Please select an invoice to delete.");
+        return;
+    }
+
+    QMessageBox::StandardButton reply;
+    reply = QMessageBox::question(this, "Confirm Delete",
+                                "Are you sure you want to delete this invoice?",
+                                QMessageBox::Yes|QMessageBox::No);
+
+    if (reply == QMessageBox::Yes) {
+        if (deleteInvoice(invoiceId)) {
+            refreshInvoiceList();
+            updateSummaryLabels();
+            QMessageBox::information(this, "Success", "Invoice deleted successfully.");
+        }
+    }
+}
+
+void InvoiceManagementWidget::on_markAsPaidButton_clicked()
+{
+    int invoiceId = getSelectedInvoiceId();
+    if (invoiceId == -1) {
+        QMessageBox::warning(this, "Warning", "Please select an invoice to mark as paid.");
+        return;
+    }
+
+    if (markInvoiceAsPaid(invoiceId)) {
+        refreshInvoiceList();
+        updateSummaryLabels();
+        QMessageBox::information(this, "Success", "Invoice marked as paid.");
+    }
+}
+
+void InvoiceManagementWidget::on_sendInvoiceButton_clicked()
+{
+    int invoiceId = getSelectedInvoiceId();
+    if (invoiceId == -1) {
+        QMessageBox::warning(this, "Warning", "Please select an invoice to send.");
+        return;
+    }
+
+    // Here you would implement the email sending logic
+    // For now, just update the status to "sent"
+    QSqlQuery query(getDatabaseConnection());
+    query.prepare("UPDATE invoices SET status = 'sent' WHERE invoice_id = :invoice_id");
+    query.bindValue(":invoice_id", invoiceId);
+
+    if (query.exec()) {
+        refreshInvoiceList();
+        QMessageBox::information(this, "Success", "Invoice sent successfully.");
+    } else {
+        showDatabaseError(query.lastError());
+    }
+}
+
+void InvoiceManagementWidget::on_exportPdfButton_clicked()
+{
+    int invoiceId = getSelectedInvoiceId();
+    if (invoiceId == -1) {
+        QMessageBox::warning(this, "Warning", "Please select an invoice to export.");
+        return;
+    }
+
+    // Implement PDF export logic here
+    QMessageBox::information(this, "Export PDF", "PDF export functionality would be implemented here.");
+}
+
+void InvoiceManagementWidget::on_exportFecButton_clicked()
+{
+    // Implement FEC export logic here
+    QMessageBox::information(this, "Export FEC", "FEC export functionality would be implemented here.");
+}
+
+void InvoiceManagementWidget::on_applyFiltersButton_clicked()
+{
+    QString statusFilter = ui->statusFilterComboBox->currentText();
+    QString clientFilter = ui->clientFilterComboBox->text();
+    QDate startDate = ui->startDateEdit->date();
+    QDate endDate = ui->endDateEdit->date();
+
+    QString queryStr = "SELECT invoice_id, invoice_number, client_name, issue_date, "
+                     "due_date, total_amount, status FROM invoices WHERE 1=1";
+
+    if (statusFilter != "All") {
+        queryStr += " AND status = :status";
+    }
+
+    if (!clientFilter.isEmpty()) {
+        queryStr += " AND client_name LIKE :client";
+    }
+
+    if (startDate.isValid()) {
+        queryStr += " AND issue_date >= :start_date";
+    }
+
+    if (endDate.isValid()) {
+        queryStr += " AND issue_date <= :end_date";
+    }
+
+    queryStr += " ORDER BY issue_date DESC";
+
+    QSqlQuery query(getDatabaseConnection());
+    query.prepare(queryStr);
+
+    if (statusFilter != "All") {
+        query.bindValue(":status", statusFilter);
+    }
+
+    if (!clientFilter.isEmpty()) {
+        query.bindValue(":client", "%" + clientFilter + "%");
+    }
+
+    if (startDate.isValid()) {
+        query.bindValue(":start_date", startDate);
+    }
+
+    if (endDate.isValid()) {
+        query.bindValue(":end_date", endDate);
+    }
+
+    if (!query.exec()) {
+        showDatabaseError(query.lastError());
+        return;
+    }
+
+    invoiceQueryModel->setQuery(query);
+    updateSummaryLabels();
+}
+
+void InvoiceManagementWidget::on_clearFiltersButton_clicked()
+{
+    ui->statusFilterComboBox->setCurrentIndex(0);
+    ui->clientFilterLineEdit->clear();
+    ui->startDateEdit->setDate(QDate(2000, 1, 1));
+    ui->endDateEdit->setDate(QDate(2000, 1, 1));
+
+    refreshInvoiceList();
+}
+
+void InvoiceManagementWidget::updateButtonStates()
+{
+    bool hasSelection = !ui->tableView->selectionModel()->selectedRows().isEmpty();
+
+    ui->editInvoiceButton->setEnabled(hasSelection);
+    ui->deleteInvoiceButton->setEnabled(hasSelection);
+    ui->markAsPaidButton->setEnabled(hasSelection);
+    ui->sendInvoiceButton->setEnabled(hasSelection);
+    ui->exportPdfButton->setEnabled(hasSelection);
+}
+
+// Utility functions
+
+QSqlDatabase InvoiceManagementWidget::getDatabaseConnection()
+{
+    return QSqlDatabase::database("OdbcConnection");
+}
+
+void InvoiceManagementWidget::showDatabaseError(const QSqlError &error)
+{
+    QMessageBox::critical(this, "Database Error",
+                         QString("Database error occurred:\n%1").arg(error.text()));
+}
+
+and dbconnection.h
+
+#ifndef DBCONNECTION_H
+#define DBCONNECTION_H
+
+#include <QDebug>
+
+static bool createConnection() {
+    const QString connectionName = "OdbcConnection"; // Can keep same or change
+
+    if (QSqlDatabase::contains(connectionName)) {
+        QSqlDatabase existingDb = QSqlDatabase::database(connectionName);
+        if (existingDb.isOpen()) {
+            qDebug() << "Database connection" << connectionName << "already open.";
+            return true;
+        }
+        QSqlDatabase::removeDatabase(connectionName);
+    }
+
+    // --- Use the ODBC driver ---
+    QSqlDatabase db = QSqlDatabase::addDatabase("QODBC"); // <<< CHANGE Driver to QODBC
+
+
+    db.setDatabaseName("Source_Projet2A"); // <<< REPLACE with the EXACT DSN name you created
+    db.setUserName("consultiq");          // Your Oracle username
+    db.setPassword("hexacore");           // Your Oracle password
+
+
+
+
+    // Try to open the connection using the DSN configuration
+    if (!db.open()) {
+        qCritical() << "Database Error: Failed to connect via ODBC! Connection Name:" << connectionName;
+        qCritical() << "Error Details:" << db.lastError().text(); // This error might come from ODBC or Oracle
+        qCritical() << "Check DSN Name:" << db.databaseName() << "User:" << db.userName();
+        qCritical() << "Ensure the System DSN '" << db.databaseName() << "' is configured correctly in the 64-bit ODBC Administrator.";
+        qCritical() << "Ensure the Oracle ODBC driver is installed (matching application architecture).";
+        qCritical() << "Ensure Oracle client libraries are accessible (PATH).";
+        qCritical() << "Ensure the Oracle Listener service is running.";
+        return false;
+    } else {
+        qDebug() << "Database connected successfully via ODBC DSN:" << db.databaseName();
+    }
+    return true;
+}
+
+#endif // DBCONNECTION_H
+
+
+
+let me break down for you all of this I am currently working in a smart consulting office project with C++ langage my task in this project is the payment and invoicing "gestion du payement" task this is what i created in the QT creator
+i've already created these interfaces of each page,
+the first picture are my interfaces 
+the 2 nd picture is my interface mainwindow.ui 
+and the third window is the invoicemanagementwidget.ui 
+i want you to help me create the codes .cpp and .h for those two files and also i want to link this work with the database in sql developper  and i am gonna give you the connection.h and .cpp 
+#ifndef CONNECTION_H
+#define CONNECTION_H
+#include <QSqlDatabase>
+#include"mainwindow.h"
+#include <QApplication>
+#include <QMessageBox>
+#include "connection.h"
+
+class Connection
+{
+    QSqlDatabase db;
+public:
+    Connection();
+    bool createConnection();
+    bool updateConnection();
+    void closeConnection();
+};
+
+int main(int argc, char *argv[])
+{
+    QApplication a(arrgc ,argv);
+    Connection c ;
+    bool test=c.createConnection();
+    MainWindow w ;
+    if (test)
+    {
+        w.show();
+        QMessageBox::information(nullptr, QObject::tr("database is open"),
+        QObject::tr("connection successful.\n"
+                   "Click cancel to exit.") ,QMessageBox::cancel;
+    }
+    else {
+        QMessageBox::critical(nullptr, QObject::tr("database is not open"),
+                                        QObject::tr("connection failed.\n"
+                                        "Click Cancel to exit."), QMessageBox::Cancel);
+
+    }
+    return a.exec();
+}
+#endif // CONNECTION_H
+
+
+
+
+
+
+and .cpp
+#include "connection.h"
+
+Connection::Connection() {}
+
+bool Connection::createConnection()
+{
+    db = QSqlDatabase::addDatabase("QODBC");
+    bool test=false;
+    db.setDatabaseName("Source_Projet2A");
+    db.setUserName("consultiq");
+    db.setPassword("hexacore");
+    if (db.open()) test=true;
+    return test;
+}
+bool Connection::updateConnection()
+{
+
+}
+void Connection::closeConnection(){db.close();}
+
+
+and for the sql tables they are in the pictures 4 and 5
+
+
+
+
+
+let me break down for you all of this I am currently working in a smart consulting office project with C++ langage my task in this project is the payment and invoicing "gestion du payement" task this is what i created in the QT creator
+i've already created these interfaces of each page,
+i am working in a mainwindow and invoicemanagementwindow so when i will clcik to "manageInvoicesButton " in the mainwindow the second page will appear  snd the second page will have a connection with the databasse in sql developper so i want the CRUD to work but i'vev created this code but when it said connection successfully the page will be closed
+

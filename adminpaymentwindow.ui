@@ -1,0 +1,585 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>lineEditSearchInvoices</class>
+ <widget class="QDialog" name="lineEditSearchInvoices">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>1018</width>
+    <height>965</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Dialog</string>
+  </property>
+  <property name="styleSheet">
+   <string notr="true">/* ~~~~~~~~~~~~~~~~~~ General Styles ~~~~~~~~~~~~~~~~~~ */
+
+QWidget {
+    /* White base background for content areas */
+    background-color: #FFFFFF;
+    color: #212529; /* Dark text */
+    font-family: Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+}
+
+/* Style the main window/dialog if needed */
+PaymentWindow, MainWindow { /* Use the actual class names */
+     background-color: #F8F9FA; /* Light off-white for window background */
+}
+
+
+/* Apply general padding/margins to the pages */
+QWidget#pageBooking,
+QWidget#pageConfirmation,
+QWidget#pageCreditCard,
+QWidget#pagePayPal,
+QWidget#pageBankTransfer,
+QWidget#pageProcessing,
+QWidget#pageStatus {
+    padding: 20px;
+    background-color: #FFFFFF; /* Ensure page background is white */
+    border: none; /* Remove any residual borders */
+}
+
+
+/* ~~~~~~~~~~~~~~~~~~ Header Area (Logo + Title) ~~~~~~~~~~~~~~~~~~ */
+
+QLabel[objectName^=&quot;logoLabel&quot;] {
+    margin: 10px 10px 5px 15px;
+    background-color: transparent;
+    border: none;
+    padding: 0px;
+}
+
+/* Ensure this objectName is set correctly in Designer! */
+QLabel#labelPageTitle {
+    font-size: 18pt;
+    font-weight: 600; /* Semibold */
+    color: #003366; /* Dark Navy Blue */
+    margin: 0px 15px 30px 15px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid #5CACEE; /* Medium Sky Blue */
+    background-color: transparent;
+    qproperty-alignment: 'AlignLeft | AlignVCenter';
+}
+
+
+/* ~~~~~~~~~~~~~~~~~~ GroupBoxes ~~~~~~~~~~~~~~~~~~ */
+
+QGroupBox {
+    background-color: #FFFFFF; /* White */
+    border: 1px solid #A8D8FF; /* Light Sky Blue border */
+    border-radius: 8px;
+    margin-top: 18px;
+    padding: 30px 20px 20px 20px;
+}
+
+QGroupBox::title {
+    subcontrol-origin: margin;
+    subcontrol-position: top left;
+    padding: 5px 15px;
+    left: 15px;
+    color: #003366; /* Dark Navy Blue text */
+    font-weight: 600;
+    /* Light blue gradient for title background */
+    background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1, stop: 0 #E0F2FF, stop: 1 #C0E6FF);
+    border: 1px solid #A8D8FF; /* Light Sky Blue border */
+    border-bottom: 1px solid #A8D8FF; /* Need bottom border here */
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+}
+
+
+/* ~~~~~~~~~~~~~~~~~~ Input Fields ~~~~~~~~~~~~~~~~~~ */
+
+QLineEdit, QComboBox, QDateTimeEdit {
+    border: 1px solid #A8D8FF; /* Light Sky Blue border */
+    padding: 10px 12px;
+    border-radius: 6px;
+    background-color: #FFFFFF;
+    min-height: 24px;
+    font-size: 10pt;
+    color: #212529;
+}
+
+QLineEdit:focus, QComboBox:focus, QDateTimeEdit:focus {
+    border-color: #0056B3; /* Darker Blue focus border */
+    border-width: 1.5px;
+    padding: 9.25px 11.25px;
+}
+QLineEdit:disabled, QComboBox:disabled, QDateTimeEdit:disabled {
+     background-color: #E9ECEF;
+     color: #6C757D;
+}
+
+
+/* ~~~~~~~~~~~~~~~~~~ Buttons ~~~~~~~~~~~~~~~~~~ */
+
+QPushButton {
+    border-radius: 6px;
+    padding: 10px 18px; /* Adjust padding as needed with icons */
+    font-size: 10pt;
+    font-weight: 500;
+    min-width: 80px;
+    border: 1px solid transparent;
+}
+
+/* --- Primary Buttons (Blue Gradient) --- */
+QPushButton[objectName^=&quot;pushButtonContinue&quot;],
+QPushButton[objectName^=&quot;pushButtonProceed&quot;],
+QPushButton[objectName^=&quot;pushButtonSubmit&quot;],
+QPushButton[objectName^=&quot;pushButtonConfirm&quot;],
+QPushButton[objectName^=&quot;pushButtonGenerate&quot;],
+QPushButton[objectName^=&quot;pushButtonBook&quot;],
+QPushButton[objectName^=&quot;pushButtonTry&quot;],
+QPushButton[objectName^=&quot;pushButtonClose&quot;] {
+    color: white;
+    /* Blue Gradient */
+    background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1, stop: 0 #007BFF, stop: 1 #0056B3);
+    border-color: #0056B3; /* Match darker gradient stop */
+}
+
+QPushButton[objectName^=&quot;pushButtonContinue&quot;]:hover, /* etc. apply to all primary types */
+QPushButton[objectName^=&quot;pushButtonProceed&quot;]:hover,
+QPushButton[objectName^=&quot;pushButtonSubmit&quot;]:hover,
+QPushButton[objectName^=&quot;pushButtonConfirm&quot;]:hover,
+QPushButton[objectName^=&quot;pushButtonGenerate&quot;]:hover,
+QPushButton[objectName^=&quot;pushButtonBook&quot;]:hover,
+QPushButton[objectName^=&quot;pushButtonTry&quot;]:hover,
+QPushButton[objectName^=&quot;pushButtonClose&quot;]:hover {
+    background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1, stop: 0 #0069D9, stop: 1 #004085);
+    border-color: #004085;
+}
+
+QPushButton[objectName^=&quot;pushButtonContinue&quot;]:pressed, /* etc. apply to all primary types */
+QPushButton[objectName^=&quot;pushButtonProceed&quot;]:pressed,
+QPushButton[objectName^=&quot;pushButtonSubmit&quot;]:pressed,
+QPushButton[objectName^=&quot;pushButtonConfirm&quot;]:pressed,
+QPushButton[objectName^=&quot;pushButtonGenerate&quot;]:pressed,
+QPushButton[objectName^=&quot;pushButtonBook&quot;]:pressed,
+QPushButton[objectName^=&quot;pushButtonTry&quot;]:pressed,
+QPushButton[objectName^=&quot;pushButtonClose&quot;]:pressed {
+    background-color: #004085; /* Solid darkest blue */
+    border-color: #003366;
+}
+
+
+/* --- Secondary Buttons (White/Light Gray with Blue text/border) --- */
+QPushButton[objectName^=&quot;pushButtonCancel&quot;],
+QPushButton[objectName^=&quot;pushButtonBack&quot;] {
+    background-color: #FFFFFF; /* White background */
+    color: #0056B3; /* Dark Blue text */
+    border: 1px solid #A8D8FF; /* Light Sky Blue border */
+    font-weight: normal;
+}
+
+QPushButton[objectName^=&quot;pushButtonCancel&quot;]:hover,
+QPushButton[objectName^=&quot;pushButtonBack&quot;]:hover {
+    background-color: #E6F2FF; /* Very light blue hover */
+    border-color: #5CACEE; /* Medium Sky Blue border */
+    color: #003366;
+}
+
+QPushButton[objectName^=&quot;pushButtonCancel&quot;]:pressed,
+QPushButton[objectName^=&quot;pushButtonBack&quot;]:pressed {
+    background-color: #D0E4FF; /* Slightly darker light blue pressed */
+    border-color: #0056B3;
+}
+
+
+/* ~~~~~~~~~~~~~~~~~~ Radio Buttons ~~~~~~~~~~~~~~~~~~ */
+
+QRadioButton {
+    background-color: transparent;
+    padding: 6px;
+    spacing: 10px;
+    font-size: 10pt;
+    color: #212529;
+}
+
+QRadioButton::indicator {
+    width: 18px;
+    height: 18px;
+    border: 2px solid #A8D8FF; /* Light Sky Blue border */
+    border-radius: 10px;
+    background-color: #FFFFFF;
+}
+
+QRadioButton::indicator:hover {
+    border: 2px solid #007BFF; /* Medium Blue */
+}
+
+QRadioButton::indicator:checked {
+    background-color: #007BFF; /* Fill with Medium Blue */
+    border: 2px solid #0056B3; /* Darker Blue border */
+}
+QRadioButton::indicator:checked:hover {
+     border: 2px solid #003366; /* Darkest Blue */
+}
+
+
+/* ~~~~~~~~~~~~~~~~~~ Status Page Specifics ~~~~~~~~~~~~~~~~~~ */
+
+QLabel#labelStatusMessage {
+    font-size: 22pt;
+    font-weight: 600;
+    qproperty-alignment: 'AlignCenter';
+    margin: 20px 10px 35px 10px;
+    padding: 20px;
+    border-radius: 8px;
+    /* Colors/Backgrounds set dynamically in C++ based on success/fail */
+    /* Example defaults (will be overridden) */
+    color: #212529;
+    background-color: #F8F9FA;
+    border: 1px solid #DEE2E6;
+}
+
+QLabel#labelProcessingText {
+     font-size: 12pt;
+     color: #6C757D;
+     qproperty-alignment: 'AlignCenter';
+     margin-top: 15px;
+     background-color: transparent;
+}
+
+QWidget#widgetTopButtons, QWidget#widgetBottomButtons {
+     background-color: transparent;
+     margin-top: 10px;
+     border: none;
+}
+</string>
+  </property>
+  <widget class="QTabWidget" name="tabWidget">
+   <property name="geometry">
+    <rect>
+     <x>20</x>
+     <y>310</y>
+     <width>831</width>
+     <height>291</height>
+    </rect>
+   </property>
+   <property name="currentIndex">
+    <number>3</number>
+   </property>
+   <widget class="QWidget" name="tab">
+    <attribute name="title">
+     <string>Tab 1</string>
+    </attribute>
+   </widget>
+   <widget class="QWidget" name="tab_2">
+    <attribute name="title">
+     <string>Tab 2</string>
+    </attribute>
+   </widget>
+   <widget class="QWidget" name="tab_3">
+    <attribute name="title">
+     <string>Page</string>
+    </attribute>
+   </widget>
+   <widget class="QWidget" name="tab_4">
+    <attribute name="title">
+     <string>Page</string>
+    </attribute>
+   </widget>
+  </widget>
+  <widget class="QWidget" name="layoutWidget">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>696</width>
+     <height>57</height>
+    </rect>
+   </property>
+   <layout class="QVBoxLayout" name="verticalLayout">
+    <item>
+     <layout class="QHBoxLayout" name="horizontalLayout">
+      <item>
+       <widget class="QLabel" name="logoLabel">
+        <property name="text">
+         <string/>
+        </property>
+        <property name="pixmap">
+         <pixmap>C:/Users/LEVNOVO/Desktop/images/Image3.png</pixmap>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QLabel" name="labelDashboardTitle">
+        <property name="text">
+         <string>Admin Dashboard</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <spacer name="horizontalSpacer">
+        <property name="orientation">
+         <enum>Qt::Orientation::Horizontal</enum>
+        </property>
+        <property name="sizeHint" stdset="0">
+         <size>
+          <width>40</width>
+          <height>20</height>
+         </size>
+        </property>
+       </spacer>
+      </item>
+      <item>
+       <widget class="QLabel" name="adminNameLabel">
+        <property name="text">
+         <string>Welcome, [Admin Name]</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="settingButton">
+        <property name="text">
+         <string>Settings</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="logoutButton">
+        <property name="text">
+         <string>Log out</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QWidget" name="layoutWidget">
+   <property name="geometry">
+    <rect>
+     <x>-10</x>
+     <y>60</y>
+     <width>1002</width>
+     <height>48</height>
+    </rect>
+   </property>
+   <layout class="QHBoxLayout" name="horizontalLayout_2">
+    <item>
+     <widget class="QLineEdit" name="lineEditSearchInvoices_2">
+      <property name="text">
+       <string>Search Invoices</string>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <widget class="QPushButton" name="pushButtonFilterAll">
+      <property name="text">
+       <string>All</string>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <widget class="QPushButton" name="pushButtonFilterDraft">
+      <property name="text">
+       <string>Draft</string>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <widget class="QPushButton" name="pushButtonFilterSent">
+      <property name="text">
+       <string>Sent</string>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <widget class="QPushButton" name="pushButtonFilterPaid">
+      <property name="text">
+       <string>Paid</string>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <widget class="QPushButton" name="pushButtonFilterOverdue">
+      <property name="text">
+       <string>Overdue</string>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <widget class="QPushButton" name="pushButtonNewInvoice">
+      <property name="text">
+       <string>New Invoice</string>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <widget class="QPushButton" name="pushButtonExportFEC">
+      <property name="text">
+       <string>Export FEC</string>
+      </property>
+     </widget>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QWidget" name="layoutWidget">
+   <property name="geometry">
+    <rect>
+     <x>327</x>
+     <y>131</y>
+     <width>601</width>
+     <height>111</height>
+    </rect>
+   </property>
+   <layout class="QHBoxLayout" name="horizontalLayout_4">
+    <item>
+     <layout class="QVBoxLayout" name="verticalLayout_3">
+      <item>
+       <widget class="QCheckBox" name="checkBox_4">
+        <property name="text">
+         <string>Delete Selected Drafts</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QCheckBox" name="checkBox_2">
+        <property name="text">
+         <string>Send Reminders for Selected</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QCheckBox" name="checkBox">
+        <property name="text">
+         <string>Mark Selected as Paid</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QCheckBox" name="checkBox_3">
+        <property name="text">
+         <string>Export Selected</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QTableView" name="tableViewInvoices"/>
+      </item>
+     </layout>
+    </item>
+    <item>
+     <layout class="QVBoxLayout" name="verticalLayout_4">
+      <item>
+       <widget class="QDateEdit" name="dateEdit"/>
+      </item>
+      <item>
+       <widget class="QComboBox" name="comboBox"/>
+      </item>
+      <item>
+       <widget class="QGroupBox" name="groupBoxStats">
+        <property name="title">
+         <string>Stats</string>
+        </property>
+        <layout class="QVBoxLayout" name="verticalLayout_7">
+         <item>
+          <layout class="QVBoxLayout" name="verticalLayout_2">
+           <item>
+            <widget class="QLabel" name="labelTotalDueValue">
+             <property name="text">
+              <string>TotalDueValue</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QLabel" name="labelOverdueValue">
+             <property name="text">
+              <string>OverdueValue</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QLabel" name="labelPaidMonthValue">
+             <property name="text">
+              <string>PaidMonthValue</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QLabel" name="labelAvgPaymentValue">
+             <property name="text">
+              <string>AvgPaymentValue</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QLabel" name="labelFinancialHealthValue">
+             <property name="text">
+              <string>FinancialHealthValue</string>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </item>
+         <item>
+          <widget class="QGroupBox" name="chartViewRevenue">
+           <property name="title">
+            <string>Chart</string>
+           </property>
+           <layout class="QVBoxLayout" name="verticalLayout_5">
+            <item>
+             <widget class="QLineEdit" name="lineEdit"/>
+            </item>
+           </layout>
+          </widget>
+         </item>
+         <item>
+          <widget class="QGroupBox" name="groupBoxQuickActions">
+           <property name="title">
+            <string>Quick Actions</string>
+           </property>
+           <layout class="QVBoxLayout" name="verticalLayout_6">
+            <item>
+             <widget class="QLineEdit" name="lineEdit_2"/>
+            </item>
+           </layout>
+          </widget>
+         </item>
+         <item>
+          <layout class="QHBoxLayout" name="horizontalLayout_3">
+           <item>
+            <widget class="QPushButton" name="buttonRecordPaymentSidebar">
+             <property name="text">
+              <string>PaymentSidebar</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QPushButton" name="buttonDuplicateSidebar">
+             <property name="text">
+              <string>DuplicateSidebar</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QPushButton" name="buttonDownloadPdfSidebar">
+             <property name="text">
+              <string>DownloadPdfSidebar</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QPushButton" name="buttonSendReminderSidebar">
+             <property name="text">
+              <string>ReminderSidebar</string>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </item>
+        </layout>
+       </widget>
+      </item>
+     </layout>
+    </item>
+   </layout>
+  </widget>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

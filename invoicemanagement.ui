@@ -1,0 +1,297 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>InvoiceManagementWidget</class>
+ <widget class="QDialog" name="InvoiceManagementWidget">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>805</width>
+    <height>581</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Invoice Management - Smart Consulting Office</string>
+  </property>
+  <property name="styleSheet">
+   <string notr="true">background-color: rgb(255, 255, 255);
+background-color: rgb(242, 103, 255);
+color: rgb(0, 0, 0);
+background-color: rgb(51, 0, 138);</string>
+  </property>
+  <widget class="QWidget" name="verticalLayoutWidget">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>40</y>
+     <width>760</width>
+     <height>501</height>
+    </rect>
+   </property>
+   <layout class="QVBoxLayout" name="verticalLayout">
+    <item>
+     <layout class="QHBoxLayout" name="horizontalLayout">
+      <item>
+       <widget class="QPushButton" name="newInvoiceButton">
+        <property name="text">
+         <string>New Invoice</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="editInvoiceButton">
+        <property name="text">
+         <string>Edit Invoice</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="deleteInvoiceButton">
+        <property name="text">
+         <string>Delete Invoice</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="markAsPaidButton">
+        <property name="text">
+         <string>Mark As Paid</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <spacer name="horizontalSpacer_3">
+        <property name="orientation">
+         <enum>Qt::Orientation::Horizontal</enum>
+        </property>
+        <property name="sizeHint" stdset="0">
+         <size>
+          <width>40</width>
+          <height>20</height>
+         </size>
+        </property>
+       </spacer>
+      </item>
+      <item>
+       <widget class="QPushButton" name="sendInvoiceButton">
+        <property name="text">
+         <string>Send Invoice</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="exportPDFButton">
+        <property name="text">
+         <string>Export PDF</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="exportFECButton">
+        <property name="text">
+         <string>Export FEC</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </item>
+    <item>
+     <layout class="QGridLayout" name="gridLayout">
+      <item row="1" column="0">
+       <widget class="QLabel" name="statusFilterLabel">
+        <property name="text">
+         <string>Status Filter:</string>
+        </property>
+       </widget>
+      </item>
+      <item row="4" column="0">
+       <widget class="QLabel" name="endDateLabel">
+        <property name="text">
+         <string>End Date:</string>
+        </property>
+       </widget>
+      </item>
+      <item row="4" column="1">
+       <widget class="QDateEdit" name="endDatePicker"/>
+      </item>
+      <item row="0" column="0">
+       <widget class="QLabel" name="searchInvoiceLabel">
+        <property name="text">
+         <string>Search Invoice:</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="1">
+       <widget class="QComboBox" name="statusFilterComboBox">
+        <item>
+         <property name="text">
+          <string>All</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Draft</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Sent</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Paid</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Overdue</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Partially Paid</string>
+         </property>
+        </item>
+       </widget>
+      </item>
+      <item row="0" column="1">
+       <widget class="QLineEdit" name="searchInvoiceInput">
+        <property name="text">
+         <string/>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="0">
+       <widget class="QLabel" name="clientFilterLabel">
+        <property name="text">
+         <string>Client Filter:</string>
+        </property>
+       </widget>
+      </item>
+      <item row="3" column="0">
+       <widget class="QLabel" name="startDateLabel">
+        <property name="text">
+         <string>Start Date:</string>
+        </property>
+       </widget>
+      </item>
+      <item row="3" column="1">
+       <widget class="QDateEdit" name="startDatePicker"/>
+      </item>
+      <item row="2" column="1">
+       <widget class="QComboBox" name="clientFilterComboBox"/>
+      </item>
+      <item row="5" column="1">
+       <layout class="QHBoxLayout" name="horizontalLayout_2">
+        <item>
+         <widget class="QPushButton" name="applyFiltersButton">
+          <property name="text">
+           <string>Apply Filters</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <spacer name="horizontalSpacer">
+          <property name="orientation">
+           <enum>Qt::Orientation::Horizontal</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>40</width>
+            <height>20</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+        <item>
+         <widget class="QPushButton" name="clearFiltersButton">
+          <property name="text">
+           <string>Clear Filters</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </item>
+     </layout>
+    </item>
+    <item>
+     <widget class="QTableView" name="invoiceTableView"/>
+    </item>
+    <item>
+     <layout class="QHBoxLayout" name="summaryLayout">
+      <item>
+       <widget class="QLabel" name="totalInvoicesLabel">
+        <property name="text">
+         <string>Total Invoices</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <spacer name="horizontalSpacer_2">
+        <property name="orientation">
+         <enum>Qt::Orientation::Horizontal</enum>
+        </property>
+        <property name="sizeType">
+         <enum>QSizePolicy::Policy::Minimum</enum>
+        </property>
+        <property name="sizeHint" stdset="0">
+         <size>
+          <width>40</width>
+          <height>20</height>
+         </size>
+        </property>
+       </spacer>
+      </item>
+      <item>
+       <widget class="QLabel" name="totalDueLabel">
+        <property name="text">
+         <string>Total Due</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QLabel" name="totalOverdueLabel">
+        <property name="text">
+         <string>Total Overdue</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QLabel" name="averagePaymentTimeLabel">
+        <property name="text">
+         <string>Average Payment Time</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QLabel" name="financialHealthLabel">
+        <property name="text">
+         <string>Financial Health</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <spacer name="horizontalSpacer_4">
+        <property name="orientation">
+         <enum>Qt::Orientation::Horizontal</enum>
+        </property>
+        <property name="sizeType">
+         <enum>QSizePolicy::Policy::Minimum</enum>
+        </property>
+        <property name="sizeHint" stdset="0">
+         <size>
+          <width>40</width>
+          <height>20</height>
+         </size>
+        </property>
+       </spacer>
+      </item>
+     </layout>
+    </item>
+   </layout>
+  </widget>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

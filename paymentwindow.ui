@@ -1,0 +1,1527 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>PaymentWindow</class>
+ <widget class="QDialog" name="PaymentWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>828</width>
+    <height>724</height>
+   </rect>
+  </property>
+  <property name="cursor">
+   <cursorShape>BusyCursor</cursorShape>
+  </property>
+  <property name="acceptDrops">
+   <bool>false</bool>
+  </property>
+  <property name="windowTitle">
+   <string>Dialog</string>
+  </property>
+  <property name="whatsThis">
+   <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;this-&amp;gt;setStyleSheet(R&amp;quot;(&lt;/p&gt;&lt;p&gt;QWidget {&lt;/p&gt;&lt;p&gt;    background-color: qlineargradient(x1:0, y1:0, x2:1, y2:1,&lt;/p&gt;&lt;p&gt;                                      stop:0 #e0f7ff, stop:1 #b3d9ff);&lt;/p&gt;&lt;p&gt;    font-family: 'Segoe UI';&lt;/p&gt;&lt;p&gt;    font-size: 14px;&lt;/p&gt;&lt;p&gt;    color: #003366;&lt;/p&gt;&lt;p&gt;}&lt;/p&gt;&lt;p&gt;&lt;br/&gt;&lt;/p&gt;&lt;p&gt;/* GroupBox for visual sections */&lt;/p&gt;&lt;p&gt;QGroupBox {&lt;/p&gt;&lt;p&gt;    border: 2px solid #6699cc;&lt;/p&gt;&lt;p&gt;    border-radius: 10px;&lt;/p&gt;&lt;p&gt;    margin-top: 10px;&lt;/p&gt;&lt;p&gt;    background-color: #d6ecff;&lt;/p&gt;&lt;p&gt;}&lt;/p&gt;&lt;p&gt;QGroupBox::title {&lt;/p&gt;&lt;p&gt;    subcontrol-origin: margin;&lt;/p&gt;&lt;p&gt;    left: 10px;&lt;/p&gt;&lt;p&gt;    padding: 0 5px;&lt;/p&gt;&lt;p&gt;    color: #003366;&lt;/p&gt;&lt;p&gt;    font-weight: bold;&lt;/p&gt;&lt;p&gt;}&lt;/p&gt;&lt;p&gt;&lt;br/&gt;&lt;/p&gt;&lt;p&gt;/* Buttons */&lt;/p&gt;&lt;p&gt;QPushButton {&lt;/p&gt;&lt;p&gt;    background-color: qlineargradient(x1:0, y1:0, x2:0, y2:1,&lt;/p&gt;&lt;p&gt;                                      stop:0 #66b3ff, stop:1 #3399ff);&lt;/p&gt;&lt;p&gt;    color: white;&lt;/p&gt;&lt;p&gt;    border-radius: 8px;&lt;/p&gt;&lt;p&gt;    padding: 6px 12px;&lt;/p&gt;&lt;p&gt;}&lt;/p&gt;&lt;p&gt;QPushButton:hover {&lt;/p&gt;&lt;p&gt;    background-color: qlineargradient(x1:0, y1:0, x2:0, y2:1,&lt;/p&gt;&lt;p&gt;                                      stop:0 #3399ff, stop:1 #007acc);&lt;/p&gt;&lt;p&gt;}&lt;/p&gt;&lt;p&gt;QPushButton:pressed {&lt;/p&gt;&lt;p&gt;    background-color: #005c99;&lt;/p&gt;&lt;p&gt;}&lt;/p&gt;&lt;p&gt;&lt;br/&gt;&lt;/p&gt;&lt;p&gt;/* Text fields */&lt;/p&gt;&lt;p&gt;QLineEdit, QDateEdit, QComboBox, QSpinBox {&lt;/p&gt;&lt;p&gt;    background-color: #ffffff;&lt;/p&gt;&lt;p&gt;    border: 1px solid #99ccff;&lt;/p&gt;&lt;p&gt;    border-radius: 6px;&lt;/p&gt;&lt;p&gt;    padding: 4px;&lt;/p&gt;&lt;p&gt;}&lt;/p&gt;&lt;p&gt;&lt;br/&gt;&lt;/p&gt;&lt;p&gt;/* Radio buttons */&lt;/p&gt;&lt;p&gt;QRadioButton {&lt;/p&gt;&lt;p&gt;    spacing: 5px;&lt;/p&gt;&lt;p&gt;}&lt;/p&gt;&lt;p&gt;QRadioButton::indicator {&lt;/p&gt;&lt;p&gt;    width: 13px;&lt;/p&gt;&lt;p&gt;    height: 13px;&lt;/p&gt;&lt;p&gt;}&lt;/p&gt;&lt;p&gt;QRadioButton::indicator:checked {&lt;/p&gt;&lt;p&gt;    background-color: #3399ff;&lt;/p&gt;&lt;p&gt;    border: 2px solid #005c99;&lt;/p&gt;&lt;p&gt;}&lt;/p&gt;&lt;p&gt;&lt;br/&gt;&lt;/p&gt;&lt;p&gt;/* QTextEdit (Invoice Summary) */&lt;/p&gt;&lt;p&gt;QTextEdit {&lt;/p&gt;&lt;p&gt;    background-color: #f0faff;&lt;/p&gt;&lt;p&gt;    border: 1px solid #99ccff;&lt;/p&gt;&lt;p&gt;    border-radius: 6px;&lt;/p&gt;&lt;p&gt;    padding: 6px;&lt;/p&gt;&lt;p&gt;}&lt;/p&gt;&lt;p&gt;&lt;br/&gt;&lt;/p&gt;&lt;p&gt;/* ListWidget / Payment History */&lt;/p&gt;&lt;p&gt;QListWidget {&lt;/p&gt;&lt;p&gt;    background-color: #f2f9ff;&lt;/p&gt;&lt;p&gt;    border: 1px solid #aaccee;&lt;/p&gt;&lt;p&gt;    border-radius: 6px;&lt;/p&gt;&lt;p&gt;    padding: 4px;&lt;/p&gt;&lt;p&gt;}&lt;/p&gt;&lt;p&gt;)&amp;quot;);&lt;/p&gt;&lt;p&gt;&lt;br/&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+  </property>
+  <property name="autoFillBackground">
+   <bool>false</bool>
+  </property>
+  <property name="styleSheet">
+   <string notr="true">/* ~~~~~~~~~~~~~~~~~~ General Styles ~~~~~~~~~~~~~~~~~~ */
+
+QWidget {
+    /* White base background for content areas */
+    background-color: #FFFFFF;
+    color: #212529; /* Dark text */
+    font-family: Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+}
+
+/* Style the main window/dialog if needed */
+PaymentWindow, MainWindow { /* Use the actual class names */
+     background-color: #F8F9FA; /* Light off-white for window background */
+}
+
+
+/* Apply general padding/margins to the pages */
+QWidget#pageBooking,
+QWidget#pageConfirmation,
+QWidget#pageCreditCard,
+QWidget#pagePayPal,
+QWidget#pageBankTransfer,
+QWidget#pageProcessing,
+QWidget#pageStatus {
+    padding: 20px;
+    background-color: #FFFFFF; /* Ensure page background is white */
+    border: none; /* Remove any residual borders */
+}
+
+
+/* ~~~~~~~~~~~~~~~~~~ Header Area (Logo + Title) ~~~~~~~~~~~~~~~~~~ */
+
+QLabel[objectName^=&quot;logoLabel&quot;] {
+    margin: 10px 10px 5px 15px;
+    background-color: transparent;
+    border: none;
+    padding: 0px;
+}
+
+/* Ensure this objectName is set correctly in Designer! */
+QLabel#labelPageTitle {
+    font-size: 18pt;
+    font-weight: 600; /* Semibold */
+    color: #003366; /* Dark Navy Blue */
+    margin: 0px 15px 30px 15px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid #5CACEE; /* Medium Sky Blue */
+    background-color: transparent;
+    qproperty-alignment: 'AlignLeft | AlignVCenter';
+}
+
+
+/* ~~~~~~~~~~~~~~~~~~ GroupBoxes ~~~~~~~~~~~~~~~~~~ */
+
+QGroupBox {
+    background-color: #FFFFFF; /* White */
+    border: 1px solid #A8D8FF; /* Light Sky Blue border */
+    border-radius: 8px;
+    margin-top: 18px;
+    padding: 30px 20px 20px 20px;
+}
+
+QGroupBox::title {
+    subcontrol-origin: margin;
+    subcontrol-position: top left;
+    padding: 5px 15px;
+    left: 15px;
+    color: #003366; /* Dark Navy Blue text */
+    font-weight: 600;
+    /* Light blue gradient for title background */
+    background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1, stop: 0 #E0F2FF, stop: 1 #C0E6FF);
+    border: 1px solid #A8D8FF; /* Light Sky Blue border */
+    border-bottom: 1px solid #A8D8FF; /* Need bottom border here */
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+}
+
+
+/* ~~~~~~~~~~~~~~~~~~ Input Fields ~~~~~~~~~~~~~~~~~~ */
+
+QLineEdit, QComboBox, QDateTimeEdit {
+    border: 1px solid #A8D8FF; /* Light Sky Blue border */
+    padding: 10px 12px;
+    border-radius: 6px;
+    background-color: #FFFFFF;
+    min-height: 24px;
+    font-size: 10pt;
+    color: #212529;
+}
+
+QLineEdit:focus, QComboBox:focus, QDateTimeEdit:focus {
+    border-color: #0056B3; /* Darker Blue focus border */
+    border-width: 1.5px;
+    padding: 9.25px 11.25px;
+}
+QLineEdit:disabled, QComboBox:disabled, QDateTimeEdit:disabled {
+     background-color: #E9ECEF;
+     color: #6C757D;
+}
+
+
+/* ~~~~~~~~~~~~~~~~~~ Buttons ~~~~~~~~~~~~~~~~~~ */
+
+QPushButton {
+    border-radius: 6px;
+    padding: 10px 18px; /* Adjust padding as needed with icons */
+    font-size: 10pt;
+    font-weight: 500;
+    min-width: 80px;
+    border: 1px solid transparent;
+}
+
+/* --- Primary Buttons (Blue Gradient) --- */
+QPushButton[objectName^=&quot;pushButtonContinue&quot;],
+QPushButton[objectName^=&quot;pushButtonProceed&quot;],
+QPushButton[objectName^=&quot;pushButtonSubmit&quot;],
+QPushButton[objectName^=&quot;pushButtonConfirm&quot;],
+QPushButton[objectName^=&quot;pushButtonGenerate&quot;],
+QPushButton[objectName^=&quot;pushButtonBook&quot;],
+QPushButton[objectName^=&quot;pushButtonTry&quot;],
+QPushButton[objectName^=&quot;pushButtonClose&quot;] {
+    color: white;
+    /* Blue Gradient */
+    background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1, stop: 0 #007BFF, stop: 1 #0056B3);
+    border-color: #0056B3; /* Match darker gradient stop */
+}
+
+QPushButton[objectName^=&quot;pushButtonContinue&quot;]:hover, /* etc. apply to all primary types */
+QPushButton[objectName^=&quot;pushButtonProceed&quot;]:hover,
+QPushButton[objectName^=&quot;pushButtonSubmit&quot;]:hover,
+QPushButton[objectName^=&quot;pushButtonConfirm&quot;]:hover,
+QPushButton[objectName^=&quot;pushButtonGenerate&quot;]:hover,
+QPushButton[objectName^=&quot;pushButtonBook&quot;]:hover,
+QPushButton[objectName^=&quot;pushButtonTry&quot;]:hover,
+QPushButton[objectName^=&quot;pushButtonClose&quot;]:hover {
+    background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1, stop: 0 #0069D9, stop: 1 #004085);
+    border-color: #004085;
+}
+
+QPushButton[objectName^=&quot;pushButtonContinue&quot;]:pressed, /* etc. apply to all primary types */
+QPushButton[objectName^=&quot;pushButtonProceed&quot;]:pressed,
+QPushButton[objectName^=&quot;pushButtonSubmit&quot;]:pressed,
+QPushButton[objectName^=&quot;pushButtonConfirm&quot;]:pressed,
+QPushButton[objectName^=&quot;pushButtonGenerate&quot;]:pressed,
+QPushButton[objectName^=&quot;pushButtonBook&quot;]:pressed,
+QPushButton[objectName^=&quot;pushButtonTry&quot;]:pressed,
+QPushButton[objectName^=&quot;pushButtonClose&quot;]:pressed {
+    background-color: #004085; /* Solid darkest blue */
+    border-color: #003366;
+}
+
+
+/* --- Secondary Buttons (White/Light Gray with Blue text/border) --- */
+QPushButton[objectName^=&quot;pushButtonCancel&quot;],
+QPushButton[objectName^=&quot;pushButtonBack&quot;] {
+    background-color: #FFFFFF; /* White background */
+    color: #0056B3; /* Dark Blue text */
+    border: 1px solid #A8D8FF; /* Light Sky Blue border */
+    font-weight: normal;
+}
+
+QPushButton[objectName^=&quot;pushButtonCancel&quot;]:hover,
+QPushButton[objectName^=&quot;pushButtonBack&quot;]:hover {
+    background-color: #E6F2FF; /* Very light blue hover */
+    border-color: #5CACEE; /* Medium Sky Blue border */
+    color: #003366;
+}
+
+QPushButton[objectName^=&quot;pushButtonCancel&quot;]:pressed,
+QPushButton[objectName^=&quot;pushButtonBack&quot;]:pressed {
+    background-color: #D0E4FF; /* Slightly darker light blue pressed */
+    border-color: #0056B3;
+}
+
+
+/* ~~~~~~~~~~~~~~~~~~ Radio Buttons ~~~~~~~~~~~~~~~~~~ */
+
+QRadioButton {
+    background-color: transparent;
+    padding: 6px;
+    spacing: 10px;
+    font-size: 10pt;
+    color: #212529;
+}
+
+QRadioButton::indicator {
+    width: 18px;
+    height: 18px;
+    border: 2px solid #A8D8FF; /* Light Sky Blue border */
+    border-radius: 10px;
+    background-color: #FFFFFF;
+}
+
+QRadioButton::indicator:hover {
+    border: 2px solid #007BFF; /* Medium Blue */
+}
+
+QRadioButton::indicator:checked {
+    background-color: #007BFF; /* Fill with Medium Blue */
+    border: 2px solid #0056B3; /* Darker Blue border */
+}
+QRadioButton::indicator:checked:hover {
+     border: 2px solid #003366; /* Darkest Blue */
+}
+
+
+/* ~~~~~~~~~~~~~~~~~~ Status Page Specifics ~~~~~~~~~~~~~~~~~~ */
+
+QLabel#labelStatusMessage {
+    font-size: 22pt;
+    font-weight: 600;
+    qproperty-alignment: 'AlignCenter';
+    margin: 20px 10px 35px 10px;
+    padding: 20px;
+    border-radius: 8px;
+    /* Colors/Backgrounds set dynamically in C++ based on success/fail */
+    /* Example defaults (will be overridden) */
+    color: #212529;
+    background-color: #F8F9FA;
+    border: 1px solid #DEE2E6;
+}
+
+QLabel#labelProcessingText {
+     font-size: 12pt;
+     color: #6C757D;
+     qproperty-alignment: 'AlignCenter';
+     margin-top: 15px;
+     background-color: transparent;
+}
+
+QWidget#widgetTopButtons, QWidget#widgetBottomButtons {
+     background-color: transparent;
+     margin-top: 10px;
+     border: none;
+}</string>
+  </property>
+  <layout class="QGridLayout" name="gridLayout_5">
+   <item row="0" column="0">
+    <widget class="QStackedWidget" name="stackedWidget">
+     <property name="styleSheet">
+      <string notr="true">color: rgb(0, 0, 0);</string>
+     </property>
+     <property name="currentIndex">
+      <number>1</number>
+     </property>
+     <widget class="QWidget" name="pageBooking">
+      <layout class="QGridLayout" name="gridLayout_3">
+       <item row="0" column="0">
+        <layout class="QVBoxLayout" name="verticalLayout">
+         <property name="sizeConstraint">
+          <enum>QLayout::SizeConstraint::SetMinimumSize</enum>
+         </property>
+         <item>
+          <widget class="QLabel" name="logoLabel_2">
+           <property name="text">
+            <string/>
+           </property>
+           <property name="pixmap">
+            <pixmap>C:/Users/LEVNOVO/Desktop/images/Image3.png</pixmap>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QLabel" name="label_5">
+           <property name="styleSheet">
+            <string notr="true"/>
+           </property>
+           <property name="text">
+            <string>Appointment </string>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </item>
+       <item row="1" column="0">
+        <spacer name="verticalSpacer_11">
+         <property name="orientation">
+          <enum>Qt::Orientation::Vertical</enum>
+         </property>
+         <property name="sizeType">
+          <enum>QSizePolicy::Policy::Fixed</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>20</width>
+           <height>40</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+       <item row="2" column="0">
+        <layout class="QVBoxLayout" name="verticalLayout_5">
+         <item>
+          <widget class="QGroupBox" name="groupBoxPersonalInfo">
+           <property name="title">
+            <string>Personal Informations </string>
+           </property>
+           <layout class="QFormLayout" name="formLayout">
+            <item row="0" column="0">
+             <widget class="QLabel" name="labelFullNameStatic">
+              <property name="text">
+               <string>Full Name:</string>
+              </property>
+             </widget>
+            </item>
+            <item row="0" column="1">
+             <widget class="QLineEdit" name="lineEditFullName">
+              <property name="text">
+               <string/>
+              </property>
+             </widget>
+            </item>
+            <item row="1" column="0">
+             <widget class="QLabel" name="labelEmailStatic">
+              <property name="text">
+               <string>Email:</string>
+              </property>
+             </widget>
+            </item>
+            <item row="1" column="1">
+             <widget class="QLineEdit" name="lineEditEmail">
+              <property name="text">
+               <string/>
+              </property>
+             </widget>
+            </item>
+            <item row="2" column="0">
+             <widget class="QLabel" name="labelPhoneStatic">
+              <property name="text">
+               <string>Phone:</string>
+              </property>
+             </widget>
+            </item>
+            <item row="2" column="1">
+             <widget class="QLineEdit" name="lineEditPhone">
+              <property name="text">
+               <string/>
+              </property>
+             </widget>
+            </item>
+            <item row="3" column="0">
+             <widget class="QLabel" name="label">
+              <property name="text">
+               <string/>
+              </property>
+             </widget>
+            </item>
+            <item row="3" column="1">
+             <widget class="QLabel" name="label_2">
+              <property name="text">
+               <string/>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </widget>
+         </item>
+         <item>
+          <widget class="QGroupBox" name="groupBoxAppointmentDetails">
+           <property name="title">
+            <string>Appointment Details </string>
+           </property>
+           <layout class="QFormLayout" name="formLayout_2">
+            <item row="0" column="0">
+             <widget class="QLabel" name="labelConsultTypeStatic">
+              <property name="text">
+               <string>Consultation Type:</string>
+              </property>
+             </widget>
+            </item>
+            <item row="0" column="1">
+             <widget class="QComboBox" name="comboBoxConsultationType">
+              <property name="currentText">
+               <string/>
+              </property>
+              <item>
+               <property name="text">
+                <string/>
+               </property>
+              </item>
+              <item>
+               <property name="text">
+                <string>Initial</string>
+               </property>
+              </item>
+              <item>
+               <property name="text">
+                <string>Follow-up</string>
+               </property>
+              </item>
+             </widget>
+            </item>
+            <item row="1" column="0">
+             <widget class="QLabel" name="labelApptDateStatic">
+              <property name="text">
+               <string>Appointment Date:</string>
+              </property>
+             </widget>
+            </item>
+            <item row="1" column="1">
+             <widget class="QDateTimeEdit" name="dateTimeEditAppointment">
+              <property name="minimumDate">
+               <date>
+                <year>2025</year>
+                <month>4</month>
+                <day>1</day>
+               </date>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </widget>
+         </item>
+        </layout>
+       </item>
+       <item row="3" column="0">
+        <spacer name="verticalSpacer_13">
+         <property name="orientation">
+          <enum>Qt::Orientation::Vertical</enum>
+         </property>
+         <property name="sizeType">
+          <enum>QSizePolicy::Policy::Fixed</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>20</width>
+           <height>40</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+       <item row="4" column="0">
+        <layout class="QHBoxLayout" name="horizontalLayoutButtons_1">
+         <item>
+          <widget class="QPushButton" name="pushButtonCancelBooking">
+           <property name="text">
+            <string>Cancel</string>
+           </property>
+           <property name="icon">
+            <iconset theme="QIcon::ThemeIcon::ApplicationExit"/>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <spacer name="horizontalSpacer_1">
+           <property name="orientation">
+            <enum>Qt::Orientation::Horizontal</enum>
+           </property>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>40</width>
+             <height>20</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
+         <item>
+          <widget class="QPushButton" name="pushButtonContinue">
+           <property name="text">
+            <string>Continue</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </item>
+      </layout>
+     </widget>
+     <widget class="QWidget" name="pageConfirmation">
+      <layout class="QGridLayout" name="gridLayout_2">
+       <item row="2" column="0">
+        <layout class="QVBoxLayout" name="verticalLayoutPageConfirm">
+         <item>
+          <widget class="QGroupBox" name="groupBoxSummary">
+           <property name="title">
+            <string>Appointment Summary :</string>
+           </property>
+           <layout class="QFormLayout" name="formLayout_4">
+            <item row="0" column="0">
+             <widget class="QLabel" name="labelSumNameStatic">
+              <property name="text">
+               <string>Name:</string>
+              </property>
+             </widget>
+            </item>
+            <item row="0" column="1">
+             <widget class="QLabel" name="labelSummaryName">
+              <property name="text">
+               <string>TextLabel</string>
+              </property>
+             </widget>
+            </item>
+            <item row="1" column="0">
+             <widget class="QLabel" name="labelSumEmailStatic">
+              <property name="text">
+               <string>Email:</string>
+              </property>
+             </widget>
+            </item>
+            <item row="1" column="1">
+             <widget class="QLabel" name="labelSummaryEmail">
+              <property name="text">
+               <string>TextLabel</string>
+              </property>
+             </widget>
+            </item>
+            <item row="2" column="0">
+             <widget class="QLabel" name="labelSumPhoneStatic">
+              <property name="text">
+               <string>Phone:</string>
+              </property>
+             </widget>
+            </item>
+            <item row="2" column="1">
+             <widget class="QLabel" name="labelSummaryPhone">
+              <property name="text">
+               <string>TextLabel</string>
+              </property>
+             </widget>
+            </item>
+            <item row="3" column="0">
+             <widget class="QLabel" name="labelSumConsultStatic">
+              <property name="text">
+               <string>Consultation:</string>
+              </property>
+             </widget>
+            </item>
+            <item row="3" column="1">
+             <widget class="QLabel" name="labelSummaryConsultation">
+              <property name="text">
+               <string>TextLabel</string>
+              </property>
+             </widget>
+            </item>
+            <item row="4" column="0">
+             <widget class="QLabel" name="labelSumDateStatic">
+              <property name="text">
+               <string>Date:</string>
+              </property>
+             </widget>
+            </item>
+            <item row="4" column="1">
+             <widget class="QLabel" name="labelSummaryDate">
+              <property name="text">
+               <string>TextLabel</string>
+              </property>
+             </widget>
+            </item>
+            <item row="5" column="0">
+             <widget class="QLabel" name="labelSumAmountStatic">
+              <property name="text">
+               <string>Amount:</string>
+              </property>
+             </widget>
+            </item>
+            <item row="5" column="1">
+             <widget class="QLabel" name="labelSummaryAmount">
+              <property name="text">
+               <string>TextLabel</string>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </widget>
+         </item>
+         <item>
+          <widget class="QGroupBox" name="groupBoxPaymentMethod">
+           <property name="title">
+            <string>Payment Method :</string>
+           </property>
+           <layout class="QFormLayout" name="formLayout_3">
+            <item row="0" column="0">
+             <widget class="QRadioButton" name="radioButtonPayPal">
+              <property name="text">
+               <string>PayPal</string>
+              </property>
+             </widget>
+            </item>
+            <item row="1" column="0">
+             <widget class="QRadioButton" name="radioButtonCreditCard">
+              <property name="text">
+               <string>Credit Card</string>
+              </property>
+             </widget>
+            </item>
+            <item row="2" column="0">
+             <widget class="QRadioButton" name="radioButtonBankTransfer">
+              <property name="text">
+               <string>Bank Transfer</string>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </widget>
+         </item>
+        </layout>
+       </item>
+       <item row="4" column="0">
+        <layout class="QHBoxLayout" name="horizontalLayoutButtons_2">
+         <item>
+          <widget class="QPushButton" name="pushButtonBackConfirm">
+           <property name="text">
+            <string>Back</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <spacer name="horizontalSpacer_2">
+           <property name="orientation">
+            <enum>Qt::Orientation::Horizontal</enum>
+           </property>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>40</width>
+             <height>20</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
+         <item>
+          <widget class="QPushButton" name="pushButtonProceedToPay">
+           <property name="text">
+            <string>Proceed to Pay</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </item>
+       <item row="1" column="0">
+        <spacer name="verticalSpacer_3">
+         <property name="orientation">
+          <enum>Qt::Orientation::Vertical</enum>
+         </property>
+         <property name="sizeType">
+          <enum>QSizePolicy::Policy::Fixed</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>20</width>
+           <height>40</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+       <item row="0" column="0">
+        <layout class="QVBoxLayout" name="verticalLayout_3">
+         <item>
+          <widget class="QLabel" name="logoLabel">
+           <property name="text">
+            <string/>
+           </property>
+           <property name="pixmap">
+            <pixmap>C:/Users/LEVNOVO/Desktop/images/Image3.png</pixmap>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QLabel" name="label_6">
+           <property name="text">
+            <string>Confirmation &amp; Payment Method</string>
+           </property>
+           <property name="indent">
+            <number>-1</number>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </item>
+       <item row="3" column="0">
+        <spacer name="verticalSpacer_4">
+         <property name="orientation">
+          <enum>Qt::Orientation::Vertical</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>20</width>
+           <height>40</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+      </layout>
+     </widget>
+     <widget class="QWidget" name="pageCreditCard">
+      <layout class="QGridLayout" name="gridLayout">
+       <item row="0" column="0">
+        <layout class="QVBoxLayout" name="verticalLayout_4">
+         <item>
+          <widget class="QLabel" name="logoLabel_8">
+           <property name="text">
+            <string/>
+           </property>
+           <property name="pixmap">
+            <pixmap>C:/Users/LEVNOVO/Desktop/images/Image3.png</pixmap>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QLabel" name="label_9">
+           <property name="styleSheet">
+            <string notr="true"/>
+           </property>
+           <property name="text">
+            <string>Enter Credit Card Details</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </item>
+       <item row="1" column="0">
+        <spacer name="verticalSpacer">
+         <property name="orientation">
+          <enum>Qt::Orientation::Vertical</enum>
+         </property>
+         <property name="sizeType">
+          <enum>QSizePolicy::Policy::Minimum</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>20</width>
+           <height>40</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+       <item row="2" column="0">
+        <layout class="QVBoxLayout" name="verticalLayoutPageCard">
+         <item>
+          <widget class="QGroupBox" name="groupBoxCreditCardInput">
+           <property name="title">
+            <string>Card Details</string>
+           </property>
+           <layout class="QFormLayout" name="formLayout_6">
+            <item row="0" column="0">
+             <widget class="QLabel" name="labelCardNumberStatic">
+              <property name="text">
+               <string>Card Number:</string>
+              </property>
+             </widget>
+            </item>
+            <item row="0" column="1">
+             <widget class="QLineEdit" name="lineEditCardNumber"/>
+            </item>
+            <item row="1" column="0">
+             <widget class="QLabel" name="labelCardNameStatic">
+              <property name="text">
+               <string>Name on Card:</string>
+              </property>
+             </widget>
+            </item>
+            <item row="1" column="1">
+             <widget class="QLineEdit" name="lineEditCardName"/>
+            </item>
+            <item row="2" column="0">
+             <widget class="QLabel" name="labelExpiryDateStatic">
+              <property name="text">
+               <string>Expiry Date (MM/YY):</string>
+              </property>
+             </widget>
+            </item>
+            <item row="2" column="1">
+             <widget class="QLineEdit" name="lineEditExpiryDate"/>
+            </item>
+            <item row="3" column="0">
+             <widget class="QLabel" name="labelCvvStatic">
+              <property name="text">
+               <string>CVV/CVC:</string>
+              </property>
+             </widget>
+            </item>
+            <item row="3" column="1">
+             <widget class="QLineEdit" name="lineEditCvv"/>
+            </item>
+           </layout>
+          </widget>
+         </item>
+         <item>
+          <layout class="QHBoxLayout" name="horizontalLayoutButtons_3">
+           <item>
+            <widget class="QPushButton" name="pushButtonBackCard">
+             <property name="text">
+              <string>Back</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <spacer name="horizontalSpacer_3">
+             <property name="orientation">
+              <enum>Qt::Orientation::Horizontal</enum>
+             </property>
+             <property name="sizeHint" stdset="0">
+              <size>
+               <width>40</width>
+               <height>20</height>
+              </size>
+             </property>
+            </spacer>
+           </item>
+           <item>
+            <widget class="QPushButton" name="pushButtonSubmitPayment">
+             <property name="text">
+              <string>Submit Payment</string>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </item>
+        </layout>
+       </item>
+       <item row="3" column="0">
+        <spacer name="verticalSpacer_12">
+         <property name="orientation">
+          <enum>Qt::Orientation::Vertical</enum>
+         </property>
+         <property name="sizeType">
+          <enum>QSizePolicy::Policy::MinimumExpanding</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>20</width>
+           <height>40</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+      </layout>
+     </widget>
+     <widget class="QWidget" name="pagePayPal">
+      <layout class="QVBoxLayout" name="verticalLayout_14">
+       <item>
+        <layout class="QVBoxLayout" name="verticalLayout_7">
+         <item>
+          <widget class="QLabel" name="logoLabel_9">
+           <property name="text">
+            <string/>
+           </property>
+           <property name="pixmap">
+            <pixmap>C:/Users/LEVNOVO/Desktop/images/Image3.png</pixmap>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QLabel" name="label_10">
+           <property name="styleSheet">
+            <string notr="true"/>
+           </property>
+           <property name="text">
+            <string>PayPal Payment</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </item>
+       <item>
+        <spacer name="verticalSpacer_5">
+         <property name="orientation">
+          <enum>Qt::Orientation::Vertical</enum>
+         </property>
+         <property name="sizeType">
+          <enum>QSizePolicy::Policy::Fixed</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>20</width>
+           <height>40</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+       <item>
+        <layout class="QVBoxLayout" name="verticalLayoutPagePayPal">
+         <item>
+          <widget class="QLabel" name="labelPayPalInfo">
+           <property name="text">
+            <string>PayPal Info</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <spacer name="verticalSpacerPayPal">
+           <property name="orientation">
+            <enum>Qt::Orientation::Vertical</enum>
+           </property>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>20</width>
+             <height>40</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
+         <item>
+          <layout class="QHBoxLayout" name="horizontalLayoutButtons_4">
+           <item>
+            <widget class="QPushButton" name="pushButtonBackPayPal">
+             <property name="text">
+              <string>Back</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <spacer name="horizontalSpacer_4">
+             <property name="orientation">
+              <enum>Qt::Orientation::Horizontal</enum>
+             </property>
+             <property name="sizeHint" stdset="0">
+              <size>
+               <width>40</width>
+               <height>20</height>
+              </size>
+             </property>
+            </spacer>
+           </item>
+           <item>
+            <widget class="QPushButton" name="pushButtonProceedPayPal">
+             <property name="text">
+              <string>Proceed to PayPal</string>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </item>
+        </layout>
+       </item>
+       <item>
+        <spacer name="verticalSpacer_14">
+         <property name="orientation">
+          <enum>Qt::Orientation::Vertical</enum>
+         </property>
+         <property name="sizeType">
+          <enum>QSizePolicy::Policy::MinimumExpanding</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>20</width>
+           <height>40</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+      </layout>
+     </widget>
+     <widget class="QWidget" name="pageBankTransfer">
+      <layout class="QVBoxLayout" name="verticalLayout_2">
+       <item>
+        <layout class="QVBoxLayout" name="verticalLayout_8">
+         <item>
+          <widget class="QLabel" name="logoLabel_10">
+           <property name="text">
+            <string/>
+           </property>
+           <property name="pixmap">
+            <pixmap>C:/Users/LEVNOVO/Desktop/images/Image3.png</pixmap>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QLabel" name="label_11">
+           <property name="styleSheet">
+            <string notr="true"/>
+           </property>
+           <property name="text">
+            <string>Bank Transfer Details</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </item>
+       <item>
+        <spacer name="verticalSpacer_6">
+         <property name="orientation">
+          <enum>Qt::Orientation::Vertical</enum>
+         </property>
+         <property name="sizeType">
+          <enum>QSizePolicy::Policy::Minimum</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>20</width>
+           <height>40</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+       <item>
+        <layout class="QVBoxLayout" name="verticalLayoutPageBank">
+         <item>
+          <widget class="QGroupBox" name="groupBoxBankDetails">
+           <property name="title">
+            <string>BankDetails</string>
+           </property>
+           <layout class="QFormLayout" name="formLayout_7">
+            <item row="0" column="0" colspan="2">
+             <widget class="QLabel" name="labelBankInfoIntro">
+              <property name="styleSheet">
+               <string notr="true"/>
+              </property>
+              <property name="text">
+               <string>Please use the following details...</string>
+              </property>
+             </widget>
+            </item>
+            <item row="1" column="0">
+             <widget class="QLabel" name="labelBankNameStatic">
+              <property name="text">
+               <string>Bank Name:</string>
+              </property>
+             </widget>
+            </item>
+            <item row="1" column="1">
+             <widget class="QLabel" name="labelBankNameValue">
+              <property name="text">
+               <string>Your Bank Name</string>
+              </property>
+             </widget>
+            </item>
+            <item row="2" column="0">
+             <widget class="QLabel" name="labelAccountNumStatic">
+              <property name="text">
+               <string>Account Number:</string>
+              </property>
+             </widget>
+            </item>
+            <item row="2" column="1">
+             <widget class="QLabel" name="labelAccountNumValue">
+              <property name="text">
+               <string>Your Account Number</string>
+              </property>
+             </widget>
+            </item>
+            <item row="3" column="0">
+             <widget class="QLabel" name="labelSortCodeStatic">
+              <property name="text">
+               <string>Sort Code/IBAN:</string>
+              </property>
+             </widget>
+            </item>
+            <item row="3" column="1">
+             <widget class="QLabel" name="labelSortCodeValue">
+              <property name="text">
+               <string>Your Sort Code/IBAN</string>
+              </property>
+             </widget>
+            </item>
+            <item row="4" column="0">
+             <widget class="QLabel" name="labelReferenceInfo">
+              <property name="text">
+               <string>Important: Use your Booking ID as reference:</string>
+              </property>
+             </widget>
+            </item>
+            <item row="4" column="1">
+             <widget class="QLabel" name="labelReferenceValue">
+              <property name="text">
+               <string>Populated Booking ID</string>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </widget>
+         </item>
+         <item>
+          <spacer name="verticalSpacer_7">
+           <property name="orientation">
+            <enum>Qt::Orientation::Vertical</enum>
+           </property>
+           <property name="sizeType">
+            <enum>QSizePolicy::Policy::Minimum</enum>
+           </property>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>20</width>
+             <height>40</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
+         <item>
+          <layout class="QHBoxLayout" name="horizontalLayoutButtons_5">
+           <item>
+            <widget class="QPushButton" name="pushButtonBackBank">
+             <property name="text">
+              <string>Back</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <spacer name="horizontalSpacer_5">
+             <property name="orientation">
+              <enum>Qt::Orientation::Horizontal</enum>
+             </property>
+             <property name="sizeHint" stdset="0">
+              <size>
+               <width>40</width>
+               <height>20</height>
+              </size>
+             </property>
+            </spacer>
+           </item>
+           <item>
+            <widget class="QPushButton" name="pushButtonConfirmTransfer">
+             <property name="text">
+              <string>Payment Sent / Confirm Later</string>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </item>
+        </layout>
+       </item>
+       <item>
+        <spacer name="verticalSpacer_15">
+         <property name="orientation">
+          <enum>Qt::Orientation::Vertical</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>20</width>
+           <height>40</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+      </layout>
+     </widget>
+     <widget class="QWidget" name="pageProcessing">
+      <layout class="QVBoxLayout" name="verticalLayout_16">
+       <item>
+        <layout class="QVBoxLayout" name="verticalLayout_9">
+         <item>
+          <widget class="QLabel" name="logoLabel_11">
+           <property name="text">
+            <string/>
+           </property>
+           <property name="pixmap">
+            <pixmap>C:/Users/LEVNOVO/Desktop/images/Image3.png</pixmap>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QLabel" name="label_12">
+           <property name="styleSheet">
+            <string notr="true"/>
+           </property>
+           <property name="text">
+            <string>Processing Payment</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </item>
+       <item>
+        <spacer name="verticalSpacer_8">
+         <property name="orientation">
+          <enum>Qt::Orientation::Vertical</enum>
+         </property>
+         <property name="sizeType">
+          <enum>QSizePolicy::Policy::Fixed</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>20</width>
+           <height>40</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+       <item>
+        <layout class="QVBoxLayout" name="verticalLayoutPageProcess">
+         <item>
+          <spacer name="verticalSpacerTopProcessing">
+           <property name="orientation">
+            <enum>Qt::Orientation::Vertical</enum>
+           </property>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>20</width>
+             <height>40</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
+         <item>
+          <widget class="QLabel" name="labelProcessingAnimation">
+           <property name="text">
+            <string>Display loading GIF </string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QLabel" name="labelProcessingText">
+           <property name="text">
+            <string>Processing Payment...</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <spacer name="verticalSpacerBotProcessing">
+           <property name="orientation">
+            <enum>Qt::Orientation::Vertical</enum>
+           </property>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>20</width>
+             <height>40</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
+        </layout>
+       </item>
+       <item>
+        <spacer name="verticalSpacer_2">
+         <property name="orientation">
+          <enum>Qt::Orientation::Vertical</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>20</width>
+           <height>40</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+      </layout>
+     </widget>
+     <widget class="QWidget" name="pageStatus">
+      <layout class="QGridLayout" name="gridLayout_4">
+       <item row="0" column="0">
+        <layout class="QVBoxLayout" name="verticalLayout_10">
+         <item>
+          <widget class="QLabel" name="logoLabel_12">
+           <property name="text">
+            <string/>
+           </property>
+           <property name="pixmap">
+            <pixmap>C:/Users/LEVNOVO/Desktop/images/Image3.png</pixmap>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QLabel" name="label_13">
+           <property name="styleSheet">
+            <string notr="true"/>
+           </property>
+           <property name="text">
+            <string>Payment Status</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </item>
+       <item row="2" column="0">
+        <layout class="QVBoxLayout" name="verticalLayoutPageStatus">
+         <item>
+          <widget class="QWidget" name="widgetActionButtons" native="true">
+           <layout class="QVBoxLayout" name="verticalLayout_6">
+            <item>
+             <widget class="QLabel" name="labelStatusMessage">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="text">
+               <string>Payment Successful! / Failed!</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QGroupBox" name="groupBoxTransactionSummary">
+              <property name="title">
+               <string>Transaction Summary</string>
+              </property>
+              <layout class="QFormLayout" name="formLayout_5">
+               <item row="0" column="0">
+                <widget class="QLabel" name="labelTransIdStatic">
+                 <property name="text">
+                  <string>Transaction ID:</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="0" column="1">
+                <widget class="QLabel" name="labelTransactionIdValue">
+                 <property name="text">
+                  <string>Populated ID</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="1" column="0">
+                <widget class="QLabel" name="labelTransMethodStatic">
+                 <property name="text">
+                  <string>Payment Method:</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="1" column="1">
+                <widget class="QLabel" name="labelPaymentMethodValue">
+                 <property name="text">
+                  <string>Populated Method</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="2" column="0">
+                <widget class="QLabel" name="labelTransAmountStatic">
+                 <property name="text">
+                  <string>Amount Paid:</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="2" column="1">
+                <widget class="QLabel" name="labelAmountPaidValue">
+                 <property name="text">
+                  <string>Populated Amount</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="3" column="0">
+                <widget class="QLabel" name="labelTransTimestampStatic">
+                 <property name="text">
+                  <string>Transaction Date/Time:</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="3" column="1">
+                <widget class="QLabel" name="labelTransactionTimestampValue">
+                 <property name="text">
+                  <string>Populated Timestamp</string>
+                 </property>
+                </widget>
+               </item>
+              </layout>
+             </widget>
+            </item>
+            <item>
+             <spacer name="verticalSpacer_10">
+              <property name="orientation">
+               <enum>Qt::Orientation::Vertical</enum>
+              </property>
+              <property name="sizeType">
+               <enum>QSizePolicy::Policy::Fixed</enum>
+              </property>
+              <property name="sizeHint" stdset="0">
+               <size>
+                <width>20</width>
+                <height>40</height>
+               </size>
+              </property>
+             </spacer>
+            </item>
+            <item>
+             <spacer name="verticalSpacerStatus">
+              <property name="orientation">
+               <enum>Qt::Orientation::Vertical</enum>
+              </property>
+              <property name="sizeType">
+               <enum>QSizePolicy::Policy::Preferred</enum>
+              </property>
+              <property name="sizeHint" stdset="0">
+               <size>
+                <width>0</width>
+                <height>0</height>
+               </size>
+              </property>
+             </spacer>
+            </item>
+            <item>
+             <layout class="QHBoxLayout" name="horizontalLayout_7">
+              <item>
+               <widget class="QPushButton" name="pushButtonGenerateInvoice">
+                <property name="text">
+                 <string>Generate Invoice</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <spacer name="horizontalSpacer_7">
+                <property name="orientation">
+                 <enum>Qt::Orientation::Horizontal</enum>
+                </property>
+                <property name="sizeHint" stdset="0">
+                 <size>
+                  <width>40</width>
+                  <height>20</height>
+                 </size>
+                </property>
+               </spacer>
+              </item>
+              <item>
+               <widget class="QPushButton" name="pushButtonCloseStatus">
+                <property name="text">
+                 <string>Close</string>
+                </property>
+               </widget>
+              </item>
+             </layout>
+            </item>
+            <item>
+             <layout class="QHBoxLayout" name="horizontalLayout_3">
+              <item>
+               <spacer name="horizontalSpacer">
+                <property name="orientation">
+                 <enum>Qt::Orientation::Horizontal</enum>
+                </property>
+                <property name="sizeType">
+                 <enum>QSizePolicy::Policy::Minimum</enum>
+                </property>
+                <property name="sizeHint" stdset="0">
+                 <size>
+                  <width>40</width>
+                  <height>20</height>
+                 </size>
+                </property>
+               </spacer>
+              </item>
+              <item>
+               <widget class="QPushButton" name="pushButtonBookAnother">
+                <property name="text">
+                 <string>Book Another Appointment</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QPushButton" name="pushButtonTryAgain">
+                <property name="text">
+                 <string>Try Again</string>
+                </property>
+               </widget>
+              </item>
+             </layout>
+            </item>
+           </layout>
+          </widget>
+         </item>
+        </layout>
+       </item>
+       <item row="1" column="0">
+        <spacer name="verticalSpacer_9">
+         <property name="orientation">
+          <enum>Qt::Orientation::Vertical</enum>
+         </property>
+         <property name="sizeType">
+          <enum>QSizePolicy::Policy::Fixed</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>20</width>
+           <height>40</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+       <item row="3" column="0">
+        <spacer name="verticalSpacer_16">
+         <property name="orientation">
+          <enum>Qt::Orientation::Vertical</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>20</width>
+           <height>40</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+      </layout>
+     </widget>
+    </widget>
+   </item>
+   <item row="2" column="0">
+    <spacer name="verticalSpacer_17">
+     <property name="orientation">
+      <enum>Qt::Orientation::Vertical</enum>
+     </property>
+     <property name="sizeHint" stdset="0">
+      <size>
+       <width>20</width>
+       <height>40</height>
+      </size>
+     </property>
+    </spacer>
+   </item>
+   <item row="1" column="0">
+    <spacer name="verticalSpacer_18">
+     <property name="orientation">
+      <enum>Qt::Orientation::Vertical</enum>
+     </property>
+     <property name="sizeHint" stdset="0">
+      <size>
+       <width>20</width>
+       <height>40</height>
+      </size>
+     </property>
+    </spacer>
+   </item>
+  </layout>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

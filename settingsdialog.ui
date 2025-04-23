@@ -1,0 +1,368 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>SettingsDialog</class>
+ <widget class="QDialog" name="SettingsDialog">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>749</width>
+    <height>568</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Dialog</string>
+  </property>
+  <layout class="QHBoxLayout" name="horizontalLayout_5">
+   <item>
+    <layout class="QVBoxLayout" name="mainSettingsLayout">
+     <item>
+      <widget class="QTabWidget" name="SettingsTabWidget">
+       <property name="currentIndex">
+        <number>0</number>
+       </property>
+       <widget class="QWidget" name="tab">
+        <attribute name="title">
+         <string>Company Info</string>
+        </attribute>
+        <layout class="QHBoxLayout" name="horizontalLayout">
+         <item>
+          <layout class="QFormLayout" name="companyInfoLayout">
+           <item row="0" column="0">
+            <widget class="QLabel" name="companyNameLabel">
+             <property name="text">
+              <string>Company Name:</string>
+             </property>
+            </widget>
+           </item>
+           <item row="0" column="1">
+            <widget class="QLineEdit" name="companyNameInput"/>
+           </item>
+           <item row="1" column="0">
+            <widget class="QLabel" name="companyAddressLabel">
+             <property name="text">
+              <string>Company Address:</string>
+             </property>
+            </widget>
+           </item>
+           <item row="1" column="1">
+            <widget class="QLineEdit" name="companyAddressInput"/>
+           </item>
+           <item row="2" column="0">
+            <widget class="QLabel" name="companyVATIDLabel">
+             <property name="text">
+              <string>Company VATID:</string>
+             </property>
+            </widget>
+           </item>
+           <item row="2" column="1">
+            <widget class="QLineEdit" name="companyVATIDInput"/>
+           </item>
+           <item row="3" column="1">
+            <widget class="QLineEdit" name="companyLogoPathInput"/>
+           </item>
+           <item row="4" column="1">
+            <widget class="QPushButton" name="browseButton">
+             <property name="text">
+              <string>Browse</string>
+             </property>
+            </widget>
+           </item>
+           <item row="3" column="0">
+            <widget class="QLabel" name="companyLogoLabel">
+             <property name="text">
+              <string>Company Logo:</string>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </item>
+        </layout>
+       </widget>
+       <widget class="QWidget" name="tab_2">
+        <attribute name="title">
+         <string>Invoice Options</string>
+        </attribute>
+        <layout class="QVBoxLayout" name="verticalLayout_2">
+         <item>
+          <layout class="QFormLayout" name="invoiceOptionsLayout">
+           <item row="0" column="0">
+            <widget class="QLabel" name="numberPrefixLabel">
+             <property name="text">
+              <string>Number Prefix:</string>
+             </property>
+            </widget>
+           </item>
+           <item row="0" column="1">
+            <widget class="QLineEdit" name="numberPrefixInput"/>
+           </item>
+           <item row="1" column="0">
+            <widget class="QLabel" name="nextNumberLabel">
+             <property name="text">
+              <string>Next Number:</string>
+             </property>
+            </widget>
+           </item>
+           <item row="1" column="1">
+            <widget class="QSpinBox" name="nextNumberSpinBox"/>
+           </item>
+           <item row="2" column="0">
+            <widget class="QLabel" name="defaultTermsLabel">
+             <property name="text">
+              <string>Default Terms:</string>
+             </property>
+            </widget>
+           </item>
+           <item row="2" column="1">
+            <widget class="QComboBox" name="defaultTermsComboBox"/>
+           </item>
+           <item row="3" column="0">
+            <widget class="QLabel" name="VATRatesLabel">
+             <property name="text">
+              <string>VAT Rates:</string>
+             </property>
+            </widget>
+           </item>
+           <item row="3" column="1">
+            <widget class="QTableWidget" name="VATRatesTable"/>
+           </item>
+           <item row="5" column="1">
+            <widget class="QPushButton" name="removeVatRateButton">
+             <property name="text">
+              <string>remove Vat Rate</string>
+             </property>
+            </widget>
+           </item>
+           <item row="4" column="1">
+            <widget class="QPushButton" name="addVatRateButton">
+             <property name="text">
+              <string>Add Vat Rate</string>
+             </property>
+            </widget>
+           </item>
+           <item row="6" column="1">
+            <widget class="QCheckBox" name="enableRemindersCheckBox">
+             <property name="text">
+              <string>Enable Reminders Check</string>
+             </property>
+            </widget>
+           </item>
+           <item row="7" column="1">
+            <widget class="QSpinBox" name="daysBeforeDueSpinBox"/>
+           </item>
+           <item row="7" column="0">
+            <widget class="QLabel" name="daysBeforeDueLabel">
+             <property name="text">
+              <string>Before Due:</string>
+             </property>
+            </widget>
+           </item>
+           <item row="8" column="0">
+            <widget class="QLabel" name="daysAfterDueLabel">
+             <property name="text">
+              <string>After Due:</string>
+             </property>
+            </widget>
+           </item>
+           <item row="8" column="1">
+            <widget class="QSpinBox" name="daysAfterDueSpinBox_2"/>
+           </item>
+           <item row="9" column="1">
+            <widget class="QCheckBox" name="enableOverdueIoTAlertCheckBox">
+             <property name="text">
+              <string>Enable Overdue IoT Alert Check</string>
+             </property>
+            </widget>
+           </item>
+           <item row="10" column="0">
+            <widget class="QLabel" name="ioTAlertDaysLabel">
+             <property name="text">
+              <string>Alert Days:</string>
+             </property>
+            </widget>
+           </item>
+           <item row="10" column="1">
+            <widget class="QSpinBox" name="ioTAlertDaysSpinBox"/>
+           </item>
+           <item row="11" column="0">
+            <widget class="QLabel" name="ioTDeviceAddressLabel">
+             <property name="text">
+              <string>IoT Device Address:</string>
+             </property>
+            </widget>
+           </item>
+           <item row="11" column="1">
+            <widget class="QLineEdit" name="ioTDeviceAddressInput"/>
+           </item>
+          </layout>
+         </item>
+        </layout>
+       </widget>
+       <widget class="QWidget" name="tab_4">
+        <attribute name="title">
+         <string>Payment Gateways</string>
+        </attribute>
+        <layout class="QHBoxLayout" name="horizontalLayout_4">
+         <item>
+          <layout class="QFormLayout" name="paymentGatewayLayout">
+           <item row="1" column="0">
+            <widget class="QLabel" name="stripeApiKeyLabel">
+             <property name="text">
+              <string>Stripe Api Key:</string>
+             </property>
+            </widget>
+           </item>
+           <item row="1" column="1">
+            <widget class="QLineEdit" name="stripeApiKeyInput"/>
+           </item>
+           <item row="3" column="0">
+            <widget class="QLabel" name="payPalClientIdLabel">
+             <property name="text">
+              <string>PayPal Client ID:</string>
+             </property>
+            </widget>
+           </item>
+           <item row="3" column="1">
+            <widget class="QLineEdit" name="payPalClientIdInput"/>
+           </item>
+           <item row="4" column="0">
+            <widget class="QLabel" name="payPalSecretLabel">
+             <property name="text">
+              <string>PayPal Secret:</string>
+             </property>
+            </widget>
+           </item>
+           <item row="4" column="1">
+            <widget class="QLineEdit" name="payPalSecretInput"/>
+           </item>
+           <item row="0" column="1">
+            <widget class="QCheckBox" name="stripeEnableCheckBox">
+             <property name="text">
+              <string>Stripe Enable Check</string>
+             </property>
+            </widget>
+           </item>
+           <item row="2" column="1">
+            <widget class="QCheckBox" name="payPalEnableCheckBox">
+             <property name="text">
+              <string>PayPal Enable Check</string>
+             </property>
+            </widget>
+           </item>
+           <item row="0" column="0">
+            <widget class="QLabel" name="stripeEnableLabel">
+             <property name="text">
+              <string> Enable Stripe:</string>
+             </property>
+            </widget>
+           </item>
+           <item row="2" column="0">
+            <widget class="QLabel" name="payPalEnableLabel">
+             <property name="text">
+              <string>Enable PayPal:</string>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </item>
+        </layout>
+       </widget>
+       <widget class="QWidget" name="tab_3">
+        <attribute name="title">
+         <string>Email Templates</string>
+        </attribute>
+        <layout class="QHBoxLayout" name="horizontalLayout_3">
+         <item>
+          <layout class="QVBoxLayout" name="emailTemplateLayout">
+           <item>
+            <widget class="QComboBox" name="templateSelectComboBox">
+             <item>
+              <property name="text">
+               <string>New Invoice</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>Reminder</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>etc</string>
+              </property>
+             </item>
+            </widget>
+           </item>
+           <item>
+            <widget class="QLineEdit" name="subjectInput">
+             <property name="text">
+              <string>Subject </string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QTextEdit" name="bodyInput">
+             <property name="html">
+              <string>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
+&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;meta charset=&quot;utf-8&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
+p, li { white-space: pre-wrap; }
+hr { height: 1px; border-width: 0; }
+li.unchecked::marker { content: &quot;\2610&quot;; }
+li.checked::marker { content: &quot;\2612&quot;; }
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'Segoe UI'; font-size:9pt; font-weight:400; font-style:normal;&quot;&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:'monospace'; font-size:13px; color:#768390; background-color:#242629;&quot;&gt;Body&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:'monospace'; font-size:13px; color:#768390;&quot;&gt;&lt;br /&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QLabel" name="placeholdersInfoLabel">
+             <property name="text">
+              <string>Placeholders Info:</string>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </item>
+        </layout>
+       </widget>
+      </widget>
+     </item>
+     <item>
+      <layout class="QHBoxLayout" name="horizontalLayout_2">
+       <item>
+        <spacer name="horizontalSpacer">
+         <property name="orientation">
+          <enum>Qt::Orientation::Horizontal</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>40</width>
+           <height>20</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+       <item>
+        <widget class="QPushButton" name="saveButton">
+         <property name="text">
+          <string>Save</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="cancelButton">
+         <property name="text">
+          <string>Cancel</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </item>
+    </layout>
+   </item>
+  </layout>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>
