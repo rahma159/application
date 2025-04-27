@@ -1,0 +1,312 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>EnhancedAddEditDialog</class>
+ <widget class="QDialog" name="EnhancedAddEditDialog">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>278</width>
+    <height>416</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Add / Edit Consultant</string>
+  </property>
+  <layout class="QVBoxLayout" name="mainLayout">
+   <item>
+    <layout class="QFormLayout" name="formLayout">
+     <item row="0" column="0">
+      <widget class="QLabel" name="labelName">
+       <property name="text">
+        <string>Full Name</string>
+       </property>
+      </widget>
+     </item>
+     <item row="0" column="1">
+      <widget class="QLineEdit" name="lineEditName">
+       <property name="placeholderText">
+        <string>Enter full name</string>
+       </property>
+      </widget>
+     </item>
+     <item row="1" column="0">
+      <widget class="QLabel" name="labelEmail">
+       <property name="text">
+        <string>Email</string>
+       </property>
+      </widget>
+     </item>
+     <item row="1" column="1">
+      <widget class="QLineEdit" name="lineEditEmail">
+       <property name="placeholderText">
+        <string>e.g. name@example.com</string>
+       </property>
+      </widget>
+     </item>
+     <item row="2" column="0">
+      <widget class="QLabel" name="labelPhone">
+       <property name="text">
+        <string>Phone</string>
+       </property>
+      </widget>
+     </item>
+     <item row="2" column="1">
+      <widget class="QLineEdit" name="lineEditPhone">
+       <property name="placeholderText">
+        <string>e.g. +971 50 123 4567</string>
+       </property>
+      </widget>
+     </item>
+     <item row="3" column="0">
+      <widget class="QLabel" name="labelPhoto">
+       <property name="text">
+        <string>Photo</string>
+       </property>
+      </widget>
+     </item>
+     <item row="3" column="1">
+      <layout class="QHBoxLayout">
+       <item>
+        <widget class="QPushButton" name="pushButtonUploadPhoto">
+         <property name="text">
+          <string>Upload Photo</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLabel" name="labelPhotoPath">
+         <property name="text">
+          <string>No photo selected</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </item>
+     <item row="4" column="0">
+      <widget class="QLabel" name="labelRole">
+       <property name="text">
+        <string>Role</string>
+       </property>
+      </widget>
+     </item>
+     <item row="4" column="1">
+      <widget class="QComboBox" name="comboBoxRole">
+       <item>
+        <property name="text">
+         <string>Consultant</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Project Manager</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Data Analyst</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Business Analyst</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Senior Consultant</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Staff</string>
+        </property>
+       </item>
+      </widget>
+     </item>
+     <item row="6" column="0">
+      <widget class="QLabel" name="labelExpertise">
+       <property name="text">
+        <string>Expertise</string>
+       </property>
+      </widget>
+     </item>
+     <item row="7" column="0">
+      <widget class="QLabel" name="labelRate">
+       <property name="text">
+        <string>Hourly Rate ($)</string>
+       </property>
+      </widget>
+     </item>
+     <item row="7" column="1">
+      <widget class="QDoubleSpinBox" name="doubleSpinBoxRate">
+       <property name="decimals">
+        <number>2</number>
+       </property>
+       <property name="minimum">
+        <double>10.000000000000000</double>
+       </property>
+       <property name="maximum">
+        <double>1000.000000000000000</double>
+       </property>
+       <property name="value">
+        <double>75.000000000000000</double>
+       </property>
+      </widget>
+     </item>
+     <item row="8" column="0">
+      <widget class="QLabel" name="labelAvailability">
+       <property name="text">
+        <string>Availability</string>
+       </property>
+      </widget>
+     </item>
+     <item row="8" column="1">
+      <widget class="QComboBox" name="comboBoxAvailability">
+       <item>
+        <property name="text">
+         <string>🟢Available</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>🔴Unavailable</string>
+        </property>
+       </item>
+      </widget>
+     </item>
+     <item row="9" column="0">
+      <widget class="QLabel" name="labelCalendar">
+       <property name="text">
+        <string>Working Days</string>
+       </property>
+      </widget>
+     </item>
+     <item row="9" column="1">
+      <widget class="QCalendarWidget" name="calendarWorkingDays"/>
+     </item>
+     <item row="10" column="0">
+      <widget class="QLabel" name="labelLeaveInfo">
+       <property name="text">
+        <string>Leave Notes</string>
+       </property>
+      </widget>
+     </item>
+     <item row="10" column="1">
+      <widget class="QLineEdit" name="lineEditLeaveNotes">
+       <property name="placeholderText">
+        <string>e.g. Vacation from 12–18 July</string>
+       </property>
+      </widget>
+     </item>
+     <item row="11" column="0">
+      <widget class="QLabel" name="labelDocument">
+       <property name="text">
+        <string>Document</string>
+       </property>
+      </widget>
+     </item>
+     <item row="11" column="1">
+      <layout class="QHBoxLayout">
+       <item>
+        <widget class="QPushButton" name="pushButtonUploadDoc">
+         <property name="text">
+          <string>Upload Document</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLabel" name="labelDocPath">
+         <property name="text">
+          <string>No file selected</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </item>
+     <item row="6" column="1">
+      <widget class="QComboBox" name="comboBoxExpertise">
+       <item>
+        <property name="text">
+         <string>Business Analysis</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Cloud Architecture</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Cloud Security</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Web Development</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Mobile Developmen</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Data Engineering</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Database Management</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Application Security</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>DevOps / SRE </string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Systems Administration </string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Network Security</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Network Architecture &amp; Engineering</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Frameworks </string>
+        </property>
+       </item>
+      </widget>
+     </item>
+    </layout>
+   </item>
+   <item>
+    <widget class="QDialogButtonBox" name="buttonBox">
+     <property name="orientation">
+      <enum>Qt::Orientation::Horizontal</enum>
+     </property>
+     <property name="standardButtons">
+      <set>QDialogButtonBox::StandardButton::Cancel|QDialogButtonBox::StandardButton::Ok</set>
+     </property>
+    </widget>
+   </item>
+  </layout>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

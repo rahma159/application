@@ -1,0 +1,222 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>EnhancedMainWindow</class>
+ <widget class="QWidget" name="EnhancedMainWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>900</width>
+    <height>650</height>
+   </rect>
+  </property>
+  <layout class="QVBoxLayout" name="mainLayout">
+   <item>
+    <widget class="QLabel" name="labelLogo"/>
+   </item>
+   <item>
+    <layout class="QHBoxLayout" name="filterLayout">
+     <item>
+      <widget class="QLabel" name="labelFilterBy">
+       <property name="styleSheet">
+        <string notr="true">color: rgb(255, 255, 255); font: 700 10pt &quot;Segoe UI&quot;;</string>
+       </property>
+       <property name="text">
+        <string>Filter by:</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QComboBox" name="comboBoxFilterBy">
+       <item>
+        <property name="text">
+         <string>NAME</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>EMAIL</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>PHONE</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>ROLE</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>EXPERTISE</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>RATE </string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>AVAIBILITY</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>PHOTO</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>LEAVE_NOTE</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>CALENDAR</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>DOCUMENT</string>
+        </property>
+       </item>
+      </widget>
+     </item>
+     <item>
+      <widget class="QLineEdit" name="lineEditSearch">
+       <property name="placeholderText">
+        <string>Search...</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QToolButton" name="toolButtonSort">
+       <property name="maximumSize">
+        <size>
+         <width>17</width>
+         <height>16777215</height>
+        </size>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">border-color: rgb(0, 0, 0);</string>
+       </property>
+       <property name="text">
+        <string>...</string>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </item>
+   <item>
+    <widget class="QLabel" name="labelTotalEntries">
+     <property name="styleSheet">
+      <string notr="true">color: rgb(255, 255, 255);</string>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="QTableView" name="tableView">
+     <property name="styleSheet">
+      <string notr="true">font: 600 10pt &quot;Segoe UI&quot;;</string>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <layout class="QHBoxLayout" name="buttonLayout">
+     <item>
+      <spacer name="horizontalSpacer">
+       <property name="orientation">
+        <enum>Qt::Orientation::Horizontal</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>40</width>
+         <height>20</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+     <item>
+      <widget class="QPushButton" name="pushButtonAdd">
+       <property name="styleSheet">
+        <string notr="true">gridline-color: rgb(0, 0, 127);</string>
+       </property>
+       <property name="text">
+        <string>➕ Add</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="pushButtonEdit">
+       <property name="text">
+        <string>🖊️ Edit</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="pushButtonDelete">
+       <property name="text">
+        <string>🗑️ Delete</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="pushButtonExportCSV">
+       <property name="text">
+        <string>📤 Export to CSV</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <spacer name="horizontalSpacer_3">
+       <property name="orientation">
+        <enum>Qt::Orientation::Horizontal</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>40</width>
+         <height>20</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+    </layout>
+   </item>
+   <item>
+    <widget class="QWidget" name="performanceWidget" native="true">
+     <layout class="QVBoxLayout" name="performanceLayout">
+      <item>
+       <widget class="QLabel" name="labelPerformanceHeader">
+        <property name="styleSheet">
+         <string notr="true">color: rgb(0, 0, 0);
+font: 700 10pt &quot;Segoe UI&quot;;</string>
+        </property>
+        <property name="text">
+         <string>📊 Performance Overview</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignmentFlag::AlignCenter</set>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QWidget" name="chartContainer" native="true">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Preferred" vsizetype="Expanding">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </item>
+  </layout>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>
