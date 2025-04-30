@@ -2,21 +2,27 @@
 #define INVOICEMANAGEMENTWIDGET_H
 
 #include "invoices.h"
+#include "statisticsdialog.h"
 #include <QDialog>
 #include <QItemSelection> // Needed for selectionChanged signal
-
+#include <QString>      // Include QString
+#include <QList>
+#include <QAbstractItemModel>
+#include <QSqlQueryModel>
+#include <QSortFilterProxyModel> // Might be needed for more advanced sorting later
+#include <Qt>
+#include <QSqlTableModel> // Forward declare if possible, otherwise include
+#include <QTimer>
+#include <QDate>
 
 // Forward declare classes to reduce include dependencies
 namespace Ui { class InvoiceManagementWidget; }
 class CreateEditInvoiceDialog;
 class QSqlTableModel;
 class QSqlQueryModel;
-/*class QItemSelectionModel; // For signal parameter type
-class QString; // Forward declare QString (though often included via other Qt headers)
-class Invoices; // Forward declare your full Invoices data class/struct
-class SomeFecDataStructure; // Forward declare the structure holding FEC data
-template <typename T> class QList;
-*/
+class QModelIndex;    // Use forward declaration
+class QLabel;
+class StatisticsDialog;
 class InvoiceManagementWidget : public QDialog
 {
     Q_OBJECT
@@ -26,41 +32,53 @@ public:
     ~InvoiceManagementWidget();
 
 private slots:
-    // Filter/Action Buttons - Linked by on_... convention
     void on_applyFiltersButton_clicked();
     void on_clearFiltersButton_clicked();
     void on_newInvoiceButton_clicked();
     void on_editInvoiceButton_clicked();
-    // Ensure button exists in UI
-
-
-
-    void on_tableView_selectionChanged(const QItemSelection &selected, const QItemSelection &deselected);
-    void handleTableViewClicked(const QModelIndex &index); // <<< NEW SLOT
     void on_deleteInvoiceButton_clicked();
-
-    void on_tableView_activated(const QModelIndex &index);
-    void on_markAsPaidButton_clicked();
     void on_sendInvoiceButton_clicked();
-    /*void on_exportPdfButton_clicked();
+    void on_markAsPaidButton_clicked();
+    void on_exportInvoiceListPdfButton_clicked();
+    void on_exportFecButton_clicked(); // Assuming TSV export button name
+    void on_sortComboBox_currentIndexChanged(int index); // For the sort dropdown
+    // --- Slots for Table View Interaction ---
+    void on_tableView_selectionChanged(const QItemSelection &selected, const QItemSelection &deselected);
+    void on_tableView_activated(const QModelIndex &index); // If you use double-click action
 
-    void on_exportFecbutton_clicked();*/
+    // You might have a helper slot like this, declare if used
+    void handleTableViewClicked(const QModelIndex &index);
+    void on_viewStatisticsButton_clicked();
+    void on_payInvoiceButton_clicked();
+
+    void checkAndSendReminders();
 
 private:
     Ui::InvoiceManagementWidget *ui;
     QSqlQueryModel *model; // Model to display invoice list
+    QString m_currentFilterClause; // Reorder if needed for the -Wreorder warning
+    QTimer *reminderTimer;
 
-    // === Private Helper Methods ===
-    // These NEED to be implemented in the .cpp file
-    void setupConnections();        // Connect signals/slots
-    void loadInvoices(const QString &filterClause = ""); // Core data loading method
-    void refreshInvoiceList();      // Reloads data using current filters
-    int getSelectedInvoiceId();     // Safely gets ID from selected row
+    QString m_currentOrderByClause;
+    int m_sortColumn;
+    Qt::SortOrder m_sortOrder;
+    void setupConnections();
+    void populateSortComboBox();
     void populateFilterComboBoxes(); // Fills filter dropdowns
 
-   /* bool generateInvoicePdf(const QString &filePath, const Invoices &invoiceData);
-    bool generateFecFile(const QString &filePath, const QList<SomeFecDataStructure> &fecData);*/
+    void loadInvoices(const QString &filterClause);
+    void refreshInvoiceList();
+    int getSelectedInvoiceId();
+    void updateSortComboBoxSelection();
+    bool generateInvoiceListPdf(const QString &filePath, QAbstractItemModel *invoiceModel);
+    void updateSummaryLabels(const QString& currentFilterClause);
 
+    bool sendReminderEmail(const QString &recipientEmail, const QString &clientName,
+                           const QString &invoiceNumber, const QDate &dueDate, double amount,
+                           const QString &reminderType);
+    // ... existing private methods ...
+    void setupReminderTimer();
 };
+
 
 #endif // INVOICEMANAGEMENTWIDGET_H

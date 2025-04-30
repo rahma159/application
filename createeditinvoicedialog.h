@@ -32,13 +32,12 @@ private slots:
     void on_addLineItemButton_clicked();
     void on_removeLineItemButton_clicked();
     void on_previewButton_clicked();
-  //  void on_cancelInvoiceButton_clicked();
+    void on_cancelInvoiceButton_clicked();
 
     void on_clientSelectComboBox_currentIndexChanged(int index);
-    void on_issueDateEdit_dateChanged(const QDate &date);
+    void on_issueDateEdit_dateTimeChanged(const QDateTime &dateTime);
     void on_paymentTermsLineEdit_textChanged(const QString &arg1);
     void on_lineItemsTableWidget_cellChanged(int row, int column);
-
 private:
     void setupConnections();
     void setupLineItemsTable();
