@@ -252,7 +252,7 @@
            <item row="0" column="0">
             <widget class="QLabel" name="stripeEnableLabel">
              <property name="text">
-              <string> Enable Stripe:</string>
+              <string>Enable Stripe:</string>
              </property>
             </widget>
            </item>

@@ -1,9 +1,7 @@
 
 #include "createeditinvoicedialog.h"
 #include "ui_createeditinvoicedialog.h"
-#include "invoices.h"          // Inclut la classe Invoices (avec due_date en QDateTime)
-#include "invoicelineitem.h"   // Inclut la classe InvoiceLineItem
-
+#include "invoicemanagementwidget.h"
 // Standard C++ and Qt Includes
 #include <cmath>
 #include <algorithm>

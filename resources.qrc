@@ -1,5 +1,6 @@
-<RCC>
-    <qresource prefix="/res">
-        <file>background.jpg</file>
+<!DOCTYPE RCC><RCC version="1.0">
+    <qresource prefix="/styles">
+        <file>style.qss</file>
+        <!-- Maybe other files under /styles -->
     </qresource>
 </RCC>

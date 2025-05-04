@@ -21,6 +21,7 @@
 #include <QtWidgets/QProgressBar>
 #include <QtWidgets/QPushButton>
 #include <QtWidgets/QRadioButton>
+#include <QtWidgets/QScrollArea>
 #include <QtWidgets/QSpacerItem>
 #include <QtWidgets/QStackedWidget>
 #include <QtWidgets/QTextEdit>
@@ -32,12 +33,15 @@ QT_BEGIN_NAMESPACE
 class Ui_ClientPaymentWidget
 {
 public:
-    QHBoxLayout *horizontalLayout_2;
+    QVBoxLayout *verticalLayout_4;
+    QScrollArea *scrollArea;
+    QWidget *scrollAreaWidgetContents;
+    QVBoxLayout *verticalLayout_5;
     QVBoxLayout *mainPaymentLayout;
     QHBoxLayout *headerLayout;
-    QLabel *companyLogoLabel;
-    QSpacerItem *horizontalSpacer;
+    QSpacerItem *horizontalSpacer_6;
     QLabel *welcomeClientLabel;
+    QSpacerItem *horizontalSpacer;
     QGroupBox *summaryGroupBox;
     QHBoxLayout *horizontalLayout_4;
     QGridLayout *summaryLayout;
@@ -49,7 +53,7 @@ public:
     QLabel *issueDateDisplay;
     QLabel *paymentDueDateLabel;
     QLabel *paymentInvoiceNumberLabel;
-    QPushButton *downloadPDFButton;
+    QPushButton *downloadPdfButton;
     QGroupBox *paymentMethodGroupBox;
     QVBoxLayout *verticalLayout;
     QVBoxLayout *paymentMethodLayout;
@@ -58,11 +62,12 @@ public:
     QRadioButton *payByCardRadio;
     QRadioButton *payByBankTransferRadio;
     QStackedWidget *paymentDetailsStack;
-    QWidget *PayPalPage;
+    QWidget *payPalPage;
     QGridLayout *gridLayout;
-    QLabel *payPalInfoLabel;
+    QLabel *payPalInstructionsLabel;
     QPushButton *payPalPayButton;
-    QWidget *CardPaymentPage;
+    QLabel *payPalInfoLabel;
+    QWidget *cardPaymentPage;
     QHBoxLayout *horizontalLayout_3;
     QFormLayout *formLayout;
     QLabel *cardNumberLabel;
@@ -73,10 +78,27 @@ public:
     QLineEdit *cVVInput;
     QLabel *cardholderNameLabel;
     QLineEdit *cardholderNameInput;
-    QWidget *BankTransferPage;
-    QHBoxLayout *horizontalLayout;
-    QVBoxLayout *bankInfoLayout;
+    QWidget *bankTransferPage;
+    QVBoxLayout *verticalLayout_3;
     QTextEdit *bankInfoDisplay;
+    QHBoxLayout *horizontalLayout_5;
+    QPushButton *editBankDetailsButton;
+    QSpacerItem *horizontalSpacer_5;
+    QGroupBox *bankDetailsEditGroup;
+    QVBoxLayout *verticalLayout_2;
+    QFormLayout *formLayout_2;
+    QLabel *label;
+    QLineEdit *bankNameInput;
+    QLineEdit *accountHolderInput;
+    QLabel *label_2;
+    QLabel *label_3;
+    QLineEdit *ibanInput;
+    QLineEdit *bicInput;
+    QLabel *label_4;
+    QHBoxLayout *horizontalLayout;
+    QSpacerItem *horizontalSpacer_4;
+    QPushButton *cancelEditBankDetailsButton;
+    QPushButton *saveBankDetailsButton;
     QHBoxLayout *actionLayout;
     QSpacerItem *horizontalSpacer_2;
     QProgressBar *paymentProgressBar;
@@ -88,32 +110,38 @@ public:
     {
         if (ClientPaymentWidget->objectName().isEmpty())
             ClientPaymentWidget->setObjectName("ClientPaymentWidget");
-        ClientPaymentWidget->resize(610, 652);
-        horizontalLayout_2 = new QHBoxLayout(ClientPaymentWidget);
-        horizontalLayout_2->setObjectName("horizontalLayout_2");
+        ClientPaymentWidget->resize(779, 745);
+        verticalLayout_4 = new QVBoxLayout(ClientPaymentWidget);
+        verticalLayout_4->setObjectName("verticalLayout_4");
+        scrollArea = new QScrollArea(ClientPaymentWidget);
+        scrollArea->setObjectName("scrollArea");
+        scrollArea->setWidgetResizable(true);
+        scrollAreaWidgetContents = new QWidget();
+        scrollAreaWidgetContents->setObjectName("scrollAreaWidgetContents");
+        scrollAreaWidgetContents->setGeometry(QRect(0, 0, 892, 711));
+        verticalLayout_5 = new QVBoxLayout(scrollAreaWidgetContents);
+        verticalLayout_5->setObjectName("verticalLayout_5");
         mainPaymentLayout = new QVBoxLayout();
         mainPaymentLayout->setObjectName("mainPaymentLayout");
         headerLayout = new QHBoxLayout();
         headerLayout->setObjectName("headerLayout");
-        companyLogoLabel = new QLabel(ClientPaymentWidget);
-        companyLogoLabel->setObjectName("companyLogoLabel");
-        companyLogoLabel->setPixmap(QPixmap(QString::fromUtf8("C:/Users/LEVNOVO/Desktop/images/Image3.png")));
+        horizontalSpacer_6 = new QSpacerItem(40, 20, QSizePolicy::Policy::Preferred, QSizePolicy::Policy::Minimum);
 
-        headerLayout->addWidget(companyLogoLabel);
+        headerLayout->addItem(horizontalSpacer_6);
 
-        horizontalSpacer = new QSpacerItem(40, 20, QSizePolicy::Policy::Minimum, QSizePolicy::Policy::Minimum);
-
-        headerLayout->addItem(horizontalSpacer);
-
-        welcomeClientLabel = new QLabel(ClientPaymentWidget);
+        welcomeClientLabel = new QLabel(scrollAreaWidgetContents);
         welcomeClientLabel->setObjectName("welcomeClientLabel");
 
         headerLayout->addWidget(welcomeClientLabel);
 
+        horizontalSpacer = new QSpacerItem(40, 20, QSizePolicy::Policy::Preferred, QSizePolicy::Policy::Minimum);
+
+        headerLayout->addItem(horizontalSpacer);
+
 
         mainPaymentLayout->addLayout(headerLayout);
 
-        summaryGroupBox = new QGroupBox(ClientPaymentWidget);
+        summaryGroupBox = new QGroupBox(scrollAreaWidgetContents);
         summaryGroupBox->setObjectName("summaryGroupBox");
         horizontalLayout_4 = new QHBoxLayout(summaryGroupBox);
         horizontalLayout_4->setObjectName("horizontalLayout_4");
@@ -159,10 +187,10 @@ public:
 
         summaryLayout->addWidget(paymentInvoiceNumberLabel, 0, 0, 1, 1);
 
-        downloadPDFButton = new QPushButton(summaryGroupBox);
-        downloadPDFButton->setObjectName("downloadPDFButton");
+        downloadPdfButton = new QPushButton(summaryGroupBox);
+        downloadPdfButton->setObjectName("downloadPdfButton");
 
-        summaryLayout->addWidget(downloadPDFButton, 4, 1, 1, 1);
+        summaryLayout->addWidget(downloadPdfButton, 4, 1, 1, 1);
 
 
         horizontalLayout_4->addLayout(summaryLayout);
@@ -170,7 +198,7 @@ public:
 
         mainPaymentLayout->addWidget(summaryGroupBox);
 
-        paymentMethodGroupBox = new QGroupBox(ClientPaymentWidget);
+        paymentMethodGroupBox = new QGroupBox(scrollAreaWidgetContents);
         paymentMethodGroupBox->setObjectName("paymentMethodGroupBox");
         verticalLayout = new QVBoxLayout(paymentMethodGroupBox);
         verticalLayout->setObjectName("verticalLayout");
@@ -201,63 +229,68 @@ public:
 
         paymentDetailsStack = new QStackedWidget(paymentMethodGroupBox);
         paymentDetailsStack->setObjectName("paymentDetailsStack");
-        PayPalPage = new QWidget();
-        PayPalPage->setObjectName("PayPalPage");
-        gridLayout = new QGridLayout(PayPalPage);
+        payPalPage = new QWidget();
+        payPalPage->setObjectName("payPalPage");
+        gridLayout = new QGridLayout(payPalPage);
         gridLayout->setObjectName("gridLayout");
-        payPalInfoLabel = new QLabel(PayPalPage);
+        payPalInstructionsLabel = new QLabel(payPalPage);
+        payPalInstructionsLabel->setObjectName("payPalInstructionsLabel");
+
+        gridLayout->addWidget(payPalInstructionsLabel, 1, 0, 1, 1);
+
+        payPalPayButton = new QPushButton(payPalPage);
+        payPalPayButton->setObjectName("payPalPayButton");
+
+        gridLayout->addWidget(payPalPayButton, 2, 2, 1, 1);
+
+        payPalInfoLabel = new QLabel(payPalPage);
         payPalInfoLabel->setObjectName("payPalInfoLabel");
 
         gridLayout->addWidget(payPalInfoLabel, 0, 0, 1, 1);
 
-        payPalPayButton = new QPushButton(PayPalPage);
-        payPalPayButton->setObjectName("payPalPayButton");
-
-        gridLayout->addWidget(payPalPayButton, 1, 1, 1, 1);
-
-        paymentDetailsStack->addWidget(PayPalPage);
-        CardPaymentPage = new QWidget();
-        CardPaymentPage->setObjectName("CardPaymentPage");
-        horizontalLayout_3 = new QHBoxLayout(CardPaymentPage);
+        paymentDetailsStack->addWidget(payPalPage);
+        cardPaymentPage = new QWidget();
+        cardPaymentPage->setObjectName("cardPaymentPage");
+        horizontalLayout_3 = new QHBoxLayout(cardPaymentPage);
         horizontalLayout_3->setObjectName("horizontalLayout_3");
         formLayout = new QFormLayout();
         formLayout->setObjectName("formLayout");
-        cardNumberLabel = new QLabel(CardPaymentPage);
+        cardNumberLabel = new QLabel(cardPaymentPage);
         cardNumberLabel->setObjectName("cardNumberLabel");
 
         formLayout->setWidget(0, QFormLayout::LabelRole, cardNumberLabel);
 
-        cardNumberInput = new QLineEdit(CardPaymentPage);
+        cardNumberInput = new QLineEdit(cardPaymentPage);
         cardNumberInput->setObjectName("cardNumberInput");
 
         formLayout->setWidget(0, QFormLayout::FieldRole, cardNumberInput);
 
-        expiryDateLabel = new QLabel(CardPaymentPage);
+        expiryDateLabel = new QLabel(cardPaymentPage);
         expiryDateLabel->setObjectName("expiryDateLabel");
 
         formLayout->setWidget(1, QFormLayout::LabelRole, expiryDateLabel);
 
-        expiryDateInput = new QLineEdit(CardPaymentPage);
+        expiryDateInput = new QLineEdit(cardPaymentPage);
         expiryDateInput->setObjectName("expiryDateInput");
 
         formLayout->setWidget(1, QFormLayout::FieldRole, expiryDateInput);
 
-        cVVLabel = new QLabel(CardPaymentPage);
+        cVVLabel = new QLabel(cardPaymentPage);
         cVVLabel->setObjectName("cVVLabel");
 
         formLayout->setWidget(2, QFormLayout::LabelRole, cVVLabel);
 
-        cVVInput = new QLineEdit(CardPaymentPage);
+        cVVInput = new QLineEdit(cardPaymentPage);
         cVVInput->setObjectName("cVVInput");
 
         formLayout->setWidget(2, QFormLayout::FieldRole, cVVInput);
 
-        cardholderNameLabel = new QLabel(CardPaymentPage);
+        cardholderNameLabel = new QLabel(cardPaymentPage);
         cardholderNameLabel->setObjectName("cardholderNameLabel");
 
         formLayout->setWidget(3, QFormLayout::LabelRole, cardholderNameLabel);
 
-        cardholderNameInput = new QLineEdit(CardPaymentPage);
+        cardholderNameInput = new QLineEdit(cardPaymentPage);
         cardholderNameInput->setObjectName("cardholderNameInput");
 
         formLayout->setWidget(3, QFormLayout::FieldRole, cardholderNameInput);
@@ -265,22 +298,102 @@ public:
 
         horizontalLayout_3->addLayout(formLayout);
 
-        paymentDetailsStack->addWidget(CardPaymentPage);
-        BankTransferPage = new QWidget();
-        BankTransferPage->setObjectName("BankTransferPage");
-        horizontalLayout = new QHBoxLayout(BankTransferPage);
-        horizontalLayout->setObjectName("horizontalLayout");
-        bankInfoLayout = new QVBoxLayout();
-        bankInfoLayout->setObjectName("bankInfoLayout");
-        bankInfoDisplay = new QTextEdit(BankTransferPage);
+        paymentDetailsStack->addWidget(cardPaymentPage);
+        bankTransferPage = new QWidget();
+        bankTransferPage->setObjectName("bankTransferPage");
+        verticalLayout_3 = new QVBoxLayout(bankTransferPage);
+        verticalLayout_3->setObjectName("verticalLayout_3");
+        bankInfoDisplay = new QTextEdit(bankTransferPage);
         bankInfoDisplay->setObjectName("bankInfoDisplay");
 
-        bankInfoLayout->addWidget(bankInfoDisplay);
+        verticalLayout_3->addWidget(bankInfoDisplay);
+
+        horizontalLayout_5 = new QHBoxLayout();
+        horizontalLayout_5->setObjectName("horizontalLayout_5");
+        editBankDetailsButton = new QPushButton(bankTransferPage);
+        editBankDetailsButton->setObjectName("editBankDetailsButton");
+
+        horizontalLayout_5->addWidget(editBankDetailsButton);
+
+        horizontalSpacer_5 = new QSpacerItem(40, 20, QSizePolicy::Policy::Minimum, QSizePolicy::Policy::Minimum);
+
+        horizontalLayout_5->addItem(horizontalSpacer_5);
 
 
-        horizontalLayout->addLayout(bankInfoLayout);
+        verticalLayout_3->addLayout(horizontalLayout_5);
 
-        paymentDetailsStack->addWidget(BankTransferPage);
+        bankDetailsEditGroup = new QGroupBox(bankTransferPage);
+        bankDetailsEditGroup->setObjectName("bankDetailsEditGroup");
+        verticalLayout_2 = new QVBoxLayout(bankDetailsEditGroup);
+        verticalLayout_2->setObjectName("verticalLayout_2");
+        formLayout_2 = new QFormLayout();
+        formLayout_2->setObjectName("formLayout_2");
+        label = new QLabel(bankDetailsEditGroup);
+        label->setObjectName("label");
+
+        formLayout_2->setWidget(0, QFormLayout::LabelRole, label);
+
+        bankNameInput = new QLineEdit(bankDetailsEditGroup);
+        bankNameInput->setObjectName("bankNameInput");
+
+        formLayout_2->setWidget(0, QFormLayout::FieldRole, bankNameInput);
+
+        accountHolderInput = new QLineEdit(bankDetailsEditGroup);
+        accountHolderInput->setObjectName("accountHolderInput");
+
+        formLayout_2->setWidget(1, QFormLayout::FieldRole, accountHolderInput);
+
+        label_2 = new QLabel(bankDetailsEditGroup);
+        label_2->setObjectName("label_2");
+
+        formLayout_2->setWidget(1, QFormLayout::LabelRole, label_2);
+
+        label_3 = new QLabel(bankDetailsEditGroup);
+        label_3->setObjectName("label_3");
+
+        formLayout_2->setWidget(2, QFormLayout::LabelRole, label_3);
+
+        ibanInput = new QLineEdit(bankDetailsEditGroup);
+        ibanInput->setObjectName("ibanInput");
+
+        formLayout_2->setWidget(2, QFormLayout::FieldRole, ibanInput);
+
+        bicInput = new QLineEdit(bankDetailsEditGroup);
+        bicInput->setObjectName("bicInput");
+
+        formLayout_2->setWidget(3, QFormLayout::FieldRole, bicInput);
+
+        label_4 = new QLabel(bankDetailsEditGroup);
+        label_4->setObjectName("label_4");
+
+        formLayout_2->setWidget(3, QFormLayout::LabelRole, label_4);
+
+
+        verticalLayout_2->addLayout(formLayout_2);
+
+        horizontalLayout = new QHBoxLayout();
+        horizontalLayout->setObjectName("horizontalLayout");
+        horizontalSpacer_4 = new QSpacerItem(40, 20, QSizePolicy::Policy::Preferred, QSizePolicy::Policy::Minimum);
+
+        horizontalLayout->addItem(horizontalSpacer_4);
+
+        cancelEditBankDetailsButton = new QPushButton(bankDetailsEditGroup);
+        cancelEditBankDetailsButton->setObjectName("cancelEditBankDetailsButton");
+
+        horizontalLayout->addWidget(cancelEditBankDetailsButton);
+
+        saveBankDetailsButton = new QPushButton(bankDetailsEditGroup);
+        saveBankDetailsButton->setObjectName("saveBankDetailsButton");
+
+        horizontalLayout->addWidget(saveBankDetailsButton);
+
+
+        verticalLayout_2->addLayout(horizontalLayout);
+
+
+        verticalLayout_3->addWidget(bankDetailsEditGroup);
+
+        paymentDetailsStack->addWidget(bankTransferPage);
 
         verticalLayout->addWidget(paymentDetailsStack);
 
@@ -293,18 +406,18 @@ public:
 
         actionLayout->addItem(horizontalSpacer_2);
 
-        paymentProgressBar = new QProgressBar(ClientPaymentWidget);
+        paymentProgressBar = new QProgressBar(scrollAreaWidgetContents);
         paymentProgressBar->setObjectName("paymentProgressBar");
-        paymentProgressBar->setValue(24);
+        paymentProgressBar->setValue(0);
 
         actionLayout->addWidget(paymentProgressBar);
 
-        errorMessageLabel = new QLabel(ClientPaymentWidget);
+        errorMessageLabel = new QLabel(scrollAreaWidgetContents);
         errorMessageLabel->setObjectName("errorMessageLabel");
 
         actionLayout->addWidget(errorMessageLabel);
 
-        proceedToPaymentButton = new QPushButton(ClientPaymentWidget);
+        proceedToPaymentButton = new QPushButton(scrollAreaWidgetContents);
         proceedToPaymentButton->setObjectName("proceedToPaymentButton");
 
         actionLayout->addWidget(proceedToPaymentButton);
@@ -317,12 +430,16 @@ public:
         mainPaymentLayout->addLayout(actionLayout);
 
 
-        horizontalLayout_2->addLayout(mainPaymentLayout);
+        verticalLayout_5->addLayout(mainPaymentLayout);
+
+        scrollArea->setWidget(scrollAreaWidgetContents);
+
+        verticalLayout_4->addWidget(scrollArea);
 
 
         retranslateUi(ClientPaymentWidget);
 
-        paymentDetailsStack->setCurrentIndex(2);
+        paymentDetailsStack->setCurrentIndex(0);
 
 
         QMetaObject::connectSlotsByName(ClientPaymentWidget);
@@ -331,8 +448,7 @@ public:
     void retranslateUi(QDialog *ClientPaymentWidget)
     {
         ClientPaymentWidget->setWindowTitle(QCoreApplication::translate("ClientPaymentWidget", "Dialog", nullptr));
-        companyLogoLabel->setText(QString());
-        welcomeClientLabel->setText(QCoreApplication::translate("ClientPaymentWidget", "Welcome Client", nullptr));
+        welcomeClientLabel->setText(QCoreApplication::translate("ClientPaymentWidget", "Client", nullptr));
         summaryGroupBox->setTitle(QCoreApplication::translate("ClientPaymentWidget", "Invoice Summary Area", nullptr));
         invoiceNumberDisplay->setText(QCoreApplication::translate("ClientPaymentWidget", "InvoiceNumberDisplay", nullptr));
         paymentAmountDueLabel->setText(QCoreApplication::translate("ClientPaymentWidget", "Amount Due:", nullptr));
@@ -342,18 +458,31 @@ public:
         issueDateDisplay->setText(QCoreApplication::translate("ClientPaymentWidget", "IssueDateDisplay", nullptr));
         paymentDueDateLabel->setText(QCoreApplication::translate("ClientPaymentWidget", "Due Date:", nullptr));
         paymentInvoiceNumberLabel->setText(QCoreApplication::translate("ClientPaymentWidget", "Invoice Number:", nullptr));
-        downloadPDFButton->setText(QCoreApplication::translate("ClientPaymentWidget", "Download PDF", nullptr));
+        downloadPdfButton->setText(QCoreApplication::translate("ClientPaymentWidget", "Download PDF", nullptr));
         paymentMethodGroupBox->setTitle(QCoreApplication::translate("ClientPaymentWidget", "Payment Method Section", nullptr));
         chooseMethodLabel->setText(QCoreApplication::translate("ClientPaymentWidget", "Choose Method:", nullptr));
         payByPayPalRadio->setText(QCoreApplication::translate("ClientPaymentWidget", "PayPal", nullptr));
         payByCardRadio->setText(QCoreApplication::translate("ClientPaymentWidget", "Credit Card", nullptr));
         payByBankTransferRadio->setText(QCoreApplication::translate("ClientPaymentWidget", "Bank Transfer", nullptr));
-        payPalInfoLabel->setText(QCoreApplication::translate("ClientPaymentWidget", "PayPal Info", nullptr));
+        payPalInstructionsLabel->setText(QCoreApplication::translate("ClientPaymentWidget", "You will be redirected to the secure PayPal website to complete your payment. Click 'Pay With PayPal' or 'Proceed To Payment' to continue.", nullptr));
         payPalPayButton->setText(QCoreApplication::translate("ClientPaymentWidget", "Pay WithPalPay", nullptr));
+        payPalInfoLabel->setText(QCoreApplication::translate("ClientPaymentWidget", "PayPal Info", nullptr));
         cardNumberLabel->setText(QCoreApplication::translate("ClientPaymentWidget", "Card Number:", nullptr));
         expiryDateLabel->setText(QCoreApplication::translate("ClientPaymentWidget", "Expiry Date:", nullptr));
         cVVLabel->setText(QCoreApplication::translate("ClientPaymentWidget", "CVV:", nullptr));
         cardholderNameLabel->setText(QCoreApplication::translate("ClientPaymentWidget", "Cardholder Name:", nullptr));
+        editBankDetailsButton->setText(QCoreApplication::translate("ClientPaymentWidget", "Configure Bank Details", nullptr));
+        bankDetailsEditGroup->setTitle(QCoreApplication::translate("ClientPaymentWidget", "Bank Details", nullptr));
+        label->setText(QCoreApplication::translate("ClientPaymentWidget", "Bank Name:", nullptr));
+        bankNameInput->setText(QCoreApplication::translate("ClientPaymentWidget", "Enter bank name", nullptr));
+        accountHolderInput->setText(QCoreApplication::translate("ClientPaymentWidget", "Enter account holder name", nullptr));
+        label_2->setText(QCoreApplication::translate("ClientPaymentWidget", "Account Holder:", nullptr));
+        label_3->setText(QCoreApplication::translate("ClientPaymentWidget", "IBAN:", nullptr));
+        ibanInput->setText(QCoreApplication::translate("ClientPaymentWidget", "Enter IBAN", nullptr));
+        bicInput->setText(QCoreApplication::translate("ClientPaymentWidget", "Enter BIC/SWIFT code", nullptr));
+        label_4->setText(QCoreApplication::translate("ClientPaymentWidget", "BIC/SWIFT:", nullptr));
+        cancelEditBankDetailsButton->setText(QCoreApplication::translate("ClientPaymentWidget", "Cancel", nullptr));
+        saveBankDetailsButton->setText(QCoreApplication::translate("ClientPaymentWidget", "Save Details", nullptr));
         errorMessageLabel->setText(QCoreApplication::translate("ClientPaymentWidget", "........", nullptr));
         proceedToPaymentButton->setText(QCoreApplication::translate("ClientPaymentWidget", "Proceed To Payment", nullptr));
     } // retranslateUi

@@ -1,6 +1,9 @@
 
-QT += core gui sql widgets
-QT += core gui widgets sql printsupport
+QT += core gui widgets sql printsupport network
+QT += charts
+
+
+
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
 CONFIG += c++17
@@ -15,12 +18,11 @@ SOURCES += \
     connection.cpp \
     createeditinvoicedialog.cpp \
     deleteinvoicedialog.cpp \
-    invoicelineitem.cpp \
     invoicemanagementwidget.cpp \
-    invoices.cpp \
     main.cpp \
     mainwindow.cpp \
-    settingsdialog.cpp
+    settingsdialog.cpp \
+    statisticsdialog.cpp
 
 HEADERS += \
     clientdashboardwidget.h \
@@ -28,11 +30,11 @@ HEADERS += \
     connection.h \
     createeditinvoicedialog.h \
     deleteinvoicedialog.h \
-    invoicelineitem.h \
     invoicemanagementwidget.h \
-    invoices.h \
     mainwindow.h \
-    settingsdialog.h
+    settingsdialog.h \
+    statisticsdialog.h
+
 
 FORMS += \
     clientdashboardwidget.ui \
@@ -41,12 +43,9 @@ FORMS += \
     deleteinvoicedialog.ui \
     invoicemanagementwidget.ui \
     mainwindow.ui \
-    settingsdialog.ui
+    settingsdialog.ui \
+    statisticsdialog.ui
 
-# Default rules for deployment.
-qnx: target.path = /tmp/$${TARGET}/bin
-else: unix:!android: target.path = /opt/$${TARGET}/bin
-!isEmpty(target.path): INSTALLS += target
 
 DISTFILES += \
     style.qss
@@ -57,3 +56,5 @@ RESOURCES += \
 qnx: target.path = /tmp/$${TARGET}/bin
 else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
+
+CONFIG(release, debug|release):CONFIG -= sanitizer address_sanitizer

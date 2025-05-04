@@ -45,8 +45,8 @@ constexpr auto qt_meta_stringdata_CLASSCreateEditInvoiceDialogENDCLASS = QtMocHe
     "on_cancelInvoiceButton_clicked",
     "on_clientSelectComboBox_currentIndexChanged",
     "index",
-    "on_issueDateEdit_dateChanged",
-    "date",
+    "on_issueDateEdit_dateTimeChanged",
+    "dateTime",
     "on_paymentTermsLineEdit_textChanged",
     "arg1",
     "on_lineItemsTableWidget_cellChanged",
@@ -91,7 +91,7 @@ Q_CONSTINIT static const uint qt_meta_data_CLASSCreateEditInvoiceDialogENDCLASS[
     QMetaType::Void,
     QMetaType::Void,
     QMetaType::Void, QMetaType::Int,    9,
-    QMetaType::Void, QMetaType::QDate,   11,
+    QMetaType::Void, QMetaType::QDateTime,   11,
     QMetaType::Void, QMetaType::QString,   13,
     QMetaType::Void, QMetaType::Int, QMetaType::Int,   15,   16,
 
@@ -122,9 +122,9 @@ Q_CONSTINIT const QMetaObject CreateEditInvoiceDialog::staticMetaObject = { {
         // method 'on_clientSelectComboBox_currentIndexChanged'
         QtPrivate::TypeAndForceComplete<void, std::false_type>,
         QtPrivate::TypeAndForceComplete<int, std::false_type>,
-        // method 'on_issueDateEdit_dateChanged'
+        // method 'on_issueDateEdit_dateTimeChanged'
         QtPrivate::TypeAndForceComplete<void, std::false_type>,
-        QtPrivate::TypeAndForceComplete<const QDate &, std::false_type>,
+        QtPrivate::TypeAndForceComplete<const QDateTime &, std::false_type>,
         // method 'on_paymentTermsLineEdit_textChanged'
         QtPrivate::TypeAndForceComplete<void, std::false_type>,
         QtPrivate::TypeAndForceComplete<const QString &, std::false_type>,
@@ -149,7 +149,7 @@ void CreateEditInvoiceDialog::qt_static_metacall(QObject *_o, QMetaObject::Call 
         case 4: _t->on_previewButton_clicked(); break;
         case 5: _t->on_cancelInvoiceButton_clicked(); break;
         case 6: _t->on_clientSelectComboBox_currentIndexChanged((*reinterpret_cast< std::add_pointer_t<int>>(_a[1]))); break;
-        case 7: _t->on_issueDateEdit_dateChanged((*reinterpret_cast< std::add_pointer_t<QDate>>(_a[1]))); break;
+        case 7: _t->on_issueDateEdit_dateTimeChanged((*reinterpret_cast< std::add_pointer_t<QDateTime>>(_a[1]))); break;
         case 8: _t->on_paymentTermsLineEdit_textChanged((*reinterpret_cast< std::add_pointer_t<QString>>(_a[1]))); break;
         case 9: _t->on_lineItemsTableWidget_cellChanged((*reinterpret_cast< std::add_pointer_t<int>>(_a[1])),(*reinterpret_cast< std::add_pointer_t<int>>(_a[2]))); break;
         default: ;

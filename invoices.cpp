@@ -12,27 +12,29 @@
 #include <QSqlDatabase>
 #include <QDate>
 #include <QDateTime>
-
+#include "invoicelineitem.h"
+#include <QTimeZone>
 // --- Constructors ---
 Invoices::Invoices()
     : invoice_id(-1), client_id(-1), issue_date(QDateTime::currentDateTime()),
     due_date(QDateTime::currentDateTime().addDays(30)),
-    subtotal(0.0), tax_amount(0.0), total_amount(0.0)
-// payment_date is default constructed (null QDate)
+    subtotal(0.0), tax_amount(0.0), total_amount(0.0),
+    reminder_sent_date(QDateTime()) // Initialize to null QDateTime
 {}
 
-// Constructor needs adjustment for notes parameter type if changed in .h
 Invoices::Invoices(int invoice_id, const QString &invoice_number, int client_id,
-                   const QString &client_name, const QDateTime  &issue_date,
+                   const QString &client_name,const QString &client_email,
+                   const QDateTime  &issue_date,
                    const QDateTime& dateParameter, const QString &payment_terms,
                    double subtotal, double tax_amount, double total_amount,
-                   const QString &status, const QDate &payment_date, const QString& notes)
+                   const QString &status, const QDate &payment_date, const QString& notes )
     : invoice_id(invoice_id), invoice_number(invoice_number),
-    client_id(client_id), client_name(client_name), issue_date(issue_date),
+    client_id(client_id), client_name(client_name),client_email(client_email),
+    issue_date(issue_date),
     due_date(dateParameter), payment_terms(payment_terms), subtotal(subtotal),
     tax_amount(tax_amount), total_amount(total_amount), status(status),
-    payment_date(payment_date), // Initialize in correct order as declared in .h
-    notes(notes)
+    payment_date(payment_date), notes(notes),
+    reminder_sent_date(QDateTime()) // Initialize to null QDateTime
 {}
 
 // --- Getters ---
@@ -40,9 +42,8 @@ int Invoices::getInvoiceId() const { return invoice_id; }
 QString Invoices::getInvoiceNumber() const { return invoice_number; }
 int Invoices::getClientId() const { return client_id; }
 QString Invoices::getClientName() const { return client_name; }
-QDateTime Invoices::getIssueDate() const { // <--- Adjust return type
-    return this->issue_date;
-}
+QString Invoices::getClientEmail() const { return client_email; }
+QDateTime Invoices::getIssueDate() const { return this->issue_date;}
 QDateTime Invoices::getDueDate() const { return due_date; }
 QString Invoices::getPaymentTerms() const { return payment_terms; }
 double Invoices::getSubtotal() const { return subtotal; }
@@ -53,12 +54,13 @@ QDate Invoices::getPaymentDate() const { return payment_date; }
 QString Invoices::getNotes() const { return notes; }
 const QList<InvoiceLineItem>& Invoices::getLineItems() const { return lineItems; }
 QSqlError Invoices::lastDbError() const { return dbError; }
-
+QDateTime Invoices::getReminderSentDate() const { return reminder_sent_date; }
 // --- Setters ---
 void Invoices::setInvoiceId(int id) { invoice_id = id; }
 void Invoices::setInvoiceNumber(const QString& number) { invoice_number = number; }
 void Invoices::setClientId(int id) { client_id = id; }
 void Invoices::setClientName(const QString& name) { client_name = name; }
+void Invoices::setClientEmail(const QString& email) { client_email = email; }
 void Invoices::setIssueDate(const QDateTime &dt) { // <--- Adjust parameter
     this->issue_date = dt;
 }
@@ -71,7 +73,7 @@ void Invoices::setStatus(const QString& st) { status = st; }
 void Invoices::setPaymentDate(const QDate& date) { payment_date = date; }
 void Invoices::setNotes(const QString& nts) { notes = nts; } // Use const&
 void Invoices::setLineItems(const QList<InvoiceLineItem>& items) { lineItems = items; }
-
+void Invoices::setReminderSentDate(const QDateTime& dt) { reminder_sent_date = dt; }
 
 
 
@@ -162,6 +164,11 @@ void Invoices::bindHeaderValues(QSqlQuery& query)
     query.bindValue(":total_amount", totalAmount); // Bind double
 
 
+
+    query.bindValue(":reminder_sent_date",
+                    this->reminder_sent_date.isValid() ? QVariant(this->reminder_sent_date) :
+                        QVariant(QMetaType(QMetaType::QDateTime)));
+    qDebug() << "  BINDING :reminder_sent_date VALUE:" << this->reminder_sent_date << "isValid:" << this->reminder_sent_date.isValid();
     qDebug() << "--- Binding Finished (Native Types) ---";
 }
 // --- Core Data Operations ---
@@ -215,9 +222,10 @@ bool Invoices::save()
         qDebug() << "Retrieved new Invoice ID:" << new_invoice_id;
 
 
+        this->issue_date = Invoices::getCurrentTunisDateTime(); // <<< USE HELPER
+        qDebug() << "  save(): Set issue_date to current Tunis timestamp:" << this->issue_date;
 
-        this->issue_date = QDateTime::currentDateTime();
-        qDebug() << "  save(): Set issue_date to current timestamp:" << this->issue_date;
+
         // 2. Prepare INSERT statement for the INVOICES table
         QSqlQuery insertQuery(db);
         // IMPORTANT: Column names MUST match your INVOICES table EXACTLY
@@ -226,15 +234,21 @@ bool Invoices::save()
             "INSERT INTO INVOICES ("
             "  INVOICE_ID, INVOICE_NUMBER, CLIENT_ID, CLIENT_NAME, ISSUE_DATE, DUE_DATE, "
             "  PAYMENT_TERMS, SUBTOTAL, TAX_AMOUNT, TOTAL_AMOUNT, STATUS, "
-            "  PAYMENT_DATE , NOTES" // <<<< NOTES removed
-            //") VALUES ("
-            ") VALUES (" // Corrected parenthesis placement
+            "  PAYMENT_DATE, NOTES" // Removed REMINDER_SENT_DATE from the base query
+            // Add REMINDER_SENT_DATE only if it's valid
+            ") VALUES ("
             "  :invoice_id, :invoice_number, :client_id, :client_name, :issue_date, :due_date, "
             "  :payment_terms, :subtotal, :tax_amount, :total_amount, :status, "
-            "  :payment_date,:notes "
-            // <<<< :notes removed
+            "  :payment_date, :notes" // Removed :reminder_sent_date from base query
             ")"
             );
+        if (this->reminder_sent_date.isValid()) {
+            QString sql = insertQuery.lastQuery();
+            sql.insert(sql.indexOf(") VALUES ("), ", REMINDER_SENT_DATE");
+            sql.insert(sql.lastIndexOf(")"), ", :reminder_sent_date");
+            insertQuery.prepare(sql);
+        }
+
         // 3. Bind the new ID separately (it's not part of the bindHeaderValues strategy)
         qDebug() << "Binding :invoice_id :" << new_invoice_id;
         insertQuery.bindValue(":invoice_id", new_invoice_id); // Bind the retrieved ID
@@ -353,7 +367,9 @@ bool Invoices::update()
     qDebug() << "Attempting update() for Invoice ID:" << this->invoice_id << " using QString::number for doubles";
 
     QSqlQuery query(db); // Use the connection
-    query.prepare(
+
+    // Build the base query
+    QString queryStr =
         "UPDATE INVOICES SET "
         " INVOICE_NUMBER = :invoice_number, "
         " CLIENT_ID = :client_id, "
@@ -361,14 +377,22 @@ bool Invoices::update()
         " ISSUE_DATE = :issue_date, "
         " DUE_DATE = :due_date, "
         " PAYMENT_TERMS = :payment_terms, "
-        " SUBTOTAL = :subtotal, "           // Included
-        " TAX_AMOUNT = :tax_amount, "       // Included
-        " TOTAL_AMOUNT = :total_amount, "   // Included
+        " SUBTOTAL = :subtotal, "
+        " TAX_AMOUNT = :tax_amount, "
+        " TOTAL_AMOUNT = :total_amount, "
         " STATUS = :status, "
         " PAYMENT_DATE = :payment_date, "
-        " NOTES = :notes "        // NOTES is NOT included
-        "WHERE INVOICE_ID = :invoice_id"
-        );
+        " NOTES = :notes";
+
+    // Conditionally add REMINDER_SENT_DATE if it's valid
+    if (this->reminder_sent_date.isValid()) {
+        queryStr += ", REMINDER_SENT_DATE = :reminder_sent_date";
+    }
+
+    // Add the WHERE clause
+    queryStr += " WHERE INVOICE_ID = :invoice_id";
+
+    query.prepare(queryStr);
 
     // --- Bind values ---
 
@@ -377,12 +401,17 @@ bool Invoices::update()
     query.bindValue(":client_name", this->client_name);
     query.bindValue(":payment_terms", this->payment_terms.isNull() ? QVariant(QMetaType(QMetaType::QString)) : QVariant(this->payment_terms));
     query.bindValue(":status", this->status);
-    // NOTES binding is NOT included
     query.bindValue(":notes", this->notes.isNull() ? QVariant() : this->notes);
+
     // Bind Dates (using QMetaType style for NULLs like save)
     query.bindValue(":issue_date", this->issue_date.isValid() ? QVariant(this->issue_date) : QVariant(QMetaType(QMetaType::QDateTime)));
     query.bindValue(":due_date", this->due_date.isValid() ? QVariant(this->due_date) : QVariant(QMetaType(QMetaType::QDateTime)));
     query.bindValue(":payment_date", this->payment_date.isValid() ? QVariant(this->payment_date) : QVariant(QMetaType(QMetaType::QDate)));
+
+    // Bind reminder_sent_date if valid
+    if (this->reminder_sent_date.isValid()) {
+        query.bindValue(":reminder_sent_date", this->reminder_sent_date);
+    }
 
     // Bind int
     query.bindValue(":client_id", this->client_id);
@@ -393,7 +422,6 @@ bool Invoices::update()
     // Bind Subtotal
     if (std::isnan(this->subtotal) || std::isinf(this->subtotal)) {
         qWarning() << "Invoices::update - Subtotal is NaN or Inf! Binding NULL instead.";
-        // Bind actual NULL which Oracle typically handles correctly for NUMBER columns
         query.bindValue(":subtotal", QVariant(QMetaType(QMetaType::Double))); // Explicit NULL for double type
     } else {
         query.bindValue(":subtotal", QString::number(this->subtotal, 'f', precision));
@@ -422,7 +450,6 @@ bool Invoices::update()
     // --- Execution and Error Handling ---
     bool success = query.exec();
     if (!success) {
-        // *** CRITICAL: Check this error if it still fails! ***
         qWarning() << "Update query failed (using clean QString::number binding):" << query.lastError().text();
         this->dbError = query.lastError();
     } else {
@@ -510,14 +537,9 @@ bool Invoices::remove(int id_to_delete)
 }
 
 
-// Static function to load an invoice by ID.
-// Provide the database connection. ok is an optional output parameter.
-// Assumes header declares: static Invoices loadById(int id, QSqlDatabase& db, bool* ok = nullptr);
 Invoices Invoices::loadById(int id, QSqlDatabase& db, bool* ok) {
-    if (ok) {
-        *ok = false; // Assume failure initially
-    }
-    Invoices loadedInvoice; // Create an empty invoice to return on failure
+    if (ok) *ok = false;
+    Invoices loadedInvoice;
 
     if (!db.isValid() || !db.isOpen()) {
         qWarning() << "Invoices::loadById - Database connection is invalid or not open.";
@@ -528,31 +550,38 @@ Invoices Invoices::loadById(int id, QSqlDatabase& db, bool* ok) {
         return loadedInvoice;
     }
 
-    qDebug() << "Attempting to load invoice by ID:" << id;
-
-    // 1. Query Header Information
-    QSqlQuery headerQuery(db);
-    headerQuery.prepare(
+    // Build the query string
+    QString queryStr =
         "SELECT INVOICE_NUMBER, CLIENT_ID, CLIENT_NAME, ISSUE_DATE, DUE_DATE, "
         "PAYMENT_TERMS, SUBTOTAL, TAX_AMOUNT, TOTAL_AMOUNT, STATUS, "
-        "PAYMENT_DATE, NOTES "
-        "FROM INVOICES WHERE INVOICE_ID = :id"
-        );
+        "PAYMENT_DATE, NOTES";
+
+    // Only add REMINDER_SENT_DATE if the column exists
+    bool hasReminderColumn = columnExists(db, "INVOICES", "REMINDER_SENT_DATE");
+    if (hasReminderColumn) {
+        queryStr += ", REMINDER_SENT_DATE";
+    }
+
+    queryStr += " FROM INVOICES WHERE INVOICE_ID = :id";
+
+    QSqlQuery headerQuery(db);
+    headerQuery.prepare(queryStr);
     headerQuery.bindValue(":id", id);
 
     if (!headerQuery.exec()) {
         qWarning() << "Invoices::loadById - Failed to execute header query:" << headerQuery.lastError().text();
-        loadedInvoice.dbError = headerQuery.lastError(); // Store error in the returned (empty) object
+        loadedInvoice.dbError = headerQuery.lastError();
         return loadedInvoice;
     }
 
-    // 2. Populate Header Information
     if (headerQuery.next()) {
-        loadedInvoice.invoice_id = id; // Set the ID since we found it
+        loadedInvoice.invoice_id = id;
         loadedInvoice.invoice_number = headerQuery.value("INVOICE_NUMBER").toString();
         loadedInvoice.client_id = headerQuery.value("CLIENT_ID").toInt();
         loadedInvoice.client_name = headerQuery.value("CLIENT_NAME").toString();
         loadedInvoice.issue_date = headerQuery.value("ISSUE_DATE").toDateTime();
+        qDebug() << "Loaded ISSUE_DATE for ID" << id << ":" << loadedInvoice.issue_date;
+
         loadedInvoice.due_date = headerQuery.value("DUE_DATE").toDateTime();
         loadedInvoice.payment_terms = headerQuery.value("PAYMENT_TERMS").toString();
         loadedInvoice.subtotal = headerQuery.value("SUBTOTAL").toDouble();
@@ -560,58 +589,50 @@ Invoices Invoices::loadById(int id, QSqlDatabase& db, bool* ok) {
         loadedInvoice.total_amount = headerQuery.value("TOTAL_AMOUNT").toDouble();
         loadedInvoice.status = headerQuery.value("STATUS").toString();
         loadedInvoice.payment_date = headerQuery.value("PAYMENT_DATE").toDate();
-        loadedInvoice.notes = headerQuery.value("NOTES").toString(); // Assumes NOTES is not CLOB needing special handling on load
+        loadedInvoice.notes = headerQuery.value("NOTES").toString();
+
+        // Only try to read REMINDER_SENT_DATE if it was in the query
+        if (hasReminderColumn) {
+            loadedInvoice.reminder_sent_date = headerQuery.value("REMINDER_SENT_DATE").toDateTime();
+        }
 
         qDebug() << "Invoice header loaded successfully for ID:" << id;
 
-        // 3. Query Line Items
+        // Query Line Items
         QSqlQuery lineQuery(db);
-        // IMPORTANT: Adjust table/column names as needed for your line items table
         lineQuery.prepare(
-            "SELECT LINE_ITEM_ID, DESCRIPTION, QUANTITY, UNIT_PRICE, AMOUNT " // Adjust columns
+            "SELECT LINE_ITEM_ID, DESCRIPTION, QUANTITY, UNIT_PRICE, AMOUNT "
             "FROM INVOICE_LINE_ITEMS WHERE INVOICE_ID = :id "
-            "ORDER BY LINE_ITEM_ID" // Optional: Ensure consistent order
+            "ORDER BY LINE_ITEM_ID"
             );
         lineQuery.bindValue(":id", id);
 
         if (!lineQuery.exec()) {
             qWarning() << "Invoices::loadById - Failed to execute line item query:" << lineQuery.lastError().text();
             loadedInvoice.dbError = lineQuery.lastError();
-            // Return the partially loaded header, but signal failure
             if (ok) *ok = false;
             return loadedInvoice;
         }
 
-        // 4. Populate Line Items
+        // Populate Line Items
         QList<InvoiceLineItem> items;
         while (lineQuery.next()) {
             InvoiceLineItem item;
-            // Populate 'item' using lineQuery.value(...) for each column
-            // Example (assuming InvoiceLineItem has appropriate members/setters):
+            // Populate your line items here as before
             // item.setLineItemId(lineQuery.value("LINE_ITEM_ID").toInt());
             // item.setDescription(lineQuery.value("DESCRIPTION").toString());
-            // item.setQuantity(lineQuery.value("QUANTITY").toDouble()); // Or toInt()
-            // item.setUnitPrice(lineQuery.value("UNIT_PRICE").toDouble());
-            // item.setamount(lineQuery.value("AMOUNT").toDouble());
-            // item.setInvoiceId(id); // Associate with the parent invoice
-
+            // etc...
             items.append(item);
         }
-        loadedInvoice.setLineItems(items); // Add loaded items to the invoice object
+        loadedInvoice.setLineItems(items);
         qDebug() << "Loaded" << items.count() << "line items for invoice ID:" << id;
 
-        // If we got here, everything loaded successfully
-        if (ok) {
-            *ok = true;
-        }
-
+        if (ok) *ok = true;
     } else {
         qWarning() << "Invoices::loadById - No invoice found with ID:" << id;
-        // dbError is not set here as the query executed successfully but found no data
-        // ok remains false (or its initial value if not provided)
     }
 
-    return loadedInvoice; // Return the populated invoice (or empty if not found)
+    return loadedInvoice;
 }
 bool Invoices::markAsPaidStatic(int invoiceId) {
     if (invoiceId <= 0) {
@@ -637,10 +658,12 @@ bool Invoices::markAsPaidStatic(int invoiceId) {
 
     // --- Bind the values ---
     query.bindValue(":status", "paid");
-    // Keep binding QDate for PAYMENT_DATE
-    query.bindValue(":paymentDate", QDate::currentDate());
-    // *** ADD: Bind QDateTime for ISSUE_DATE using the :issueDate placeholder ***
-    query.bindValue(":issueDate", QDateTime::currentDateTime());
+    // Also use Tunis date for the payment date
+    // OLD: query.bindValue(":paymentDate", QDate::currentDate());
+    query.bindValue(":paymentDate", Invoices::getCurrentTunisDateTime().date()); // <<< USE HELPER's DATE part
+    // Use Tunis date/time for the issue date update
+    // OLD: query.bindValue(":issueDate", QDateTime::currentDateTime());
+    query.bindValue(":issueDate", Invoices::getCurrentTunisDateTime()); // <<< USE HELPER
     query.bindValue(":invoiceId", invoiceId);
 
     qDebug() << "Executing markAsPaidStatic (now also updating ISSUE_DATE) for ID:" << invoiceId;
@@ -679,11 +702,12 @@ bool Invoices::markAsSentStatic(int invoiceId) {
                   " ISSUE_DATE = :sentDate " // *** CHANGE: Use ISSUE_DATE column ***
                   "WHERE INVOICE_ID = :invoiceId"); // *** VERIFY INVOICE_ID column name ***
 
-    // *** CHANGE: Bind "sent" status ***
     query.bindValue(":status", "sent");
-    // *** CHANGE: Bind QDateTime for issue date using the :sentDate placeholder ***
-    query.bindValue(":sentDate", QDateTime::currentDateTime());
+    // Use Tunis date/time when setting issue date on send
+    // OLD: query.bindValue(":sentDate", QDateTime::currentDateTime());
+    query.bindValue(":sentDate", Invoices::getCurrentTunisDateTime()); // <<< USE HELPER
     query.bindValue(":invoiceId", invoiceId);
+
 
     qDebug() << "Executing markAsSentStatic for ID:" << invoiceId;
     bool success = query.exec();
@@ -700,4 +724,236 @@ bool Invoices::markAsSentStatic(int invoiceId) {
     }
     // Return true if the query executed successfully, false otherwise
     return success;
+}
+QDateTime Invoices::getCurrentTunisDateTime() {
+    static const QTimeZone tunisTimeZone("Africa/Tunis");
+    if (!tunisTimeZone.isValid()) {
+        qWarning() << "*** Timezone 'Africa/Tunis' is not valid! Falling back to system local time.";
+        return QDateTime::currentDateTime();
+    }
+    return QDateTime::currentDateTime(tunisTimeZone);
+}
+
+bool Invoices::loadFullInvoiceDetails(int invoiceId, Invoices &invoiceObject) {
+    qDebug().noquote() << QString("--- loadFullInvoiceDetails called for ID: %1 ---").arg(invoiceId);
+
+    QSqlDatabase db = QSqlDatabase::database();
+    if (!db.isOpen()) {
+        qCritical().noquote() << QString("!!! Database not open in loadFullInvoiceDetails for ID: %1").arg(invoiceId);
+        return false;
+    }
+    qDebug() << "  Database connection is open.";
+
+    // --- Query 1: Get Main Invoice and Client Data ---
+    QSqlQuery headerQuery(db);
+    const QString headerSql = QString(
+        "SELECT i.INVOICE_NUMBER, i.ISSUE_DATE, i.DUE_DATE, i.STATUS, "
+        "       i.SUBTOTAL, i.TAX_AMOUNT, i.TOTAL_AMOUNT, i.NOTES, "
+        "       i.REMINDER_SENT_DATE, " // Added REMINDER_SENT_DATE
+        "       i.CLIENT_ID, c.FIRST_NAME, c.LAST_NAME, c.EMAIL "
+        "FROM INVOICES i "
+        "LEFT JOIN CLIENT c ON i.CLIENT_ID = c.ID "
+        "WHERE i.INVOICE_ID = :id");
+
+
+    qDebug().noquote() << QString("  Preparing header query: %1").arg(headerSql);
+    headerQuery.prepare(headerSql);
+    headerQuery.bindValue(":id", invoiceId);
+
+    qDebug().noquote() << QString("  Executing header query for ID: %1").arg(invoiceId);
+    if (!headerQuery.exec()) {
+        qCritical().noquote() << QString("!!! Failed to execute header query for ID: %1. Error: %2")
+        .arg(invoiceId).arg(headerQuery.lastError().text());
+        qCritical().noquote() << QString("  Executed Header Query was: %1").arg(headerQuery.executedQuery());
+        return false;
+    }
+    qDebug() << "  Header query executed successfully.";
+
+    qDebug() << "  Checking if header query found a row...";
+    if (!headerQuery.next()) { // Use !next() directly for clarity
+        qWarning().noquote() << QString("!!! Invoice header ID %1 not found in database.").arg(invoiceId);
+        qDebug().noquote() << QString("--- loadFullInvoiceDetails returning FALSE (Header not found for ID: %1) ---").arg(invoiceId);
+        return false;
+    }
+
+    // --- Populate Header (Wrap in try-catch just in case) ---
+    try {
+        qDebug().noquote() << QString("  Invoice header found for ID: %1. Populating object...").arg(invoiceId);
+        invoiceObject.setInvoiceId(invoiceId);
+        invoiceObject.setInvoiceNumber(headerQuery.value("INVOICE_NUMBER").toString());
+        invoiceObject.setIssueDate(headerQuery.value("ISSUE_DATE").toDateTime());
+        invoiceObject.setDueDate(headerQuery.value("DUE_DATE").toDateTime());
+        invoiceObject.setStatus(headerQuery.value("STATUS").toString());
+        invoiceObject.setSubtotal(headerQuery.value("SUBTOTAL").toDouble());
+        invoiceObject.setTaxAmount(headerQuery.value("TAX_AMOUNT").toDouble());
+        invoiceObject.setTotalAmount(headerQuery.value("TOTAL_AMOUNT").toDouble());
+        invoiceObject.setNotes(headerQuery.value("NOTES").toString());
+        invoiceObject.setClientId(headerQuery.value("CLIENT_ID").toInt());
+        QString firstName = headerQuery.value("FIRST_NAME").toString();
+        QString lastName = headerQuery.value("LAST_NAME").toString();
+        invoiceObject.setClientName( (firstName + " " + lastName).trimmed() );
+        invoiceObject.setClientEmail(headerQuery.value("EMAIL").toString());
+        invoiceObject.setReminderSentDate(headerQuery.value("REMINDER_SENT_DATE").toDateTime());
+        qDebug() << "  Finished populating header object.";
+    } catch (const std::exception& e) {
+        qCritical().noquote() << QString("!!! EXCEPTION during header population for ID: %1 - %2").arg(invoiceId).arg(e.what());
+        return false;
+    } catch (...) {
+        qCritical().noquote() << QString("!!! UNKNOWN EXCEPTION during header population for ID: %1").arg(invoiceId);
+        return false;
+    }
+
+
+    // --- Query 2: Get Line Items ---
+    QSqlQuery itemQuery(db);
+    // Ensure NO ORDER BY if LINE_ITEM_ID doesn't exist
+    const QString itemSql = QString(
+        "SELECT DESCRIPTION, QUANTITY, UNIT_PRICE, AMOUNT "
+        "FROM INVOICE_LINE_ITEMS "
+        "WHERE INVOICE_ID = :id"); // Removed ORDER BY for safety
+
+    qDebug().noquote() << QString("  Preparing item query: %1").arg(itemSql);
+    itemQuery.prepare(itemSql);
+    itemQuery.bindValue(":id", invoiceId);
+
+    qDebug().noquote() << QString("  Executing item query for ID: %1").arg(invoiceId);
+    if (!itemQuery.exec()) {
+        // This block should not be entered for ID 26 based on tests
+        qWarning().noquote() << QString("!!! Failed to execute query for invoice items for ID: %1. Error: %2")
+                                    .arg(invoiceId).arg(itemQuery.lastError().text());
+        qWarning().noquote() << QString("  Executed Item Query was: %1").arg(itemQuery.executedQuery());
+        // Decide: Is missing items an error? If so: return false; Otherwise, continue.
+        // For now, assume PDF can be generated without items, just log warning.
+    } else {
+        qDebug().noquote() << QString("  +++ Item query executed successfully for ID: %1. Processing results... +++").arg(invoiceId);
+        qDebug() << "    Item query isActive?" << itemQuery.isActive() << "isValid?" << itemQuery.isValid();
+
+        // --- Safely Clear Line Items ---
+        try {
+            qDebug() << "    Attempting invoiceObject.clearLineItems(). Current count before clear:" << invoiceObject.getLineItems().count();
+            invoiceObject.clearLineItems();
+            qDebug() << "    invoiceObject.clearLineItems() completed. Current count after clear:" << invoiceObject.getLineItems().count();
+        } catch (const std::exception& e) {
+            qCritical().noquote() << QString("!!! EXCEPTION during clearLineItems() for ID: %1 - %2").arg(invoiceId).arg(e.what());
+            return false;
+        } catch (...) {
+            qCritical().noquote() << QString("!!! UNKNOWN EXCEPTION during clearLineItems() for ID: %1").arg(invoiceId);
+            return false;
+        }
+
+        // --- Process Results ---
+        int itemsLoaded = 0;
+        qDebug() << "    Starting loop through item query results...";
+        while (itemQuery.next()) { // Loop through results
+            itemsLoaded++;
+            qDebug().noquote() << QString("    Processing item #%1 for Invoice ID: %2").arg(itemsLoaded).arg(invoiceId);
+
+            // Wrap item processing in try-catch
+            try {
+                InvoiceLineItem tempItem;
+                tempItem.setInvoiceId(invoiceId);
+
+                QVariant descVar = itemQuery.value("DESCRIPTION");
+                QString desc = descVar.toString();
+                tempItem.setDescription(desc);
+                qDebug() << "      Description:" << desc << "(Variant type:" << descVar.typeName() << ")";
+
+                bool okQty = false;
+                QVariant qtyVar = itemQuery.value("QUANTITY");
+                double qty = qtyVar.toDouble(&okQty);
+                if (!okQty) { qWarning() << "      !!! Conversion warning for QUANTITY. Variant type:" << qtyVar.typeName() << "Value:" << qtyVar; qty = 0.0; }
+                tempItem.setQuantity(qty);
+                qDebug() << "      Quantity:" << qty << "(conversion ok:" << okQty << ")";
+
+                bool okPrice = false;
+                QVariant priceVar = itemQuery.value("UNIT_PRICE");
+                double price = priceVar.toDouble(&okPrice);
+                if (!okPrice) { qWarning() << "      !!! Conversion warning for UNIT_PRICE. Variant type:" << priceVar.typeName() << "Value:" << priceVar; price = 0.0; }
+                tempItem.setUnitPrice(price);
+                qDebug() << "      Unit Price:" << price << "(conversion ok:" << okPrice << ")";
+
+                bool okAmount = false;
+                QVariant amountVar = itemQuery.value("AMOUNT");
+                double amount = amountVar.toDouble(&okAmount);
+                if (!okAmount) { qWarning() << "      !!! Conversion warning for AMOUNT. Variant type:" << amountVar.typeName() << "Value:" << amountVar; amount = 0.0; }
+                tempItem.setAmount(amount);
+                qDebug() << "      Amount:" << amount << "(conversion ok:" << okAmount << ")";
+
+                // Add item
+                qDebug() << "      Attempting invoiceObject.addLineItem()...";
+                invoiceObject.addLineItem(tempItem);
+                qDebug() << "      invoiceObject.addLineItem() completed for item #" << itemsLoaded;
+
+            } catch (const std::exception& e) {
+                qCritical().noquote() << QString("!!! EXCEPTION during item processing loop (item #%1) for ID: %2 - %3")
+                .arg(itemsLoaded).arg(invoiceId).arg(e.what());
+                return false; // Stop if processing an item fails critically
+            } catch (...) {
+                qCritical().noquote() << QString("!!! UNKNOWN EXCEPTION during item processing loop (item #%1) for ID: %2")
+                .arg(itemsLoaded).arg(invoiceId);
+                return false; // Stop if processing an item fails critically
+            }
+        } // End while loop
+
+        qDebug() << "    Finished loop. Last error on itemQuery:" << itemQuery.lastError().text(); // Check for errors *after* loop
+        qDebug().noquote() << QString("    Loaded %1 line items total for invoice ID: %2").arg(itemsLoaded).arg(invoiceId);
+
+    } // End else block (item query succeeded)
+
+    // If we reach here, everything should have worked.
+    qDebug().noquote() << QString(">>> About to return TRUE from loadFullInvoiceDetails for ID: %1 <<<").arg(invoiceId);
+    return true;
+}
+
+
+
+bool Invoices::markAsRemindedStatic(int invoiceId) {
+    if (invoiceId <= 0) {
+        qWarning() << "Invoices::markAsRemindedStatic - Invalid ID provided:" << invoiceId;
+        return false;
+    }
+
+    QSqlDatabase db = QSqlDatabase::database();
+    if (!db.isOpen()) {
+        qWarning() << "Invoices::markAsRemindedStatic - Database connection is not open.";
+        return false;
+    }
+
+    QSqlQuery query(db);
+    query.prepare("UPDATE INVOICES SET "
+                  " REMINDER_SENT_DATE = :reminderDate "
+                  "WHERE INVOICE_ID = :invoiceId");
+
+    query.bindValue(":reminderDate", Invoices::getCurrentTunisDateTime());
+    query.bindValue(":invoiceId", invoiceId);
+
+    qDebug() << "Executing markAsRemindedStatic for ID:" << invoiceId;
+    bool success = query.exec();
+
+    if (!success) {
+        qWarning() << "Invoices::markAsRemindedStatic - Query failed:" << query.lastError().text();
+    } else {
+        if (query.numRowsAffected() == 0) {
+            qWarning() << "Invoices::markAsRemindedStatic - Update query succeeded, but no rows affected (ID:" << invoiceId << " might not exist).";
+        } else {
+            qDebug() << "Invoices::markAsRemindedStatic - Successfully updated reminder date for ID:" << invoiceId;
+        }
+    }
+
+    return success;
+}
+
+bool Invoices::columnExists(QSqlDatabase& db, const QString& tableName, const QString& columnName)
+{
+    QSqlQuery query(db);
+    query.prepare(
+        "SELECT COUNT(*) FROM USER_TAB_COLUMNS "
+        "WHERE TABLE_NAME = :tableName AND COLUMN_NAME = :columnName");
+    query.bindValue(":tableName", tableName.toUpper());
+    query.bindValue(":columnName", columnName.toUpper());
+
+    if (query.exec() && query.next()) {
+        return query.value(0).toInt() > 0;
+    }
+    return false;
 }

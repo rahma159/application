@@ -1,6 +1,5 @@
 #include "statisticsdialog.h"
 #include "ui_statisticsdialog.h"
-
 #include <QChartView>
 #include <QPieSeries>
 #include <QPieSlice>
@@ -8,16 +7,16 @@
 #include <QBarSeries>
 #include <QBarCategoryAxis>
 #include <QValueAxis>
-#include <QVBoxLayout>
+#include <QVBoxLayout>  // Add this include
 
-// NO: using namespace QtCharts;
-
-StatisticsDialog::StatisticsDialog(QWidget *parent) :
+StatisticsDialog::StatisticsDialog(const QMap<QString, int>& statusData,
+                                   const QMap<QString, double>& amountData,
+                                   QWidget *parent) :
     QDialog(parent),
     ui(new Ui::StatisticsDialog)
 {
     ui->setupUi(this);
-    setupCharts();
+    setupCharts(statusData, amountData);
 }
 
 StatisticsDialog::~StatisticsDialog()
@@ -25,34 +24,40 @@ StatisticsDialog::~StatisticsDialog()
     delete ui;
 }
 
-void StatisticsDialog::setupCharts()
+void StatisticsDialog::setupCharts(const QMap<QString, int>& statusData,
+                                   const QMap<QString, double>& amountData)
 {
-    QMap<QString, int> appointmentData;
-    appointmentData["Completed"] = 40;
-    appointmentData["Pending"] = 20;
-    appointmentData["Cancelled"] = 10;
-
-    int totalAppointments = 70;
-
     QVBoxLayout *pieLayout = new QVBoxLayout(ui->pieChartFrame);
     QVBoxLayout *barLayout = new QVBoxLayout(ui->barChartFrame);
 
-    createPieChart(appointmentData, totalAppointments, pieLayout);
-    createBarChart(appointmentData, barLayout);
+    createPieChart(statusData, pieLayout);
+    createBarChart(amountData, barLayout);
 }
 
-void StatisticsDialog::createPieChart(const QMap<QString, int> &data, int /*total*/, QVBoxLayout *layout)
+void StatisticsDialog::createPieChart(const QMap<QString, int>& data, QVBoxLayout *layout)
 {
     QPieSeries *series = new QPieSeries();
+    int totalInvoices = 0;
 
+    // Calculate total for percentages
+    for (auto it = data.begin(); it != data.end(); ++it) {
+        totalInvoices += it.value();
+    }
+
+    // Create slices
     for (auto it = data.begin(); it != data.end(); ++it) {
         QString label = QString("%1 (%2)").arg(it.key()).arg(it.value());
-        series->append(label, it.value());
+        double percentage = (totalInvoices > 0) ? (it.value() * 100.0 / totalInvoices) : 0;
+        QString percentageStr = QString::number(percentage, 'f', 1) + "%";
+
+        QPieSlice *slice = series->append(label, it.value());
+        slice->setLabelVisible();
+        slice->setLabel(QString("%1\n%2").arg(label).arg(percentageStr));
     }
 
     QChart *chart = new QChart();
     chart->addSeries(series);
-    chart->setTitle("Appointment Status Distribution");
+    chart->setTitle("Invoice Status Distribution");
     chart->legend()->setAlignment(Qt::AlignRight);
 
     QChartView *chartView = new QChartView(chart);
@@ -61,11 +66,11 @@ void StatisticsDialog::createPieChart(const QMap<QString, int> &data, int /*tota
     layout->addWidget(chartView);
 }
 
-void StatisticsDialog::createBarChart(const QMap<QString, int> &data, QVBoxLayout *layout)
+void StatisticsDialog::createBarChart(const QMap<QString, double>& data, QVBoxLayout *layout)
 {
-    QBarSet *set = new QBarSet("Appointments");
-
+    QBarSet *set = new QBarSet("Invoice Amounts");
     QStringList categories;
+
     for (auto it = data.begin(); it != data.end(); ++it) {
         *set << it.value();
         categories << it.key();
@@ -76,7 +81,7 @@ void StatisticsDialog::createBarChart(const QMap<QString, int> &data, QVBoxLayou
 
     QChart *chart = new QChart();
     chart->addSeries(series);
-    chart->setTitle("Appointments by Status");
+    chart->setTitle("Invoice Amounts by Category");
     chart->setAnimationOptions(QChart::SeriesAnimations);
 
     QBarCategoryAxis *axisX = new QBarCategoryAxis();
@@ -85,6 +90,7 @@ void StatisticsDialog::createBarChart(const QMap<QString, int> &data, QVBoxLayou
     series->attachAxis(axisX);
 
     QValueAxis *axisY = new QValueAxis();
+    axisY->setTitleText("Amount");
     chart->addAxis(axisY, Qt::AlignLeft);
     series->attachAxis(axisY);
 

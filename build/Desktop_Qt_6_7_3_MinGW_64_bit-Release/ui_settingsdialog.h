@@ -393,7 +393,7 @@ public:
 
         retranslateUi(SettingsDialog);
 
-        SettingsTabWidget->setCurrentIndex(2);
+        SettingsTabWidget->setCurrentIndex(0);
 
 
         QMetaObject::connectSlotsByName(SettingsDialog);
@@ -426,7 +426,7 @@ public:
         payPalSecretLabel->setText(QCoreApplication::translate("SettingsDialog", "PayPal Secret:", nullptr));
         stripeEnableCheckBox->setText(QCoreApplication::translate("SettingsDialog", "Stripe Enable Check", nullptr));
         payPalEnableCheckBox->setText(QCoreApplication::translate("SettingsDialog", "PayPal Enable Check", nullptr));
-        stripeEnableLabel->setText(QCoreApplication::translate("SettingsDialog", " Enable Stripe:", nullptr));
+        stripeEnableLabel->setText(QCoreApplication::translate("SettingsDialog", "Enable Stripe:", nullptr));
         payPalEnableLabel->setText(QCoreApplication::translate("SettingsDialog", "Enable PayPal:", nullptr));
         SettingsTabWidget->setTabText(SettingsTabWidget->indexOf(tab_4), QCoreApplication::translate("SettingsDialog", "Payment Gateways", nullptr));
         templateSelectComboBox->setItemText(0, QCoreApplication::translate("SettingsDialog", "New Invoice", nullptr));
