@@ -1,0 +1,663 @@
+#include "createeditinvoicedialog.h"
+#include "ui_createeditinvoicedialog.h"
+#include "settingsdialog.h"         // <<< ENSURE THIS IS INCLUDED
+#include <cmath>
+#include <algorithm>
+#include <vector>
+#include <QDialog>
+#include <QMessageBox>
+#include <QSqlDatabase>
+#include <QSqlQuery>
+#include <QSqlError>
+#include <QDebug>
+#include <QLocale>
+#include <QTableWidgetItem>
+#include <QHeaderView>
+#include <QVariant>
+#include <QDateTime>
+#include <QTime>
+#include <QJsonDocument>        // <<< ADDED for VAT rates
+#include <QJsonArray>           // <<< ADDED for VAT rates
+#include <QJsonObject>          // <<< ADDED for VAT rates
+#include <limits>
+#include <QList>
+
+
+// --- Constructor ---
+// Assurez-vous que le constructeur de Invoices dans invoices.cpp gère correctement
+// l'initialisation de due_date (QDateTime) depuis un paramètre QDate si nécessaire.
+CreateEditInvoiceDialog::CreateEditInvoiceDialog(QDialog *parent) :
+    QDialog(parent),
+    ui(new Ui::CreateEditInvoiceDialog),
+    currentInvoiceId(-1),
+    isEditMode(false) // Initialize the member variable
+{
+    qDebug() << "CreateEditInvoiceDialog CONSTRUCTOR";
+    ui->setupUi(this);
+    ui->lineItemsTableWidget->setMinimumSize(650, 80); // Example
+    setupLineItemsTable();
+    populateClientComboBox();
+    setupConnections();
+    // prepareForNewInvoice(); // Don't call here, call explicitly
+    ui->dueDateEdit->setCalendarPopup(true);
+    ui->issueDateEdit->setCalendarPopup(true);
+}
+
+// --- Destructor ---
+CreateEditInvoiceDialog::~CreateEditInvoiceDialog()
+{
+    qDebug() << "CreateEditInvoiceDialog DESTRUCTOR";
+    delete ui;
+}
+
+// --- Public Methods ---
+
+// --- prepareForNewInvoice ---
+// Initialise les champs de l'UI pour une nouvelle facture.
+void CreateEditInvoiceDialog::prepareForNewInvoice() {
+    qDebug() << "prepareForNewInvoice() called";
+    isEditMode = false; // Use the member variable
+    currentInvoiceId = -1;
+    setWindowTitle(tr("Create New Invoice"));
+
+    // Use string literals for keys when calling SettingsDialog static methods
+    QString prefix = SettingsDialog::getSetting("InvoiceOptions/NumberPrefix", "INV-");
+    int nextNumber = SettingsDialog::getSettingInt("InvoiceOptions/NextNumber", 1);
+
+    ui->invoiceNumberLineEdit->setText(prefix + QString::number(nextNumber));
+    ui->invoiceNumberLineEdit->setReadOnly(true);
+
+    ui->clientSelectComboBox->setCurrentIndex(0);
+    if (ui->clientDetailsTextEdit) ui->clientDetailsTextEdit->clear();
+
+    QDateTime currentTunisTime = Invoices::getCurrentTunisDateTime(); // Assuming Invoices class is now known via invoicemanagementwidget.h
+    ui->issueDateEdit->setDateTime(currentTunisTime);
+
+    QString defaultTermsStr = SettingsDialog::getSetting("InvoiceOptions/DefaultTerms", "Net 30").toLower();
+    int daysToAdd = 30;
+    if (defaultTermsStr.contains("net 15")) daysToAdd = 15;
+    else if (defaultTermsStr.contains("net 60")) daysToAdd = 60;
+    else if (defaultTermsStr.contains("due on receipt")) daysToAdd = 0;
+
+    QDateTime defaultDueDateTime = currentTunisTime.addDays(daysToAdd);
+    ui->dueDateEdit->setDateTime(defaultDueDateTime);
+
+    ui->paymentTermsLineEdit->setText(SettingsDialog::getSetting("InvoiceOptions/DefaultTerms", "Net 30"));
+    ui->notesTextEdit->clear();
+    ui->lineItemsTableWidget->setRowCount(0);
+    calculateAndDisplayTotals();
+    ui->invoiceNumberLineEdit->setFocus();
+}
+
+// --- loadInvoiceForEditing ---
+bool CreateEditInvoiceDialog::loadInvoiceForEditing(int invoiceId) {
+    qDebug() << "loadInvoiceForEditing() called for ID:" << invoiceId;
+    isEditMode = true; // Use the member variable
+    // ... (rest of your loadInvoiceForEditing function as it was, it should be fine now for isEditMode)
+    // Make sure it handles the return from Invoices::loadById correctly
+    if (invoiceId <= 0) {
+        qWarning() << "Invalid invoice ID passed to loadInvoiceForEditing:" << invoiceId;
+        prepareForNewInvoice(); // Reset to new invoice state
+        return false;
+    }
+
+    QSqlDatabase db = QSqlDatabase::database();
+    if (!db.isOpen()) {
+        QMessageBox::critical(this, tr("Database Error"), tr("Cannot load invoice: Database connection is not open."));
+        prepareForNewInvoice();
+        return false;
+    }
+
+    bool loadOk = false;
+    Invoices loadedInvoice = Invoices::loadById(invoiceId, db, &loadOk);
+
+    if (loadOk) {
+        populateUiFromInvoice(loadedInvoice);
+        currentInvoiceId = invoiceId;
+        setWindowTitle(tr("Edit Invoice %1").arg(loadedInvoice.getInvoiceNumber()));
+        ui->invoiceNumberLineEdit->setReadOnly(false); // Or true, your choice for edit mode
+        qDebug() << "Invoice loaded successfully for editing.";
+        return true;
+    } else {
+        QSqlError error = loadedInvoice.lastDbError();
+        qDebug() << "Failed to load invoice ID" << invoiceId << "Error:" << error.text();
+        QMessageBox::critical(this, tr("Load Error"), tr("Failed to load invoice data for ID %1.\n%2")
+                                                          .arg(invoiceId)
+                                                          .arg(error.text()));
+        prepareForNewInvoice();
+        return false;
+    }
+}
+
+// --- Private Helper Methods ---
+
+void CreateEditInvoiceDialog::setupConnections() {
+    qDebug() << "CreateEditInvoiceDialog::setupConnections CALLED";
+  /*  connect(ui->saveDraftButton, &QPushButton::clicked, this, &CreateEditInvoiceDialog::on_saveDraftButton_clicked);
+    connect(ui->saveAndSendButton, &QPushButton::clicked, this, &CreateEditInvoiceDialog::on_saveAndSendButton_clicked);
+    connect(ui->addLineItemButton, &QPushButton::clicked, this, &CreateEditInvoiceDialog::on_addLineItemButton_clicked); // <<< UNCOMMENTED
+    connect(ui->removeLineItemButton, &QPushButton::clicked, this, &CreateEditInvoiceDialog::on_removeLineItemButton_clicked);
+    connect(ui->clientSelectComboBox, QOverload<int>::of(&QComboBox::currentIndexChanged), this, &CreateEditInvoiceDialog::on_clientSelectComboBox_currentIndexChanged);
+    connect(ui->issueDateEdit, &QDateTimeEdit::dateTimeChanged, this, &CreateEditInvoiceDialog::on_issueDateEdit_dateTimeChanged);
+    connect(ui->dueDateEdit, &QDateTimeEdit::dateTimeChanged, this, &CreateEditInvoiceDialog::on_dueDateEdit_dateTimeChanged);
+    connect(ui->paymentTermsLineEdit, &QLineEdit::textChanged, this, &CreateEditInvoiceDialog::on_paymentTermsLineEdit_textChanged);
+    connect(ui->lineItemsTableWidget, &QTableWidget::cellChanged, this, &CreateEditInvoiceDialog::on_lineItemsTableWidget_cellChanged);
+    connect(ui->cancelInvoiceButton, &QPushButton::clicked, this, &CreateEditInvoiceDialog::on_cancelInvoiceButton_clicked);
+*/
+    if (ui->previousButton) {
+        connect(ui->previousButton, &QPushButton::clicked, this, &CreateEditInvoiceDialog::reject);
+        qDebug() << "Connected previousButton to reject()";
+    } else {
+        qWarning() << ""
+                      "UI element 'previousButton' not found. Cannot connect signal.";
+    }
+}
+void CreateEditInvoiceDialog::on_cancelInvoiceButton_clicked()
+{
+    qDebug() << "Cancel button (clear form) clicked.";
+    // Simply call the existing function that resets the UI to a new invoice state
+    prepareForNewInvoice();
+}
+// --- setupLineItemsTable ---
+// Configure l'apparence initiale du tableau des lignes de facture.
+void CreateEditInvoiceDialog::setupLineItemsTable() {
+    qDebug() << "Setting up Line Items Table..."; // Add debug messages
+
+    ui->lineItemsTableWidget->setColumnCount(5);
+    QStringList headers = {tr("Description"), tr("Quantity"), tr("Unit Price"), tr("VAT%"), tr("Total")};
+    ui->lineItemsTableWidget->setHorizontalHeaderLabels(headers);
+
+    // --- Explicitly set header visible ---
+    if (ui->lineItemsTableWidget->horizontalHeader()) {
+        ui->lineItemsTableWidget->horizontalHeader()->setVisible(true); // <<< ADD THIS LINE
+        qDebug() << "Horizontal header set to visible.";
+    } else {
+        qWarning() << "Horizontal header is null for lineItemsTableWidget!"; // Should not happen after setupUi
+    }
+    // --- End explicit set ---
+
+
+    // Ajuster les largeurs de colonnes
+    ui->lineItemsTableWidget->horizontalHeader()->setSectionResizeMode(0, QHeaderView::Stretch);
+    ui->lineItemsTableWidget->setColumnWidth(1, 90);
+    ui->lineItemsTableWidget->setColumnWidth(2, 110);
+    ui->lineItemsTableWidget->setColumnWidth(3, 70);
+    ui->lineItemsTableWidget->setColumnWidth(4, 110);
+
+    qDebug() << "Line Items Table setup complete.";
+}
+
+// --- populateClientComboBox ---
+// Remplit la liste déroulante des clients depuis la base de données.
+void CreateEditInvoiceDialog::populateClientComboBox() {
+    qDebug() << "Populating client combo box...";
+    ui->clientSelectComboBox->clear();
+    ui->clientSelectComboBox->addItem(tr("-- Select Client --"), -1); // Item par défaut
+
+    QSqlQuery query;
+    const QString clientSql = "SELECT ID, FIRST_NAME, LAST_NAME FROM CLIENT ORDER BY LAST_NAME, FIRST_NAME";
+    qDebug() << "Populating client filter with query:" << clientSql;
+
+    if (query.exec(clientSql)) {
+        while (query.next()) {
+            // **** CHANGE How data is extracted and combined ****
+            int clientId = query.value(0).toInt();          // Get ID
+            QString firstName = query.value(1).toString();  // Get FIRST_NAME
+            QString lastName = query.value(2).toString();   // Get LAST_NAME
+            QString fullName = (firstName + " " + lastName).trimmed(); // Combine names
+
+            // Add item with combined name (display text) and ID (hidden data)
+            ui->clientSelectComboBox->addItem(fullName, clientId);
+        }
+        qDebug() << ui->clientSelectComboBox->count() -1 << "clients loaded into combo box.";
+    } else {
+        QMessageBox::critical(this, tr("Database Query Error"), tr("Failed to load client list:\n%1").arg(query.lastError().text()));
+        qDebug() << "Client query failed:" << query.lastError();
+    }
+}
+
+// --- displayClientDetails ---
+// Affiche les détails du client sélectionné dans la zone de texte.
+void CreateEditInvoiceDialog::displayClientDetails(int clientId) {
+    if (!ui->clientDetailsTextEdit) return; // Vérifier si le widget existe
+
+    if (clientId <= 0) {
+        ui->clientDetailsTextEdit->clear(); // Effacer si aucun client n'est sélectionné
+        return;
+    }
+
+    QSqlQuery query; // Utilise la connexion par défaut
+    query.prepare("SELECT EMAIL, CONTACT, COUNTRY, OCCUPATION FROM CLIENT WHERE ID = :id"); // Use new columns, WHERE on ID
+    query.bindValue(":id", clientId);
+
+    if (query.exec() && query.next()) {
+        // **** CHANGE Format the details string ****
+        QString details = tr("Email: %1\nContact: %2\nCountry: %3\nOccupation: %4")
+                              .arg(query.value("EMAIL").toString())      // Use new column EMAIL
+                              .arg(query.value("CONTACT").toString())    // Use new column CONTACT
+                              .arg(query.value("COUNTRY").toString())    // Use new column COUNTRY
+                              .arg(query.value("OCCUPATION").toString());// Use new column OCCUPATION
+        // Removed ADDRESS and VAT_ID
+        ui->clientDetailsTextEdit->setText(details);
+    } else {
+        ui->clientDetailsTextEdit->setText(tr("Client details not found."));
+        qDebug() << "Failed query client details. ID:" << clientId << "Err:" << query.lastError().text();
+    }
+}
+
+// --- calculateAndDisplayTotals ---
+// Calcule les totaux (sous-total, TVA, total général) à partir du tableau UI et met à jour les labels.
+void CreateEditInvoiceDialog::calculateAndDisplayTotals() {
+    // ... (Keep existing implementation - it only reads from UI table) ...
+    // This function remains necessary to update the display labels.
+    double runningSubtotal = 0.0;
+    double runningVatTotal = 0.0;
+    QLocale locale = QLocale::system();
+    ui->lineItemsTableWidget->blockSignals(true);
+    for (int row = 0; row < ui->lineItemsTableWidget->rowCount(); row++) {
+        QTableWidgetItem* qtyItem = ui->lineItemsTableWidget->item(row, 1);
+        QTableWidgetItem* priceItem = ui->lineItemsTableWidget->item(row, 2);
+        QTableWidgetItem* vatItem = ui->lineItemsTableWidget->item(row, 3);
+        QTableWidgetItem* totalItem = ui->lineItemsTableWidget->item(row, 4);
+        bool okQty = false, okPrice = false, okVat = false;
+        double qty = qtyItem ? locale.toDouble(qtyItem->text(), &okQty) : 0.0;
+        double price = priceItem ? locale.toDouble(priceItem->text(), &okPrice) : 0.0;
+        double vatPercent = vatItem ? locale.toDouble(vatItem->text(), &okVat) : 0.0;
+        double lineSubtotal = 0.0;
+        double lineVatAmount = 0.0;
+        double lineTotal = 0.0;
+        if (okQty && okPrice) {
+            lineSubtotal = qty * price;
+            if (okVat && vatPercent > 0) { lineVatAmount = lineSubtotal * (vatPercent / 100.0); }
+            lineTotal = lineSubtotal + lineVatAmount;
+        }
+        runningSubtotal += lineSubtotal;
+        runningVatTotal += lineVatAmount;
+        if (!totalItem) {
+            totalItem = new QTableWidgetItem();
+            totalItem->setTextAlignment(Qt::AlignRight | Qt::AlignVCenter);
+            totalItem->setFlags(totalItem->flags() & ~Qt::ItemIsEditable);
+            ui->lineItemsTableWidget->setItem(row, 4, totalItem);
+        }
+        totalItem->setText(locale.toString(lineTotal, 'f', 2));
+    }
+    ui->lineItemsTableWidget->blockSignals(false);
+    double grandTotal = runningSubtotal + runningVatTotal;
+    QString currencySymbol = locale.currencySymbol();
+    ui->subtotalValueLabel->setText(currencySymbol + locale.toString(runningSubtotal, 'f', 2));
+    ui->totalVatValueLabel->setText(currencySymbol + locale.toString(runningVatTotal, 'f', 2));
+    ui->grandTotalValueLabel->setText(currencySymbol + locale.toString(grandTotal, 'f', 2));
+}
+// --- updateDueDate ---
+// createeditinvoicedialog.cpp
+
+void CreateEditInvoiceDialog::updateDueDate() {
+
+    // 1. Get the DATE part from the issueDateEdit widget.
+    QDate issueDatePart = ui->issueDateEdit->date(); // <<< issueDatePart is QDate
+
+    if (!issueDatePart.isValid()) {
+        qWarning() << "updateDueDate: Invalid issue date detected in UI. Cannot calculate due date.";
+        return;
+    }
+
+    // 2. Get the current TIME part from the dueDateEdit widget.
+    QTime dueTimePart = ui->dueDateEdit->time(); // <<< dueTimePart is QTime
+
+    // 3. Get the payment terms text.
+    QString terms = ui->paymentTermsLineEdit->text().trimmed().toLower();
+
+    // 4. ***** CRITICAL: Declare and calculate the NEW due DATE part *****
+    QDate newDueDatePart = issueDatePart; // <<< MUST be declared as QDate here
+
+    // Perform calculations using QDate::addDays, which returns QDate
+    if (terms.contains("net 30") || terms.contains("30 days")) {
+        newDueDatePart = issueDatePart.addDays(30); // <<< Assignment keeps it QDate
+    } else if (terms.contains("net 15") || terms.contains("15 days")) {
+        newDueDatePart = issueDatePart.addDays(15); // <<< Assignment keeps it QDate
+    } else if (terms.contains("net 60") || terms.contains("60 days")) {
+        newDueDatePart = issueDatePart.addDays(60); // <<< Assignment keeps it QDate
+    }
+    // ... other terms ...
+
+    // 5. ***** This is Line 271 (approx) - Now it should work *****
+    //    Combine the QDate (newDueDatePart) and QTime (dueTimePart)
+    QDateTime newDueDateTime(newDueDatePart, dueTimePart); // <<< Uses QDateTime(QDate, QTime)
+
+    // 6. Update the dueDateEdit widget.
+    bool signalsBlocked = ui->dueDateEdit->blockSignals(true);
+    ui->dueDateEdit->setDateTime(newDueDateTime);
+    ui->dueDateEdit->blockSignals(signalsBlocked);
+
+    qDebug() << "Calculated and set Due DateTime to:" << newDueDateTime;
+}
+
+// --- populateUiFromInvoice ---
+// Remplit les champs de l'UI à partir d'un objet Invoices chargé.
+void CreateEditInvoiceDialog::populateUiFromInvoice(const Invoices& invoice) {
+    qDebug() << "populateUiFromInvoice called for Invoice ID:" << invoice.getInvoiceId();
+
+    // Remplir les champs de l'en-tête
+    ui->invoiceNumberLineEdit->setText(invoice.getInvoiceNumber());
+    // Trouver et sélectionner le client dans la ComboBox
+    int clientIndex = ui->clientSelectComboBox->findData(invoice.getClientId());
+    ui->clientSelectComboBox->setCurrentIndex(clientIndex >= 0 ? clientIndex : 0);
+    // Afficher les détails du client sélectionné (lance l'appel à displayClientDetails via le signal)
+    // displayClientDetails(invoice.getClientId()); // Normalement pas nécessaire si setCurrentIndex émet le signal
+    // ---- CORRECT Line inside populateUiFromInvoice ----
+    // Inside populateUiFromInvoice in createeditinvoicedialog.cpp
+    qDebug() << "Populating UI Issue Date (Full DateTime from object):" << invoice.getIssueDate();
+    ui->issueDateEdit->setDateTime(invoice.getIssueDate()); // <<< Ensure this uses setDateTime
+    ui->paymentTermsLineEdit->setText(invoice.getPaymentTerms());
+    ui->notesTextEdit->setPlainText(invoice.getNotes());
+    ui->dueDateEdit->setDateTime(invoice.getDueDate());
+    // Remplir le tableau des lignes de facture
+    ui->lineItemsTableWidget->setRowCount(0); // Vider le tableau avant de remplir
+    const QList<InvoiceLineItem>& items = invoice.getLineItems();
+    qDebug() << "Number of line items received from loaded invoice:" << items.count();
+
+    // Bloquer les signaux pendant le remplissage pour la performance
+    bool signalsBlocked = ui->lineItemsTableWidget->signalsBlocked();
+    ui->lineItemsTableWidget->blockSignals(true);
+    QLocale locale = this->locale(); // Utiliser la locale pour le formatage
+
+    for (const auto& item : items) {
+        int row = ui->lineItemsTableWidget->rowCount();
+        ui->lineItemsTableWidget->insertRow(row);
+
+        // Remplir les cellules avec les données de l'item
+        ui->lineItemsTableWidget->setItem(row, 0, new QTableWidgetItem(item.getDescription()));
+        // Formater les nombres selon la locale
+        ui->lineItemsTableWidget->setItem(row, 1, new QTableWidgetItem(locale.toString(item.getQuantity(), 'f', 2)));
+        ui->lineItemsTableWidget->setItem(row, 2, new QTableWidgetItem(locale.toString(item.getUnitPrice(), 'f', 2)));
+        // Note: VAT% n'est pas stocké dans InvoiceLineItem dans cet exemple, mettre 0 ?
+        ui->lineItemsTableWidget->setItem(row, 3, new QTableWidgetItem(locale.toString(0.0, 'f', 1))); // Mettre à 0 ou lire si stocké
+
+        // Créer et formater la cellule du total (non éditable)
+        QTableWidgetItem *totalItem = new QTableWidgetItem();
+        totalItem->setTextAlignment(Qt::AlignRight | Qt::AlignVCenter);
+        totalItem->setFlags(totalItem->flags() & ~Qt::ItemIsEditable); // Non éditable
+        // totalItem->setText(locale.toString(item.getAmount(), 'f', 2)); // Utiliser item.getAmount() si disponible
+        ui->lineItemsTableWidget->setItem(row, 4, totalItem); // Le total sera recalculé ci-dessous
+    }
+
+    ui->lineItemsTableWidget->blockSignals(signalsBlocked); // Restaurer les signaux
+
+    // Recalculer et afficher tous les totaux après avoir rempli le tableau
+    calculateAndDisplayTotals();
+    qDebug() << "Finished populating UI from invoice.";
+}
+
+// --- populateInvoiceObjectFromUi ---
+// Récupère les données depuis l'UI et remplit les objets C++ Invoices et InvoiceLineItem.
+void CreateEditInvoiceDialog::populateInvoiceObjectFromUi(Invoices& invoiceToPopulate, QList<InvoiceLineItem>& itemsToPopulate) {
+    qDebug() << "Running populateInvoiceObjectFromUi...";
+    QLocale locale = this->locale();
+
+    invoiceToPopulate.setInvoiceNumber(ui->invoiceNumberLineEdit->text().trimmed());
+    invoiceToPopulate.setClientId(ui->clientSelectComboBox->currentData().toInt());
+    // Ensure client name is also set from the combobox text, not just relying on loadById
+    invoiceToPopulate.setClientName(ui->clientSelectComboBox->currentText()); // <<< ADDED/MODIFIED to ensure name is current
+
+    invoiceToPopulate.setIssueDate(ui->issueDateEdit->dateTime());
+    invoiceToPopulate.setDueDate(ui->dueDateEdit->dateTime());
+    invoiceToPopulate.setPaymentTerms(ui->paymentTermsLineEdit->text().trimmed());
+    invoiceToPopulate.setNotes(ui->notesTextEdit->toPlainText().trimmed());
+
+    calculateAndDisplayTotals(); // Ensure totals are up-to-date before reading
+
+    bool okSub, okTax, okTotal;
+    QString subTextRaw = ui->subtotalValueLabel->text();
+    QString taxTextRaw = ui->totalVatValueLabel->text();
+    QString totalTextRaw = ui->grandTotalValueLabel->text();
+
+    QString subClean = subTextRaw; subClean.remove(locale.currencySymbol()).remove(locale.groupSeparator());
+    QString taxClean = taxTextRaw; taxClean.remove(locale.currencySymbol()).remove(locale.groupSeparator());
+    QString totalClean = totalTextRaw; totalClean.remove(locale.currencySymbol()).remove(locale.groupSeparator());
+
+    double subtotal = locale.toDouble(subClean, &okSub);
+    double taxAmount = locale.toDouble(taxClean, &okTax);
+    double totalAmount = locale.toDouble(totalClean, &okTotal);
+
+    if (!okSub || std::isnan(subtotal) || std::isinf(subtotal)) { subtotal = 0.0; qWarning("Subtotal conversion failed from label!"); }
+    if (!okTax || std::isnan(taxAmount) || std::isinf(taxAmount)) { taxAmount = 0.0; qWarning("Tax amount conversion failed from label!"); }
+    if (!okTotal || std::isnan(totalAmount) || std::isinf(totalAmount)){ totalAmount = 0.0; qWarning("Total amount conversion failed from label!"); }
+
+    invoiceToPopulate.setSubtotal(subtotal);
+    invoiceToPopulate.setTaxAmount(taxAmount);
+    invoiceToPopulate.setTotalAmount(totalAmount);
+
+    itemsToPopulate.clear();
+    for (int row = 0; row < ui->lineItemsTableWidget->rowCount(); ++row) {
+        InvoiceLineItem lineItem;
+        bool rowIsValid = true;
+
+        QTableWidgetItem* descItem = ui->lineItemsTableWidget->item(row, 0);
+        if (descItem && !descItem->text().trimmed().isEmpty()) {
+            lineItem.setDescription(descItem->text().trimmed());
+        } else {
+            rowIsValid = false;
+        }
+
+        QTableWidgetItem* qtyItem = ui->lineItemsTableWidget->item(row, 1);
+        double quantity = 0.0; bool okQty = false;
+        if (qtyItem && rowIsValid) {
+            quantity = locale.toDouble(qtyItem->text().trimmed().remove(locale.groupSeparator()), &okQty);
+            if (!okQty || std::isnan(quantity) || std::isinf(quantity) || quantity <= 0) {
+                rowIsValid = false;
+            }
+        } else if (rowIsValid) { rowIsValid = false; }
+
+        QTableWidgetItem* priceItem = ui->lineItemsTableWidget->item(row, 2);
+        double unitPrice = 0.0; bool okPrice = false;
+        if (priceItem && rowIsValid) {
+            unitPrice = locale.toDouble(priceItem->text().trimmed().remove(locale.currencySymbol()).remove(locale.groupSeparator()), &okPrice);
+            if (!okPrice || std::isnan(unitPrice) || std::isinf(unitPrice) || unitPrice < 0) {
+                rowIsValid = false;
+            }
+        } else if (rowIsValid) { rowIsValid = false; }
+
+        // Assuming VAT% is in column 3 and is purely for display calculation within calculateAndDisplayTotals
+        // It's not directly part of InvoiceLineItem data model in this setup.
+
+        if (rowIsValid) {
+            lineItem.setQuantity(quantity);
+            lineItem.setUnitPrice(unitPrice);
+            lineItem.setAmount(quantity * unitPrice); // Amount is calculated
+            itemsToPopulate.append(lineItem);
+        } else {
+            qWarning() << "Skipping invalid line item data at row:" << row;
+        }
+    }
+    qDebug() << "Finished collecting line items. Valid count:" << itemsToPopulate.count();
+}
+
+
+void CreateEditInvoiceDialog::saveInvoice(const QString& status) {
+    qDebug() << "==== saveInvoice FUNCTION ENTERED (Status: " << status << ") ====";
+    // ... (your validation at the start of saveInvoice) ...
+    if ((ui->clientSelectComboBox->currentData().toInt() <= 0) ||
+        (ui->invoiceNumberLineEdit->text().trimmed().isEmpty()) ||
+        (ui->lineItemsTableWidget->rowCount() == 0)) {
+        QMessageBox::warning(this, tr("Validation Error"), tr("Please select a valid client, enter an invoice number, and add at least one line item."));
+        return;
+    }
+
+    calculateAndDisplayTotals();
+    Invoices invoiceToSave;
+    QList<InvoiceLineItem> lineItemsToSave;
+    populateInvoiceObjectFromUi(invoiceToSave, lineItemsToSave);
+    invoiceToSave.setLineItems(lineItemsToSave);
+    invoiceToSave.setStatus(status);
+
+    qDebug() << "[saveInvoice] Prepared Invoice Object: ID=" << (currentInvoiceId > 0 ? currentInvoiceId : -1)
+             << " Number=" << invoiceToSave.getInvoiceNumber()
+             << " ClientID=" << invoiceToSave.getClientId()
+             << " ClientName=" << invoiceToSave.getClientName() // Should be set from ComboBox
+             << " Status=" << invoiceToSave.getStatus()
+             << " Total=" << invoiceToSave.getTotalAmount()
+             << " LineItems=" << invoiceToSave.getLineItems().count();
+
+    bool success = false;
+    // isEditMode is now a member variable
+    if (!isEditMode) { // Saving a new invoice
+        qDebug() << "Calling Invoices::save() for new invoice header and lines...";
+        success = invoiceToSave.save();
+
+        if (success) {
+            qDebug() << "Invoice::save() successful. New Invoice ID:" << invoiceToSave.getInvoiceId();
+            currentInvoiceId = invoiceToSave.getInvoiceId();
+
+            // Use string literal for the key
+            int lastUsedNumber = SettingsDialog::getSettingInt("InvoiceOptions/NextNumber", 1);
+            int newNextNumber = lastUsedNumber + 1;
+            if (!SettingsDialog::setSetting("InvoiceOptions/NextNumber", newNextNumber)) {
+                qWarning() << "CRITICAL: Failed to update Next Invoice Number in settings after saving invoice ID" << currentInvoiceId << "!";
+                QMessageBox::warning(this, tr("Settings Error"), tr("Invoice saved, but failed to update the next invoice number in settings. Please check manually."));
+            } else {
+                qDebug() << "Next Invoice Number updated in settings to:" << newNextNumber;
+            }
+        }
+    } else { // Updating an existing invoice
+        qDebug() << "Calling Invoices::update() for existing Invoice ID:" << currentInvoiceId;
+        invoiceToSave.setInvoiceId(currentInvoiceId);
+        success = invoiceToSave.update();
+        if (success) {
+            qDebug() << "Invoice::update() successful for Invoice ID:" << currentInvoiceId;
+        }
+    }
+
+    if (success) {
+        // isEditMode is a member
+        QString successMessage = isEditMode ?
+                                     tr("Invoice (ID: %1) successfully updated with status '%2'.").arg(currentInvoiceId).arg(status) :
+                                     tr("Invoice (ID: %1) successfully saved with status '%2'.").arg(invoiceToSave.getInvoiceId()).arg(status);
+        QMessageBox::information(this, tr("Success"), successMessage);
+        accept();
+    } else {
+        QSqlError error = invoiceToSave.lastDbError();
+        // isEditMode is a member
+        qWarning() << "Invoice " << (isEditMode ? "update" : "save") << " failed. DB Error:" << error.databaseText() << "| Driver Error:" << error.driverText();
+        QMessageBox::critical(this, tr("Operation Failed"),
+                              tr("Could not %1 the invoice.\n\nError: %2")
+                                  .arg(isEditMode ? tr("update") : tr("save"))
+                                  .arg(error.text().isEmpty() ? tr("An unknown database error occurred.") : error.text()));
+    }
+    qDebug() << "==== saveInvoice FUNCTION EXITING ====";
+}
+
+// You also need the implementations for:
+// void CreateEditInvoiceDialog::calculateAndDisplayTotals();
+// void CreateEditInvoiceDialog::populateInvoiceObjectFromUi(Invoices& invoice, QList<InvoiceLineItem>& items);
+// Assuming these exist elsewhere in your code.
+
+// --- SLOTS IMPLEMENTATIONS ---
+
+// --- Slot pour le bouton "Save Draft" ---
+void CreateEditInvoiceDialog::on_saveDraftButton_clicked() {
+    qDebug() << "++++ on_saveDraftButton_clicked SLOT ENTERED ++++";
+    // Le statut "unpaid" est souvent utilisé pour les brouillons ou factures envoyées non payées.
+    // Choisissez le statut qui convient le mieux à votre logique métier pour un brouillon.
+    saveInvoice("draft"); // ou "draft" si vous utilisez ce statut
+}
+
+// --- Slot pour le bouton "Save and Send" ---
+void CreateEditInvoiceDialog::on_saveAndSendButton_clicked() {
+    qDebug() << "++++ on_saveAndSendButton_clicked SLOT ENTERED ++++";
+    // Le statut "sent" indique généralement que la facture a été finalisée et envoyée.
+    saveInvoice("sent");
+}
+
+// --- Slot pour ajouter une ligne ---
+// Modifie uniquement l'UI, n'interagit pas avec la base de données ici.
+void CreateEditInvoiceDialog::on_addLineItemButton_clicked() {
+    int row = ui->lineItemsTableWidget->rowCount(); // Récupère le nombre actuel de lignes
+    ui->lineItemsTableWidget->insertRow(row);      // <<< Insère UNE SEULE nouvelle ligne à la fin
+
+    // --- Ajoute les items par défaut à cette nouvelle ligne ---
+    QLocale locale = this->locale();
+    ui->lineItemsTableWidget->setItem(row, 0, new QTableWidgetItem("")); // Description vide
+    ui->lineItemsTableWidget->setItem(row, 1, new QTableWidgetItem(locale.toString(1.0, 'f', 2))); // Qté 1
+    ui->lineItemsTableWidget->setItem(row, 2, new QTableWidgetItem(locale.toString(0.0, 'f', 2))); // Prix 0
+    ui->lineItemsTableWidget->setItem(row, 3, new QTableWidgetItem(locale.toString(0.0, 'f', 1))); // TVA 0
+    // Total (non éditable)
+    QTableWidgetItem *totalItem = new QTableWidgetItem(locale.toString(0.0, 'f', 2));
+    totalItem->setTextAlignment(Qt::AlignRight | Qt::AlignVCenter);
+    totalItem->setFlags(totalItem->flags() & ~Qt::ItemIsEditable);
+    ui->lineItemsTableWidget->setItem(row, 4, totalItem);
+    // --- Fin de l'ajout des items ---
+
+    ui->lineItemsTableWidget->scrollToBottom(); // Faire défiler
+    ui->lineItemsTableWidget->editItem(ui->lineItemsTableWidget->item(row, 0)); // Focus sur description
+}
+
+// --- Slot pour supprimer une ligne ---
+// Modifie uniquement l'UI.
+void CreateEditInvoiceDialog::on_removeLineItemButton_clicked() {
+    QList<QTableWidgetItem*> selectedItems = ui->lineItemsTableWidget->selectedItems();
+    if (selectedItems.isEmpty()) {
+        QMessageBox::warning(this, tr("Remove Item"), tr("Please select a line item (or part of a row) to remove."));
+        return;
+    }
+
+    // Récupérer les indices des lignes à supprimer (sans doublons)
+    QList<int> rowsToRemoveList;
+    for(QTableWidgetItem* item : selectedItems) {
+        if (!rowsToRemoveList.contains(item->row())) {
+            rowsToRemoveList.append(item->row());
+        }
+    }
+    // Trier en ordre décroissant pour éviter les problèmes d'indices lors de la suppression
+    std::sort(rowsToRemoveList.begin(), rowsToRemoveList.end(), std::greater<int>());
+
+    // Supprimer les lignes
+    for (int row : rowsToRemoveList) {
+        ui->lineItemsTableWidget->removeRow(row);
+    }
+
+    // Recalculer les totaux après suppression
+    calculateAndDisplayTotals();
+}
+
+// --- Slot pour l'aperçu ---
+void CreateEditInvoiceDialog::on_previewButton_clicked() {
+    // Implémentation future : Générer un aperçu PDF ou autre
+    QMessageBox::information(this, tr("Preview"), tr("Preview functionality is not yet implemented."));
+}
+
+// --- Slot appelé quand le client change ---
+void CreateEditInvoiceDialog::on_clientSelectComboBox_currentIndexChanged(int index) {
+    Q_UNUSED(index);
+    // Get ID from selected item's data and display details
+    displayClientDetails(ui->clientSelectComboBox->currentData().toInt());
+}
+
+// --- Slot appelé quand la date d'émission change ---
+void CreateEditInvoiceDialog::on_issueDateEdit_dateTimeChanged(const QDateTime &dateTime) { // <<< Brace { is on this line
+    Q_UNUSED(dateTime); // Le paramètre 'dateTime' n'est pas utilisé directement
+    qDebug() << "Issue DateTime Changed Slot Triggered - dateTime:" << ui->issueDateEdit->dateTime();
+    updateDueDate(); // Recalculer la date d'échéance
+}
+// --- Slot appelé quand les termes de paiement changent ---
+void CreateEditInvoiceDialog::on_paymentTermsLineEdit_textChanged(const QString &arg1) {
+    Q_UNUSED(arg1); // Le paramètre 'arg1' n'est pas utilisé directement
+    qDebug() << "Payment Terms Changed Slot Triggered";
+    updateDueDate(); // Recalculer la date d'échéance
+}
+
+// --- Slot appelé quand une cellule du tableau des lignes change ---
+void CreateEditInvoiceDialog::on_lineItemsTableWidget_cellChanged(int row, int column) {
+    Q_UNUSED(row);
+
+    // Recalculer les totaux si Quantité (1), Prix Unit. (2), ou TVA% (3) changent
+    if (column == 1 || column == 2 || column == 3 ) {
+        qDebug() << "Line Item Cell Changed Slot Triggered for relevant column:" << column;
+        calculateAndDisplayTotals();
+    }
+}
+void CreateEditInvoiceDialog::on_dueDateEdit_dateTimeChanged(const QDateTime &dateTime)
+{
+    Q_UNUSED(dateTime);
+    qDebug() << "Due date/time changed in UI to:" << ui->dueDateEdit->dateTime();
+    // No action needed here usually, unless it affects something else.
+}

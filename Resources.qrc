@@ -1,0 +1,21 @@
+<RCC>
+    <qresource prefix="/images"/>
+    <qresource prefix="/styles">
+        <file>style.qss</file>
+        <file>client_payment_style.qss</file>
+        <file>settings_style.qss</file>
+        <file>style_payment.qss</file>
+    </qresource>
+    <qresource prefix="/icons"/>
+    <qresource prefix="/icon">
+        <file>analytics.png</file>
+        <file>appointment_scheduling.png</file>
+        <file>client_management.png</file>
+        <file>consultant_management.png</file>
+        <file>payment_invoicing.png</file>
+        <file>task_management.png</file>
+    </qresource>
+    <qresource prefix="/">
+        <file>consultiq_logo.png</file>
+    </qresource>
+</RCC>

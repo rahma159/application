@@ -1,0 +1,317 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>ClientManager</class>
+ <widget class="QWidget" name="ClientManager">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>1117</width>
+    <height>680</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Client Manager</string> </property>
+  <property name="styleSheet">
+   <string notr="true">QWidget {
+   background-color: #f0f8ff;
+   color: #333;
+   font-family: &quot;Roboto Slab Thin&quot;, sans-serif;
+   font-size: 14px;
+}
+QGroupBox {
+   border: 1px solid #d3d3d3;
+   border-radius: 8px;
+   margin-top: 10px;
+   padding-top: 15px;
+   background-color: #fff;
+}
+QGroupBox::title {
+   color: #2E648B;
+   subcontrol-origin: margin;
+   left: 10px;
+   padding: 0 5px;
+   font-size: 16px;
+   font-weight: bold;
+}
+QPushButton {
+   background-color: #4682B4;
+   color: white;
+   border: none;
+   padding: 8px 16px;
+   border-radius: 5px;
+   font-size: 14px;
+   font-weight: bold;
+   margin-right: 5px;
+}
+QPushButton:hover {
+   background-color: #6495ED;
+}
+QPushButton:disabled {
+   background-color: #a9a9a9;
+   color: #d3d3d3;
+}
+QLineEdit, QSpinBox, QDateEdit, QComboBox {
+   background-color: white;
+   border: 1px solid #ccc;
+   border-radius: 3px;
+   padding: 3px;
+   font-size: 14px;
+}
+/* Style for read-only QLineEdit */ /* Comment translated */
+QLineEdit[readOnly=&quot;true&quot;] {
+    background-color: #eee; /* Grayed out to indicate non-editable */ /* Comment translated */
+}
+QHeaderView::section {
+   background-color: #ADD8E6;
+   color: #2E648B;
+   padding: 5px;
+   border: 1px solid #ADD8E6;
+   font-size: 14px;
+   font-weight: bold;
+}
+QTableWidget {
+   gridline-color: #E0FFFF;
+   background-color: white;
+   border: 1px solid #ADD8E6;
+   font-size: 12px;
+   selection-background-color: #B0E0E6;
+   selection-color: #333;
+   alternate-background-color: #f7fdff;
+}
+QFrame[frameShape=&quot;4&quot;] { /* Assuming shape 4 is HLine */
+   border: none;
+   border-top: 1px solid #ADD8E6;
+   min-height: 1px; max-height: 1px;
+   margin-top: 10px;
+   margin-bottom: 10px;
+}</string>
+  </property>
+  <layout class="QVBoxLayout" name="verticalLayoutMain">
+   <item>
+    <widget class="QGroupBox" name="groupBoxInfosClient"> <property name="title">
+      <string>Client Information</string> </property>
+     <layout class="QGridLayout" name="gridLayoutInfosClient"> <item row="0" column="0">
+       <widget class="QLabel" name="labelNom"> <property name="text">
+         <string>Last Name:</string> </property>
+       </widget>
+      </item>
+      <item row="0" column="1">
+       <widget class="QLineEdit" name="lineNom"> <property name="readOnly">
+         <bool>true</bool>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="0">
+       <widget class="QLabel" name="labelPrenom"> <property name="text">
+         <string>First Name:</string> </property>
+       </widget>
+      </item>
+      <item row="1" column="1">
+       <widget class="QLineEdit" name="linePrenom"> <property name="readOnly">
+         <bool>true</bool>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="0">
+       <widget class="QLabel" name="labelDomaine"> <property name="text">
+         <string>Domain:</string> </property>
+       </widget>
+      </item>
+      <item row="2" column="1">
+       <widget class="QLineEdit" name="lineDomaine"> <property name="readOnly">
+         <bool>true</bool>
+        </property>
+       </widget>
+      </item>
+      <item row="3" column="0" colspan="2">
+       <widget class="QLabel" name="labelEditID">
+        <property name="text">
+         <string>Client ID: [ID]</string> </property>
+        <property name="alignment">
+         <set>Qt::AlignmentFlag::AlignCenter</set>
+        </property>
+       </widget>
+      </item>
+      <item row="4" column="0" colspan="2">
+       <widget class="QPushButton" name="btnConsulter"> <property name="enabled">
+         <bool>false</bool>
+        </property>
+        <property name="text">
+         <string>View Claims</string> </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item>
+    <widget class="QFrame" name="frameSeparator">
+     <property name="frameShape">
+      <enum>QFrame::Shape::HLine</enum>
+     </property>
+     <property name="frameShadow">
+      <enum>QFrame::Shadow::Sunken</enum>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="QGroupBox" name="groupBoxFiltres"> <property name="title">
+      <string>Filters</string> </property>
+     <layout class="QGridLayout" name="gridLayoutFiltres"> <item row="0" column="0">
+       <widget class="QLabel" name="labelDateDebut"> <property name="text">
+         <string>Start Date:</string> </property>
+       </widget>
+      </item>
+      <item row="0" column="1">
+       <widget class="QDateEdit" name="dateEditDebut"> <property name="displayFormat">
+         <string>yyyy-MM-dd</string>
+        </property>
+        <property name="calendarPopup">
+         <bool>true</bool>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="0">
+       <widget class="QLabel" name="labelDateFin"> <property name="text">
+         <string>End Date:</string> </property>
+       </widget>
+      </item>
+      <item row="1" column="1">
+       <widget class="QDateEdit" name="dateEditFin"> <property name="displayFormat">
+         <string>yyyy-MM-dd</string>
+        </property>
+        <property name="calendarPopup">
+         <bool>true</bool>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item>
+    <widget class="QGroupBox" name="groupBoxAlerte"> <property name="title">
+      <string>Claim Alert Threshold</string> </property>
+     <layout class="QHBoxLayout" name="horizontalLayoutAlerte"> <item>
+       <widget class="QSpinBox" name="spinSeuil"> <property name="minimum">
+         <number>1</number>
+        </property>
+        <property name="maximum">
+         <number>100</number>
+        </property>
+        <property name="value">
+         <number>5</number> </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="btnSeuilAlerte"> <property name="text">
+         <string>Apply Threshold</string> </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item>
+    <widget class="QTableWidget" name="tableClients">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+       <horstretch>0</horstretch>
+       <verstretch>1</verstretch>
+      </sizepolicy>
+     </property>
+     <property name="editTriggers">
+      <set>QAbstractItemView::EditTrigger::NoEditTriggers</set>
+     </property>
+     <property name="alternatingRowColors">
+      <bool>true</bool>
+     </property>
+     <property name="selectionMode">
+      <enum>QAbstractItemView::SelectionMode::SingleSelection</enum>
+     </property>
+     <property name="selectionBehavior">
+      <enum>QAbstractItemView::SelectionBehavior::SelectRows</enum>
+     </property>
+     <property name="columnCount">
+      <number>5</number> </property>
+     <attribute name="horizontalHeaderVisible">
+      <bool>true</bool>
+     </attribute>
+     <attribute name="horizontalHeaderStretchLastSection">
+      <bool>true</bool>
+     </attribute>
+     <attribute name="verticalHeaderVisible">
+      <bool>false</bool>
+     </attribute>
+     <column>
+      <property name="text">
+       <string>ID</string> </property>
+     </column>
+     <column>
+      <property name="text">
+       <string>Last Name</string> </property>
+     </column>
+     <column>
+      <property name="text">
+       <string>First Name</string> </property>
+     </column>
+     <column>
+      <property name="text">
+       <string>Domain</string> </property>
+     </column>
+     <column>
+      <property name="text">
+       <string>Claims</string> </property>
+     </column>
+     </widget>
+   </item>
+   <item>
+    <layout class="QHBoxLayout" name="horizontalLayoutBoutons"> <item>
+      <widget class="QPushButton" name="btnAfficherGraphique"> <property name="text">
+        <string>Show Chart</string> </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="btnIncrementReclamation"> <property name="text">
+        <string>Increment Claim</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="btnSupprimer"> <property name="text">
+        <string>Delete Selected Client</string> </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="btnRafraichir"> <property name="text">
+        <string>Refresh</string> </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="btnExporterCSV"> <property name="text">
+        <string>Export to CSV</string> </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="btnLancerAnalyse"> <property name="text">
+        <string>Analyze Risks</string> </property>
+      </widget>
+     </item>
+     <item>
+      <spacer name="horizontalSpacer">
+       <property name="orientation">
+        <enum>Qt::Orientation::Horizontal</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>40</width>
+         <height>20</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+    </layout>
+   </item>
+  </layout>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

@@ -1,0 +1,373 @@
+/* === Global Styles === */
+QMainWindow, QWidget#centralWidget {
+    /* Use the gradient background */
+    background-image: url(:/background_gradient.png);
+    background-repeat: repeat; /* Or no-repeat if image is large enough */
+    background-position: center;
+    /* Fallback color if image fails */
+    background-color: #e8f1f2;
+    color:#4a6fa5;
+    font-family: sans-serif; /* Or a specific clean font like Segoe UI, Cantarell, etc. */
+}
+
+/* Remove focus rectangle globally (optional, but common in modern UIs) */
+* {
+    outline: none;
+    border: none; /* Remove default borders unless specified */
+}
+
+/* === Top Navigation Bar (Apply to all topBarWidgett_X) === */
+#topBarWidgett_2, #topBarWidgett_3, #topBarWidgett_4 {
+    background-color: rgba(255, 255, 255, 0.6); /* Semi-transparent white */
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1); /* Subtle bottom border */
+
+}
+
+/* Style labels within the top bars (Menu Items, Logo) */
+#topBarWidgett_2 QLabel,
+#topBarWidgett_3 QLabel,
+#topBarWidgett_4 QLabel {
+    color: #333; /* Dark grey text */
+    font-size: 10pt; /* Adjusted size */
+    font-weight: 600; /* Slightly bolder */
+    padding: 8px 15px;
+    background-color: transparent; /* Ensure labels have transparent background */
+}
+
+/* Specific styling for the Logo label if needed */
+#lblLogo_2, #lblLogo_3, #lblLogo_5 {
+     font-weight: bold;
+     font-size: 13pt;
+     /* If using text logo */
+     color: #13293D; /* Dark blue */
+}
+
+/* Styling for potential buttons in the top bar (e.g., hamburger menu) */
+#topBarWidgett_2 QPushButton, #topBarWidgett_3 QPushButton, #topBarWidgett_4 QPushButton,
+#topBarWidgett_2 QToolButton, #topBarWidgett_3 QToolButton, #topBarWidgett_4 QToolButton {
+    background-color: transparent;
+    border: none;
+    padding: 5px;
+    color: #333;
+}
+#topBarWidgett_2 QToolButton, #topBarWidgett_3 QToolButton, #topBarWidgett_4 QToolButton {
+     /* Add icon via C++ */
+     qproperty-iconSize: 20px 20px;
+}
+
+
+/* === Login Page Specific Styles === */
+#loginPage #titleLabel { /* "Welcome to ConsultIQ" */
+    font-size: 28pt;
+    font-weight: 600; /* Semibold */
+    color: #1B4965; /* Darker teal/blue */
+    padding: 30px 40px 5px 40px; /* Adjust padding */
+    background-color: transparent;
+}
+
+#loginPage #descriptionLabel { /* "Sign in to your account..." */
+    font-size: 11pt;
+    color: #5C7A89; /* Softer blue/grey */
+    padding: 0 40px 20px 40px;
+    line-height: 1.5; /* Improve readability */
+    word-wrap: true;
+    background-color: transparent;
+}
+
+/* Login Form Card */
+QFrame#loginFormCard {
+    background-color: rgba(245, 247, 248, 0.96); /* Off-white/very light beige, slightly transparent */
+    border-radius: 18px; /* Rounded corners */
+    padding: 35px 40px; /* Generous padding */
+    margin: 20px;
+    max-width: 380px; /* Limit width */
+    /* Add a subtle shadow - Note: complex shadows are hard in QSS */
+    border: 1px solid rgba(0, 0, 0, 0.05); /* Fake shadow with border */
+}
+
+/* "Log in" Title inside the card */
+#loginFormCard QLabel#companyLabel {
+    font-size: 20pt;
+    font-weight: bold;
+    color: #1B4965; /* Dark blue/grey */
+    qproperty-alignment: AlignCenter;
+    padding-bottom: 20px;
+    background-color: transparent;
+}
+
+/* Placeholder icon (if using a QLabel for it - assumed hidden if using addAction) */
+/* #loginFormCard QLabel#userIconPlaceholderLabel { ... } */
+
+/* Input Fields (Username and Password) */
+#loginFormCard QLineEdit#usernameLineEdit,
+#loginFormCard QLineEdit#passwordLineEdit {
+    background-color: #FFFFFF;
+    border: 1px solid #DDE4E7; /* Light grey border */
+    border-radius: 8px;
+    padding: 12px 15px; /* Base padding */
+    padding-left: 40px; /* Space for icon (set via addAction in C++) */
+    font-size: 11pt;
+    color: #333333;
+    min-height: 26px; /* Minimum height */
+    margin-bottom: 15px; /* Space below each field */
+}
+
+#loginFormCard QLineEdit:focus {
+    border: 1px solid #62B6CB; /* Teal/Blue border on focus */
+    /* Optional: slight glow effect */
+    /* box-shadow: 0 0 3px #62B6CB; */ /* Note: box-shadow support is limited */
+}
+
+/* Style the placeholder text */
+QLineEdit::placeholderText {
+    color: #A0A7AC; /* Lighter grey */
+    font-style: normal;
+}
+
+/* Remember Me Checkbox */
+#loginFormCard QCheckBox { /* Assuming objectName 'rememberMeCheckbox' */
+    color: #5C7A89; /* Softer blue/grey */
+    font-size: 10pt;
+    spacing: 8px; /* Space between box and text */
+    padding-top: 5px; /* Space above checkbox */
+    background-color: transparent;
+}
+
+#loginFormCard QCheckBox::indicator {
+    width: 16px;
+    height: 16px;
+    border: 1px solid #BCC8CD; /* Grey border */
+    border-radius: 4px; /* Slightly rounded */
+    background-color: #FFFFFF; /* White background */
+}
+#loginFormCard QCheckBox::indicator:hover {
+    border: 1px solid #A0A7AC;
+}
+#loginFormCard QCheckBox::indicator:checked {
+    background-color: #1B4965; /* Dark blue check */
+    border-color: #13293D;
+    /* Add checkmark image */
+    image: url(:/checkmark_icon.png); /* CREATE/FIND and ADD this icon to resources! */
+}
+
+
+/* Login Button */
+#loginFormCard QPushButton#loginButton {
+    background-color: #1B4965; /* Dark blue/teal */
+    color: white;
+    font-weight: bold;
+    font-size: 11pt;
+    border-radius: 8px;
+    padding: 12px 25px;
+    margin-top: 20px; /* Space above button */
+    min-height: 28px;
+}
+
+#loginFormCard QPushButton#loginButton:hover {
+    background-color: #153A55; /* Slightly darker */
+}
+
+#loginFormCard QPushButton#loginButton:pressed {
+    background-color: #102A40; /* Even darker */
+}
+
+/* Forgot Password Button */
+#loginFormCard QPushButton#forgotPasswordButton {
+    background-color: transparent;
+    color: #4E8A9E; /* Link color - blue/teal */
+    border: none;
+    font-size: 10pt;
+    font-weight: 500; /* Medium weight */
+    text-decoration: none; /* Remove default underline */
+    padding: 5px;
+    margin-top: 15px; /* Space above */
+    qproperty-flat: true; /* Remove button-like appearance */
+}
+#loginFormCard QPushButton#forgotPasswordButton:hover {
+    color: #1B4965; /* Darker blue on hover */
+    text-decoration: underline; /* Add underline on hover */
+}
+
+
+/* === Forgot Password Page Styling (Adapt login card styles) === */
+#forgotPasswordPage #loginFrame_2 { /* Assuming this is the container frame */
+     background-color: rgba(245, 247, 248, 0.96);
+     border-radius: 18px;
+     padding: 35px 40px;
+     margin: 20px auto; /* Center horizontally */
+     max-width: 420px; /* Slightly wider if needed */
+     border: 1px solid rgba(0, 0, 0, 0.05);
+}
+#forgotPasswordPage QLabel#forgotPasswordLabel { /* Title */
+    font-size: 18pt;
+    font-weight: bold;
+    color: #1B4965;
+    qproperty-alignment: AlignCenter;
+    padding-bottom: 20px;
+    background-color: transparent;
+}
+
+#forgotPasswordPage QLineEdit#usernameLineEdit_2 { /* Input field - corrected name */
+    background-color: #FFFFFF;
+    border: 1px solid #DDE4E7;
+    border-radius: 8px;
+    padding: 12px 15px;
+    padding-left: 40px; /* For icon */
+    font-size: 11pt;
+    color: #333333;
+    min-height: 26px;
+    margin-bottom: 15px;
+}
+#forgotPasswordPage QLineEdit#usernameLineEdit_2:focus {
+    border: 1px solid #62B6CB;
+}
+
+/* Send Reset Link Button */
+#forgotPasswordPage QPushButton#recoveryUsernameButton {
+     background-color: #62B6CB; /* Primary teal/blue */
+     color: white;
+     font-weight: bold;
+     font-size: 11pt;
+     border: none;
+     border-radius: 8px;
+     padding: 11px 20px;
+     margin-top: 15px;
+     min-height: 27px;
+}
+#forgotPasswordPage QPushButton#recoveryUsernameButton:hover { background-color: #4E8A9E; }
+#forgotPasswordPage QPushButton#recoveryUsernameButton:pressed { background-color: #3A6B7F; }
+
+/* Back to Login Button */
+#forgotPasswordPage QPushButton#backToLoginButton {
+     background-color: transparent;
+     color: #5C7A89; /* Grey */
+     border: none;
+     font-size: 10pt;
+     font-weight: 500;
+     text-decoration: none;
+     padding: 5px;
+     margin-top: 15px;
+     qproperty-flat: true;
+}
+#forgotPasswordPage QPushButton#backToLoginButton:hover { color: #1B4965; text-decoration: underline; }
+
+
+/* === Menu Page Styling === */
+/* Container for the buttons */
+#menuPage #gridFrame {
+    background-color: rgba(245, 247, 248, 0.96); /* Similar to login card */
+    border-radius: 15px;
+    padding: 25px;
+    margin: 20px;
+    border: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+/* Base style for all buttons on the menu page */
+#menuPage QPushButton {
+    background-color: #FFFFFF; /* White background */
+    color: #333333; /* Dark text */
+    border: 1px solid #E8E8E8; /* Light border */
+    border-radius: 12px; /* Rounded corners */
+    padding: 20px 15px; /* Generous padding */
+    font-size: 11pt;
+    font-weight: 600; /* Semibold */
+    text-align: center;
+    min-height: 110px; /* Make buttons squarish */
+    min-width: 160px;
+    /* Icons are best set via C++ using setIcon() */
+    /* Icon size can be set via C++ setIconSize() or QSS */
+    qproperty-iconSize: 80px 80px; /* Adjust size as needed */
+    /* Tooltip style (optional) */
+    /* QToolTip { background-color: black; color: white; border: none; } */
+}
+
+#menuPage QPushButton:hover {
+     background-color: #F8F8F8; /* Slightly grey on hover */
+     border-color: #D0D0D0;
+}
+#menuPage QPushButton:pressed {
+     background-color: #EDEDED; /* Darker grey when pressed */
+}
+
+/* === Specific Menu Button Colors (Mimicking Image 1) === */
+#menuPage QPushButton#clientManagementButton {
+    background-color: #EDF6F9; /* Light blue */
+    border-color: #CAE9F5;
+    color: #1B4965; /* Dark blue text */
+    /* Set Icon in C++ */
+}
+#menuPage QPushButton#clientManagementButton:hover { background-color: #DAEBF0; }
+#menuPage QPushButton#clientManagementButton:pressed { background-color: #C7DEE6; }
+
+
+#menuPage QPushButton#appointmentSchedulingButton {
+    background-color: #457B9D; /* Medium Blue */
+    border-color: #3A6A88;
+    color: white;
+}
+#menuPage QPushButton#appointmentSchedulingButton:hover { background-color: #3A6A88; }
+#menuPage QPushButton#appointmentSchedulingButton:pressed { background-color: #305872; }
+
+#menuPage QPushButton#taskManagementButton {
+    background-color: #A8DADC; /* Teal */
+    border-color: #8FD1D3;
+    color: #1D3557; /* Dark Blue */
+}
+#menuPage QPushButton#taskManagementButton:hover { background-color: #96C8CA; }
+#menuPage QPushButton#taskManagementButton:pressed { background-color: #84B6B8; }
+
+#menuPage QPushButton#paymentInvoicingButton {
+    background-color: #F1FAEE; /* Very Light Green/Off-white */
+    border-color: #D8ECCD;
+    color: #1D3557; /* Dark Blue */
+}
+#menuPage QPushButton#paymentInvoicingButton:hover { background-color: #E4F3E1; }
+#menuPage QPushButton#paymentInvoicingButton:pressed { background-color: #D7EAD0; }
+
+#menuPage QPushButton#consultantManagementButton {
+    background-color: #CAF0F8; /* Lightest blue */
+    border-color: #ADE8F4;
+    color: #03045E; /* Very Dark Blue */
+}
+#menuPage QPushButton#consultantManagementButton:hover { background-color: #B8E2ED; }
+#menuPage QPushButton#consultantManagementButton:pressed { background-color: #A6D9E5; }
+
+#menuPage QPushButton#analyticsButton {
+    background-color: #1D3557; /* Dark Blue */
+    border-color: #152740;
+    color: white;
+}
+#menuPage QPushButton#analyticsButton:hover { background-color: #152740; }
+#menuPage QPushButton#analyticsButton:pressed { background-color: #0E1A2A; }
+
+
+/* === QMessageBox Styling (Basic Example) === */
+QMessageBox {
+    background-color: #FDFDFD;
+    border: 1px solid #E0E0E0;
+    border-radius: 8px; /* Requires Qt 6+ for consistent rounding */
+}
+QMessageBox QLabel { /* Message text */
+    background-color: transparent;
+    color: #333;
+    font-size: 10pt;
+    min-width: 250px; /* Prevent tiny boxes */
+    padding: 10px;
+}
+QMessageBox QPushButton { /* OK, Cancel buttons */
+    background-color: #1B4965;
+    color: white;
+    font-weight: bold;
+    font-size: 9pt;
+    border: none;
+    border-radius: 6px;
+    padding: 8px 20px;
+    margin: 5px;
+    min-width: 70px;
+}
+QMessageBox QPushButton:hover {
+    background-color: #153A55;
+}
+QMessageBox QPushButton:pressed {
+    background-color: #102A40;
+}

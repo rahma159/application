@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>ChartDialog</class>
+ <widget class="QDialog" name="ChartDialog">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>600</width>  <height>400</height> </rect>
+  </property>
+  <property name="minimumSize">
+   <size>
+    <width>600</width>  <height>400</height> </size>
+  </property>
+  <property name="windowTitle">
+   <string>Client Analysis by Domain</string>
+  </property>
+  <layout class="QVBoxLayout" name="verticalLayout"> <item>
+    <widget class="QChartView" name="chartView">
+     <property name="renderHints">
+      <set>QPainter::Antialiasing</set> </property>
+    </widget>
+   </item>
+  </layout>
+ </widget>
+ <customwidgets>
+  <customwidget>
+   <class>QChartView</class>
+   <extends>QGraphicsView</extends> <header>QtCharts/QChartView</header> </customwidget>
+ </customwidgets>
+ <resources/>
+ <connections/>
+</ui>

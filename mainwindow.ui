@@ -1,0 +1,419 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>MainWindow</class>
+ <widget class="QMainWindow" name="MainWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>1119</width>
+    <height>821</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>ClientManagement </string>
+  </property>
+  <property name="styleSheet">
+   <string notr="true">/* Main Window Styling */
+QWidget {
+    background-color: #f8f9fa; /* Light gray background for a clean, modern look */
+    font-family: &quot;Segoe UI&quot;, sans-serif;
+    font-size: 14px;
+    color: #212529; /* Darker text for better readability */
+}
+
+/* Labels */
+QLabel {
+    font-weight: bold;
+    color: #003366; /* Deep blue for headers */
+    font-size: 15px;
+    padding: 4px ;
+}
+
+/* Input Fields */
+QLineEdit {
+    border: 2px solid #3399ff; /* Blue border for input fields */
+    border-radius: 8px; /* Rounded corners for modern design */
+    padding: 8px 10px;
+    min-height: 30px;
+    background-color: #ffffff; /* White background */
+    color: #495057;
+    transition: all 0.3s ease; /* Smooth transition for hover/focus effects */
+}
+QLineEdit:hover {
+    border: 2px solid #007acc;
+    background-color: #f1f8ff; /* Slightly lighter blue background */
+}
+QLineEdit:focus {
+    outline: none;
+    border: 2px solid #0056b3;
+    box-shadow: 0 0 5px rgba(0, 86, 179, 0.5); /* Subtle glow effect */
+}
+
+/* Group Box */
+QGroupBox {
+    border: 2px solid #3399ff;
+    border-radius: 10px;
+    margin-top: 20px;
+    font-size: 30px;
+    background-color: #ffffff;
+    padding: 10px;
+}
+QGroupBox:title {
+    subcontrol-origin: margin;
+    left: 15px;
+    padding: 0 8px;
+    color: #003366;
+    font-size: 18px;
+    font-weight: bold;
+    background-color: #f8f9fa;
+    border: 2px solid #3399ff;
+	border-radius: 5px;
+}
+
+/* Buttons */
+QPushButton {
+    background-color: #007bff; /* Blue button */
+    color: white;
+    border: none;
+    border-radius: 8px;
+    padding: 8px 16px;
+    font-weight: bold;
+    font-size: 14px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+    transition: all 0.3s ease; /* Smooth transition for hover/pressed effects */
+}
+QPushButton:hover {
+    background-color: #0056b3; /* Darker blue on hover */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); /* Slightly larger shadow */
+}
+QPushButton:pressed {
+    background-color: #003d80; /* Even darker blue for pressed state */
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.2); /* Inset shadow to indicate press */
+}
+
+/* Table Headers */
+QHeaderView::section {
+    background-color: #3399ff; /* Blue header background */
+    color: white;
+    font-weight: bold;
+    font-size: 14px;
+    padding: 8px;
+    border: none;
+    text-align: left;
+    border-radius: 5px;
+}
+
+/* Table View */
+QTableView {
+    border: 2px solid #dee2e6; /* Subtle border for table */
+    border-radius: 8px;
+    background-color: #ffffff; /* White table background */
+    gridline-color: #dee2e6; /* Light gray grid lines */
+    selection-background-color: #007bff; /* Blue selection */
+    selection-color: white;
+    font-family: &quot;Segoe UI&quot;, sans-serif;
+    font-size: 14px;
+    color: #212529;
+}
+QTableView::item:hover {
+    background-color: #f1f8ff; /* Light blue hover effect */
+}
+QTableView::item:selected {
+    background-color: #0056b3; /* Dark blue for selected item */
+    color: white;
+}
+
+/* Scrollbars */
+QScrollBar:vertical, QScrollBar:horizontal {
+    background: #e9ecef; /* Light gray scrollbar background */
+    border: none;
+    width: 10px;
+    height: 10px;
+    margin: 0px;
+    border-radius: 5px;
+}
+QScrollBar::handle:vertical, QScrollBar::handle:horizontal {
+    background: #007bff; /* Blue scrollbar handle */
+    border-radius: 5px;
+}
+QScrollBar::handle:vertical:hover, QScrollBar::handle:horizontal:hover {
+    background: #0056b3; /* Darker blue on hover */
+}
+QScrollBar::add-line, QScrollBar::sub-line {
+    background: none;
+}</string>
+  </property>
+  <widget class="QWidget" name="centralwidget">
+   <widget class="QGroupBox" name="groupBox">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>0</y>
+      <width>1081</width>
+      <height>751</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>Segoe UI</family>
+      <pointsize>-1</pointsize>
+     </font>
+    </property>
+    <property name="title">
+     <string>Clients</string>
+    </property>
+    <widget class="QPushButton" name="pushButton">
+     <property name="geometry">
+      <rect>
+       <x>820</x>
+       <y>60</y>
+       <width>121</width>
+       <height>51</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>+ Add Client </string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="btnMod">
+     <property name="geometry">
+      <rect>
+       <x>810</x>
+       <y>620</y>
+       <width>121</width>
+       <height>51</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Modify </string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="btnDelete">
+     <property name="geometry">
+      <rect>
+       <x>810</x>
+       <y>690</y>
+       <width>121</width>
+       <height>51</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Delete </string>
+     </property>
+    </widget>
+    <widget class="QLineEdit" name="searchBar">
+     <property name="geometry">
+      <rect>
+       <x>190</x>
+       <y>150</y>
+       <width>291</width>
+       <height>50</height>
+      </rect>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label_3">
+     <property name="geometry">
+      <rect>
+       <x>530</x>
+       <y>150</y>
+       <width>71</width>
+       <height>41</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Segoe UI</family>
+       <pointsize>-1</pointsize>
+       <italic>false</italic>
+       <bold>true</bold>
+      </font>
+     </property>
+     <property name="text">
+      <string>Filter</string>
+     </property>
+    </widget>
+    <widget class="QComboBox" name="comboBox">
+     <property name="geometry">
+      <rect>
+       <x>620</x>
+       <y>150</y>
+       <width>111</width>
+       <height>39</height>
+      </rect>
+     </property>
+     <item>
+      <property name="text">
+       <string>ID</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>First Name</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Last Name </string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Email</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Contact number</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Occupation</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Country</string>
+      </property>
+     </item>
+    </widget>
+    <widget class="QPushButton" name="btnGenerate">
+     <property name="geometry">
+      <rect>
+       <x>780</x>
+       <y>140</y>
+       <width>161</width>
+       <height>51</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Generate Exel File</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label_2">
+     <property name="geometry">
+      <rect>
+       <x>40</x>
+       <y>150</y>
+       <width>111</width>
+       <height>51</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Segoe UI</family>
+       <pointsize>-1</pointsize>
+       <italic>false</italic>
+       <bold>true</bold>
+      </font>
+     </property>
+     <property name="text">
+      <string>Clients List</string>
+     </property>
+    </widget>
+    <widget class="QTableView" name="tableView">
+     <property name="geometry">
+      <rect>
+       <x>190</x>
+       <y>220</y>
+       <width>751</width>
+       <height>371</height>
+      </rect>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="btnStats">
+     <property name="geometry">
+      <rect>
+       <x>190</x>
+       <y>620</y>
+       <width>121</width>
+       <height>51</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Statistics</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="btnHistory">
+     <property name="geometry">
+      <rect>
+       <x>190</x>
+       <y>690</y>
+       <width>121</width>
+       <height>51</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>History</string>
+     </property>
+    </widget>
+   </widget>
+   <widget class="QLabel" name="background">
+    <property name="geometry">
+     <rect>
+      <x>40</x>
+      <y>-20</y>
+      <width>16</width>
+      <height>28</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background : url(:/image/back_client (1).png)</string>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_4">
+    <property name="geometry">
+     <rect>
+      <x>40</x>
+      <y>20</y>
+      <width>1201</width>
+      <height>881</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background : url(:/background_client .png)</string>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_5">
+    <property name="geometry">
+     <rect>
+      <x>0</x>
+      <y>-10</y>
+      <width>1831</width>
+      <height>851</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background : url(:/image/background_full.png)</string>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+   </widget>
+   <zorder>label_5</zorder>
+   <zorder>label_4</zorder>
+   <zorder>background</zorder>
+   <zorder>groupBox</zorder>
+  </widget>
+  <widget class="QMenuBar" name="menubar">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>1119</width>
+     <height>24</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QStatusBar" name="statusbar"/>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>
