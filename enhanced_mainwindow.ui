@@ -27,63 +27,7 @@
       </widget>
      </item>
      <item>
-      <widget class="QComboBox" name="comboBoxFilterBy">
-       <item>
-        <property name="text">
-         <string>NAME</string>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>EMAIL</string>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>PHONE</string>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>ROLE</string>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>EXPERTISE</string>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>RATE </string>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>AVAIBILITY</string>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>PHOTO</string>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>LEAVE_NOTE</string>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>CALENDAR</string>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>DOCUMENT</string>
-        </property>
-       </item>
-      </widget>
+      <widget class="QComboBox" name="comboBoxFilterBy"/>
      </item>
      <item>
       <widget class="QLineEdit" name="lineEditSearch">
@@ -167,6 +111,13 @@
       <widget class="QPushButton" name="pushButtonExportCSV">
        <property name="text">
         <string>📤 Export to CSV</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="pushButtonResetFilters">
+       <property name="text">
+        <string>🔄 Reset Filters</string>
        </property>
       </widget>
      </item>

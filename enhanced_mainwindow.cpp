@@ -32,6 +32,14 @@ EnhancedMainWindow::EnhancedMainWindow(QWidget *parent) :
     currentFilterColumn(-1)
 {
     ui->setupUi(this);
+
+
+
+    connect(ui->pushButtonResetFilters, &QPushButton::clicked, this, [this]() {
+        ui->comboBoxFilterBy->setCurrentIndex(0); // Reset filter type
+        ui->lineEditSearch->clear();              // Clear search text
+    });
+
     // Create menu for the sort button
     QMenu *sortMenu = new QMenu(this);
     sortMenu->addAction("📋 Sort by Name (A→Z)", this, &EnhancedMainWindow::sortByName);
@@ -81,10 +89,24 @@ EnhancedMainWindow::EnhancedMainWindow(QWidget *parent) :
     model->setTable("CONSULTANTS");
     model->setEditStrategy(QSqlTableModel::OnManualSubmit);
     model->select();
+    ui->comboBoxFilterBy->clear();
+    ui->comboBoxFilterBy->addItem("All Fields", -1);
+    ui->comboBoxFilterBy->addItem("NAME", model->fieldIndex("name"));
+    ui->comboBoxFilterBy->addItem("EMAIL", model->fieldIndex("email"));
+    ui->comboBoxFilterBy->addItem("PHONE", model->fieldIndex("phone"));
+    ui->comboBoxFilterBy->addItem("ROLE", model->fieldIndex("role"));
+    ui->comboBoxFilterBy->addItem("EXPERTISE", model->fieldIndex("expertise"));
+    ui->comboBoxFilterBy->addItem("RATE", model->fieldIndex("rate"));
+    ui->comboBoxFilterBy->addItem("AVAILABILITY", model->fieldIndex("availability"));
+    ui->comboBoxFilterBy->addItem("PHOTO", model->fieldIndex("photo"));
+    ui->comboBoxFilterBy->addItem("LEAVE_NOTE", model->fieldIndex("leave_note"));
+    ui->comboBoxFilterBy->addItem("CALENDAR", model->fieldIndex("calendar"));
+    ui->comboBoxFilterBy->addItem("DOCUMENT", model->fieldIndex("document"));
 
     proxyModel = new QSortFilterProxyModel(this);
     proxyModel->setSourceModel(model);
     proxyModel->setFilterCaseSensitivity(Qt::CaseInsensitive);
+    proxyModel->setFilterKeyColumn(-1); // Allow filtering across all columns
 
     ui->tableView->setModel(proxyModel);
     ui->tableView->setSelectionBehavior(QAbstractItemView::SelectRows);
@@ -109,18 +131,33 @@ EnhancedMainWindow::~EnhancedMainWindow() {
 }
 
 void EnhancedMainWindow::filterTextChanged(const QString &text) {
-    if (currentFilterColumn == -1)
-        proxyModel->setFilterKeyColumn(-1);
-    else
+    QRegularExpression regex(text, QRegularExpression::CaseInsensitiveOption);
+
+    // Special case for CALENDAR column
+    if (currentFilterColumn == model->fieldIndex("calendar")) {
+        proxyModel->setFilterRole(Qt::DisplayRole);
         proxyModel->setFilterKeyColumn(currentFilterColumn);
-    proxyModel->setFilterFixedString(text);
+        proxyModel->setFilterRegularExpression(regex);
+    }
+    else if (currentFilterColumn == -1) {
+        proxyModel->setFilterKeyColumn(-1);
+        proxyModel->setFilterRegularExpression(regex);
+    } else {
+        proxyModel->setFilterKeyColumn(currentFilterColumn);
+        proxyModel->setFilterRegularExpression(regex);
+    }
+
     updateTotalCount();
 }
 
+
+
+
 void EnhancedMainWindow::onFilterFieldChanged(int index) {
-    currentFilterColumn = index == 0 ? -1 : model->fieldIndex(ui->comboBoxFilterBy->itemData(index).toString());
+    currentFilterColumn = ui->comboBoxFilterBy->itemData(index).toInt();
     filterTextChanged(ui->lineEditSearch->text());
 }
+
 
 void EnhancedMainWindow::onAddClicked() {
     EnhancedAddEditDialog dialog(this);
@@ -256,16 +293,31 @@ void EnhancedMainWindow::renderCharts() {
     QBarSet *roleSet = new QBarSet("Roles");
     QStringList roleLabels;
     QMap<QString, int> roleCounts;
+
+    // Count roles
     for (int row = 0; row < model->rowCount(); ++row) {
         QString role = model->data(model->index(row, model->fieldIndex("role"))).toString();
         roleCounts[role]++;
     }
+
+    // Fill set and labels
     for (auto it = roleCounts.begin(); it != roleCounts.end(); ++it) {
         *roleSet << it.value();
         roleLabels << it.key();
     }
 
     roleSeries->append(roleSet);
+
+    // Connect each bar (role) to a filter action
+    for (int i = 0; i < roleLabels.size(); ++i) {
+        connect(roleSet, &QBarSet::clicked, this, [this, roleLabels, i](int index) {
+            if (index == i) {
+                QString roleClicked = roleLabels.at(index);
+                ui->comboBoxFilterBy->setCurrentText("ROLE");
+                ui->lineEditSearch->setText(roleClicked);
+            }
+        });
+    }
 
     QChart *roleChart = new QChart();
     roleChart->addSeries(roleSeries);
@@ -284,6 +336,7 @@ void EnhancedMainWindow::renderCharts() {
     roleView->setRenderHint(QPainter::Antialiasing);
     roleView->setMinimumHeight(250);
     roleView->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
+
 
     // 4. 📦 Add BOTH views together at the end
     ui->chartContainer->layout()->addWidget(rateView);

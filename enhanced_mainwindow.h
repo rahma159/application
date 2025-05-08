@@ -46,6 +46,8 @@ private:
     QSortFilterProxyModel *proxyModel;
     int currentFilterColumn;
     QPieSlice* lastClickedSlice = nullptr;
+    int lastClickedBarIndex = -1;
+
 };
 
 #endif // ENHANCED_MAINWINDOW_H
