@@ -14,7 +14,7 @@ int main(int argc, char *argv[])
     a.setStyle(QStyleFactory::create("Fusion")); // Optionnel, définit un style de base si le .qss ne couvre pas tout
 
     // --- Charger et appliquer le style AVANT de créer les widgets ---
-    QFile styleFile(":/styles/style.qss");
+    QFile styleFile(":/styles/style_payment.qss");
     if (!styleFile.exists()) {
         qWarning() << "Style file not found at" << styleFile.fileName();
         // Procéder sans feuille de style ou afficher une erreur

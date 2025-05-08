@@ -34,7 +34,8 @@ QT_BEGIN_NAMESPACE
 class Ui_CreateEditInvoiceDialog
 {
 public:
-    QVBoxLayout *verticalLayout_2;
+    QGridLayout *gridLayout;
+    QSpacerItem *horizontalSpacer_2;
     QScrollArea *scrollArea;
     QWidget *scrollAreaWidgetContents;
     QVBoxLayout *verticalLayout_3;
@@ -42,12 +43,15 @@ public:
     QGroupBox *clientGroupBox;
     QHBoxLayout *horizontalLayout_2;
     QGridLayout *clientLayout;
-    QComboBox *clientSelectComboBox;
-    QLabel *clientSelectLabel;
     QLabel *clientDetailsLabel;
+    QSpacerItem *horizontalSpacer_6;
+    QLabel *clientSelectLabel;
     QTextEdit *clientDetailsTextEdit;
+    QComboBox *clientSelectComboBox;
+    QSpacerItem *horizontalSpacer_7;
     QGroupBox *detailsGroupBox;
     QHBoxLayout *horizontalLayout;
+    QSpacerItem *horizontalSpacer_8;
     QGridLayout *detailsLayout;
     QLabel *invoiceNumberLabel;
     QLabel *IssueDateLabel;
@@ -57,22 +61,28 @@ public:
     QDateEdit *issueDateEdit;
     QLineEdit *paymentTermsLineEdit;
     QDateEdit *dueDateEdit;
+    QSpacerItem *horizontalSpacer_9;
     QGroupBox *lineItemsGroupBox;
-    QVBoxLayout *verticalLayout_4;
+    QGridLayout *gridLayout_2;
     QVBoxLayout *lineItemsLayout;
     QTableWidget *lineItemsTableWidget;
     QHBoxLayout *lineItemActionsLayout;
     QPushButton *removeLineItemButton;
     QPushButton *addLineItemButton;
     QSpacerItem *horizontalSpacer;
+    QSpacerItem *horizontalSpacer_10;
+    QSpacerItem *horizontalSpacer_11;
     QHBoxLayout *notesAndTotalsLayout;
     QGroupBox *notesGroupBox;
-    QVBoxLayout *verticalLayout;
+    QGridLayout *gridLayout_3;
+    QSpacerItem *horizontalSpacer_12;
     QVBoxLayout *notesLayout;
     QLabel *notesLabel;
     QTextEdit *notesTextEdit;
+    QSpacerItem *horizontalSpacer_13;
     QGroupBox *totalsGroupBox;
     QHBoxLayout *horizontalLayout_4;
+    QSpacerItem *horizontalSpacer_14;
     QFormLayout *totalsFormLayout;
     QLabel *subtotalLabel;
     QLabel *subtotalValueLabel;
@@ -80,28 +90,36 @@ public:
     QLabel *totalVatValueLabel;
     QLabel *grandTotalLabel;
     QLabel *grandTotalValueLabel;
+    QSpacerItem *horizontalSpacer_15;
     QHBoxLayout *horizontalLayout_5;
-    QSpacerItem *horizontalSpacer_2;
+    QSpacerItem *horizontalSpacer_4;
     QPushButton *saveDraftButton;
     QPushButton *saveAndSendButton;
+    QSpacerItem *horizontalSpacer_16;
     QHBoxLayout *horizontalLayout_6;
     QSpacerItem *horizontalSpacer_3;
     QPushButton *cancelInvoiceButton;
-    QPushButton *previewButton;
+    QPushButton *previousButton;
+    QSpacerItem *horizontalSpacer_17;
+    QSpacerItem *horizontalSpacer_5;
 
     void setupUi(QDialog *CreateEditInvoiceDialog)
     {
         if (CreateEditInvoiceDialog->objectName().isEmpty())
             CreateEditInvoiceDialog->setObjectName("CreateEditInvoiceDialog");
-        CreateEditInvoiceDialog->resize(928, 997);
-        verticalLayout_2 = new QVBoxLayout(CreateEditInvoiceDialog);
-        verticalLayout_2->setObjectName("verticalLayout_2");
+        CreateEditInvoiceDialog->resize(827, 543);
+        gridLayout = new QGridLayout(CreateEditInvoiceDialog);
+        gridLayout->setObjectName("gridLayout");
+        horizontalSpacer_2 = new QSpacerItem(40, 20, QSizePolicy::Policy::Preferred, QSizePolicy::Policy::Minimum);
+
+        gridLayout->addItem(horizontalSpacer_2, 0, 0, 1, 1);
+
         scrollArea = new QScrollArea(CreateEditInvoiceDialog);
         scrollArea->setObjectName("scrollArea");
         scrollArea->setWidgetResizable(true);
         scrollAreaWidgetContents = new QWidget();
         scrollAreaWidgetContents->setObjectName("scrollAreaWidgetContents");
-        scrollAreaWidgetContents->setGeometry(QRect(0, 0, 908, 977));
+        scrollAreaWidgetContents->setGeometry(QRect(0, -282, 701, 805));
         verticalLayout_3 = new QVBoxLayout(scrollAreaWidgetContents);
         verticalLayout_3->setObjectName("verticalLayout_3");
         mainDialogLayout = new QVBoxLayout();
@@ -112,27 +130,35 @@ public:
         horizontalLayout_2->setObjectName("horizontalLayout_2");
         clientLayout = new QGridLayout();
         clientLayout->setObjectName("clientLayout");
+        clientDetailsLabel = new QLabel(clientGroupBox);
+        clientDetailsLabel->setObjectName("clientDetailsLabel");
+
+        clientLayout->addWidget(clientDetailsLabel, 1, 1, 1, 1);
+
+        horizontalSpacer_6 = new QSpacerItem(40, 20, QSizePolicy::Policy::Preferred, QSizePolicy::Policy::Minimum);
+
+        clientLayout->addItem(horizontalSpacer_6, 1, 0, 1, 1);
+
+        clientSelectLabel = new QLabel(clientGroupBox);
+        clientSelectLabel->setObjectName("clientSelectLabel");
+
+        clientLayout->addWidget(clientSelectLabel, 0, 1, 1, 1);
+
+        clientDetailsTextEdit = new QTextEdit(clientGroupBox);
+        clientDetailsTextEdit->setObjectName("clientDetailsTextEdit");
+
+        clientLayout->addWidget(clientDetailsTextEdit, 1, 2, 1, 1);
+
         clientSelectComboBox = new QComboBox(clientGroupBox);
         clientSelectComboBox->addItem(QString());
         clientSelectComboBox->addItem(QString());
         clientSelectComboBox->setObjectName("clientSelectComboBox");
 
-        clientLayout->addWidget(clientSelectComboBox, 0, 1, 1, 1);
+        clientLayout->addWidget(clientSelectComboBox, 0, 2, 1, 1);
 
-        clientSelectLabel = new QLabel(clientGroupBox);
-        clientSelectLabel->setObjectName("clientSelectLabel");
+        horizontalSpacer_7 = new QSpacerItem(40, 20, QSizePolicy::Policy::Preferred, QSizePolicy::Policy::Minimum);
 
-        clientLayout->addWidget(clientSelectLabel, 0, 0, 1, 1);
-
-        clientDetailsLabel = new QLabel(clientGroupBox);
-        clientDetailsLabel->setObjectName("clientDetailsLabel");
-
-        clientLayout->addWidget(clientDetailsLabel, 1, 0, 1, 1);
-
-        clientDetailsTextEdit = new QTextEdit(clientGroupBox);
-        clientDetailsTextEdit->setObjectName("clientDetailsTextEdit");
-
-        clientLayout->addWidget(clientDetailsTextEdit, 1, 1, 1, 1);
+        clientLayout->addItem(horizontalSpacer_7, 1, 3, 1, 1);
 
 
         horizontalLayout_2->addLayout(clientLayout);
@@ -144,6 +170,10 @@ public:
         detailsGroupBox->setObjectName("detailsGroupBox");
         horizontalLayout = new QHBoxLayout(detailsGroupBox);
         horizontalLayout->setObjectName("horizontalLayout");
+        horizontalSpacer_8 = new QSpacerItem(40, 20, QSizePolicy::Policy::Preferred, QSizePolicy::Policy::Minimum);
+
+        horizontalLayout->addItem(horizontalSpacer_8);
+
         detailsLayout = new QGridLayout();
         detailsLayout->setObjectName("detailsLayout");
         invoiceNumberLabel = new QLabel(detailsGroupBox);
@@ -189,13 +219,17 @@ public:
 
         horizontalLayout->addLayout(detailsLayout);
 
+        horizontalSpacer_9 = new QSpacerItem(40, 20, QSizePolicy::Policy::Preferred, QSizePolicy::Policy::Minimum);
+
+        horizontalLayout->addItem(horizontalSpacer_9);
+
 
         mainDialogLayout->addWidget(detailsGroupBox);
 
         lineItemsGroupBox = new QGroupBox(scrollAreaWidgetContents);
         lineItemsGroupBox->setObjectName("lineItemsGroupBox");
-        verticalLayout_4 = new QVBoxLayout(lineItemsGroupBox);
-        verticalLayout_4->setObjectName("verticalLayout_4");
+        gridLayout_2 = new QGridLayout(lineItemsGroupBox);
+        gridLayout_2->setObjectName("gridLayout_2");
         lineItemsLayout = new QVBoxLayout();
         lineItemsLayout->setObjectName("lineItemsLayout");
         lineItemsTableWidget = new QTableWidget(lineItemsGroupBox);
@@ -212,6 +246,11 @@ public:
         QTableWidgetItem *__qtablewidgetitem4 = new QTableWidgetItem();
         lineItemsTableWidget->setHorizontalHeaderItem(4, __qtablewidgetitem4);
         lineItemsTableWidget->setObjectName("lineItemsTableWidget");
+        QSizePolicy sizePolicy(QSizePolicy::Policy::Preferred, QSizePolicy::Policy::Expanding);
+        sizePolicy.setHorizontalStretch(0);
+        sizePolicy.setVerticalStretch(0);
+        sizePolicy.setHeightForWidth(lineItemsTableWidget->sizePolicy().hasHeightForWidth());
+        lineItemsTableWidget->setSizePolicy(sizePolicy);
         lineItemsTableWidget->setTabletTracking(false);
         lineItemsTableWidget->setContextMenuPolicy(Qt::ContextMenuPolicy::DefaultContextMenu);
         lineItemsTableWidget->setLayoutDirection(Qt::LayoutDirection::LeftToRight);
@@ -243,7 +282,15 @@ public:
         lineItemsLayout->addLayout(lineItemActionsLayout);
 
 
-        verticalLayout_4->addLayout(lineItemsLayout);
+        gridLayout_2->addLayout(lineItemsLayout, 0, 1, 1, 1);
+
+        horizontalSpacer_10 = new QSpacerItem(40, 20, QSizePolicy::Policy::Preferred, QSizePolicy::Policy::Minimum);
+
+        gridLayout_2->addItem(horizontalSpacer_10, 0, 0, 1, 1);
+
+        horizontalSpacer_11 = new QSpacerItem(40, 20, QSizePolicy::Policy::Preferred, QSizePolicy::Policy::Minimum);
+
+        gridLayout_2->addItem(horizontalSpacer_11, 0, 2, 1, 1);
 
 
         mainDialogLayout->addWidget(lineItemsGroupBox);
@@ -252,8 +299,12 @@ public:
         notesAndTotalsLayout->setObjectName("notesAndTotalsLayout");
         notesGroupBox = new QGroupBox(scrollAreaWidgetContents);
         notesGroupBox->setObjectName("notesGroupBox");
-        verticalLayout = new QVBoxLayout(notesGroupBox);
-        verticalLayout->setObjectName("verticalLayout");
+        gridLayout_3 = new QGridLayout(notesGroupBox);
+        gridLayout_3->setObjectName("gridLayout_3");
+        horizontalSpacer_12 = new QSpacerItem(40, 20, QSizePolicy::Policy::Preferred, QSizePolicy::Policy::Minimum);
+
+        gridLayout_3->addItem(horizontalSpacer_12, 0, 0, 1, 1);
+
         notesLayout = new QVBoxLayout();
         notesLayout->setObjectName("notesLayout");
         notesLabel = new QLabel(notesGroupBox);
@@ -267,7 +318,11 @@ public:
         notesLayout->addWidget(notesTextEdit);
 
 
-        verticalLayout->addLayout(notesLayout);
+        gridLayout_3->addLayout(notesLayout, 0, 1, 1, 1);
+
+        horizontalSpacer_13 = new QSpacerItem(40, 20, QSizePolicy::Policy::Preferred, QSizePolicy::Policy::Minimum);
+
+        gridLayout_3->addItem(horizontalSpacer_13, 0, 2, 1, 1);
 
 
         notesAndTotalsLayout->addWidget(notesGroupBox);
@@ -279,6 +334,10 @@ public:
         totalsGroupBox->setObjectName("totalsGroupBox");
         horizontalLayout_4 = new QHBoxLayout(totalsGroupBox);
         horizontalLayout_4->setObjectName("horizontalLayout_4");
+        horizontalSpacer_14 = new QSpacerItem(40, 20, QSizePolicy::Policy::Preferred, QSizePolicy::Policy::Minimum);
+
+        horizontalLayout_4->addItem(horizontalSpacer_14);
+
         totalsFormLayout = new QFormLayout();
         totalsFormLayout->setObjectName("totalsFormLayout");
         subtotalLabel = new QLabel(totalsGroupBox);
@@ -314,14 +373,18 @@ public:
 
         horizontalLayout_4->addLayout(totalsFormLayout);
 
+        horizontalSpacer_15 = new QSpacerItem(40, 20, QSizePolicy::Policy::Preferred, QSizePolicy::Policy::Minimum);
+
+        horizontalLayout_4->addItem(horizontalSpacer_15);
+
 
         mainDialogLayout->addWidget(totalsGroupBox);
 
         horizontalLayout_5 = new QHBoxLayout();
         horizontalLayout_5->setObjectName("horizontalLayout_5");
-        horizontalSpacer_2 = new QSpacerItem(40, 20, QSizePolicy::Policy::Minimum, QSizePolicy::Policy::Minimum);
+        horizontalSpacer_4 = new QSpacerItem(40, 20, QSizePolicy::Policy::Expanding, QSizePolicy::Policy::Minimum);
 
-        horizontalLayout_5->addItem(horizontalSpacer_2);
+        horizontalLayout_5->addItem(horizontalSpacer_4);
 
         saveDraftButton = new QPushButton(scrollAreaWidgetContents);
         saveDraftButton->setObjectName("saveDraftButton");
@@ -332,6 +395,10 @@ public:
         saveAndSendButton->setObjectName("saveAndSendButton");
 
         horizontalLayout_5->addWidget(saveAndSendButton);
+
+        horizontalSpacer_16 = new QSpacerItem(40, 20, QSizePolicy::Policy::Preferred, QSizePolicy::Policy::Minimum);
+
+        horizontalLayout_5->addItem(horizontalSpacer_16);
 
 
         mainDialogLayout->addLayout(horizontalLayout_5);
@@ -347,10 +414,14 @@ public:
 
         horizontalLayout_6->addWidget(cancelInvoiceButton);
 
-        previewButton = new QPushButton(scrollAreaWidgetContents);
-        previewButton->setObjectName("previewButton");
+        previousButton = new QPushButton(scrollAreaWidgetContents);
+        previousButton->setObjectName("previousButton");
 
-        horizontalLayout_6->addWidget(previewButton);
+        horizontalLayout_6->addWidget(previousButton);
+
+        horizontalSpacer_17 = new QSpacerItem(40, 20, QSizePolicy::Policy::Preferred, QSizePolicy::Policy::Minimum);
+
+        horizontalLayout_6->addItem(horizontalSpacer_17);
 
 
         mainDialogLayout->addLayout(horizontalLayout_6);
@@ -360,7 +431,11 @@ public:
 
         scrollArea->setWidget(scrollAreaWidgetContents);
 
-        verticalLayout_2->addWidget(scrollArea);
+        gridLayout->addWidget(scrollArea, 0, 1, 1, 1);
+
+        horizontalSpacer_5 = new QSpacerItem(40, 20, QSizePolicy::Policy::Preferred, QSizePolicy::Policy::Minimum);
+
+        gridLayout->addItem(horizontalSpacer_5, 0, 2, 1, 1);
 
 
         retranslateUi(CreateEditInvoiceDialog);
@@ -371,18 +446,18 @@ public:
     void retranslateUi(QDialog *CreateEditInvoiceDialog)
     {
         CreateEditInvoiceDialog->setWindowTitle(QCoreApplication::translate("CreateEditInvoiceDialog", "Creat/Edit  New Invoice", nullptr));
-        clientGroupBox->setTitle(QCoreApplication::translate("CreateEditInvoiceDialog", "Client Section", nullptr));
+        clientGroupBox->setTitle(QCoreApplication::translate("CreateEditInvoiceDialog", "\360\237\221\244Client Section", nullptr));
+        clientDetailsLabel->setText(QCoreApplication::translate("CreateEditInvoiceDialog", "Client Details:", nullptr));
+        clientSelectLabel->setText(QCoreApplication::translate("CreateEditInvoiceDialog", "Client Select:", nullptr));
         clientSelectComboBox->setItemText(0, QCoreApplication::translate("CreateEditInvoiceDialog", "Editable", nullptr));
         clientSelectComboBox->setItemText(1, QCoreApplication::translate("CreateEditInvoiceDialog", "Searchable", nullptr));
 
-        clientSelectLabel->setText(QCoreApplication::translate("CreateEditInvoiceDialog", "Client Select:", nullptr));
-        clientDetailsLabel->setText(QCoreApplication::translate("CreateEditInvoiceDialog", "Client Details:", nullptr));
-        detailsGroupBox->setTitle(QCoreApplication::translate("CreateEditInvoiceDialog", "Invoice Details Section", nullptr));
+        detailsGroupBox->setTitle(QCoreApplication::translate("CreateEditInvoiceDialog", "\360\237\223\204Invoice Details Section", nullptr));
         invoiceNumberLabel->setText(QCoreApplication::translate("CreateEditInvoiceDialog", "Invoice Number:", nullptr));
-        IssueDateLabel->setText(QCoreApplication::translate("CreateEditInvoiceDialog", "Issue Date:", nullptr));
+        IssueDateLabel->setText(QCoreApplication::translate("CreateEditInvoiceDialog", "\360\237\223\205Issue Date:", nullptr));
         paymentTermsLabel->setText(QCoreApplication::translate("CreateEditInvoiceDialog", "Payment Terms:", nullptr));
-        dueDateLabel->setText(QCoreApplication::translate("CreateEditInvoiceDialog", "Due Date:", nullptr));
-        lineItemsGroupBox->setTitle(QCoreApplication::translate("CreateEditInvoiceDialog", "Line Items Section", nullptr));
+        dueDateLabel->setText(QCoreApplication::translate("CreateEditInvoiceDialog", "\360\237\223\205Due Date:", nullptr));
+        lineItemsGroupBox->setTitle(QCoreApplication::translate("CreateEditInvoiceDialog", "\360\237\223\213Line Items Section", nullptr));
         QTableWidgetItem *___qtablewidgetitem = lineItemsTableWidget->horizontalHeaderItem(0);
         ___qtablewidgetitem->setText(QCoreApplication::translate("CreateEditInvoiceDialog", "Description", nullptr));
         QTableWidgetItem *___qtablewidgetitem1 = lineItemsTableWidget->horizontalHeaderItem(1);
@@ -393,21 +468,21 @@ public:
         ___qtablewidgetitem3->setText(QCoreApplication::translate("CreateEditInvoiceDialog", "VAT%", nullptr));
         QTableWidgetItem *___qtablewidgetitem4 = lineItemsTableWidget->horizontalHeaderItem(4);
         ___qtablewidgetitem4->setText(QCoreApplication::translate("CreateEditInvoiceDialog", "Total", nullptr));
-        removeLineItemButton->setText(QCoreApplication::translate("CreateEditInvoiceDialog", "Remove Line Item", nullptr));
-        addLineItemButton->setText(QCoreApplication::translate("CreateEditInvoiceDialog", "Add Line Item", nullptr));
-        notesGroupBox->setTitle(QCoreApplication::translate("CreateEditInvoiceDialog", "Notes Section", nullptr));
+        removeLineItemButton->setText(QCoreApplication::translate("CreateEditInvoiceDialog", "\342\236\226Remove Line Item", nullptr));
+        addLineItemButton->setText(QCoreApplication::translate("CreateEditInvoiceDialog", "\342\236\225Add Line Item", nullptr));
+        notesGroupBox->setTitle(QCoreApplication::translate("CreateEditInvoiceDialog", "\360\237\223\235Notes Section", nullptr));
         notesLabel->setText(QCoreApplication::translate("CreateEditInvoiceDialog", "Notes:", nullptr));
-        totalsGroupBox->setTitle(QCoreApplication::translate("CreateEditInvoiceDialog", "Totals Section", nullptr));
+        totalsGroupBox->setTitle(QCoreApplication::translate("CreateEditInvoiceDialog", "\360\237\222\260Totals Section", nullptr));
         subtotalLabel->setText(QCoreApplication::translate("CreateEditInvoiceDialog", "Subtotal:", nullptr));
         subtotalValueLabel->setText(QCoreApplication::translate("CreateEditInvoiceDialog", "SubtotalValue", nullptr));
         totalVATLabel->setText(QCoreApplication::translate("CreateEditInvoiceDialog", "Total VAT:", nullptr));
         totalVatValueLabel->setText(QCoreApplication::translate("CreateEditInvoiceDialog", "TotalVATValue", nullptr));
         grandTotalLabel->setText(QCoreApplication::translate("CreateEditInvoiceDialog", "Grand Total:", nullptr));
         grandTotalValueLabel->setText(QCoreApplication::translate("CreateEditInvoiceDialog", "GrandTotalValue", nullptr));
-        saveDraftButton->setText(QCoreApplication::translate("CreateEditInvoiceDialog", "Save Draft", nullptr));
-        saveAndSendButton->setText(QCoreApplication::translate("CreateEditInvoiceDialog", "Save And Send", nullptr));
-        cancelInvoiceButton->setText(QCoreApplication::translate("CreateEditInvoiceDialog", "Cancel", nullptr));
-        previewButton->setText(QCoreApplication::translate("CreateEditInvoiceDialog", "Preview", nullptr));
+        saveDraftButton->setText(QCoreApplication::translate("CreateEditInvoiceDialog", "\342\234\217\357\270\217Save Draft", nullptr));
+        saveAndSendButton->setText(QCoreApplication::translate("CreateEditInvoiceDialog", "\342\234\210\357\270\217Save And Send", nullptr));
+        cancelInvoiceButton->setText(QCoreApplication::translate("CreateEditInvoiceDialog", "\342\235\214Cancel", nullptr));
+        previousButton->setText(QCoreApplication::translate("CreateEditInvoiceDialog", "\360\237\221\201\357\270\217Preview", nullptr));
     } // retranslateUi
 
 };

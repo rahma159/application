@@ -5,7 +5,7 @@
 #include <QDate>
 #include <QDateTime> // <-- NÉCESSAIRE pour QDateTime
 #include <QTime>     // <-- NÉCESSAIRE pour QTime
-
+#include "invoicemanagementwidget.h"
 // Forward declarations
 namespace Ui {
 class CreateEditInvoiceDialog;
@@ -32,14 +32,17 @@ private slots:
     void on_addLineItemButton_clicked();
     void on_removeLineItemButton_clicked();
     void on_previewButton_clicked();
-  //  void on_cancelInvoiceButton_clicked();
+    void on_cancelInvoiceButton_clicked();
 
     void on_clientSelectComboBox_currentIndexChanged(int index);
-    void on_issueDateEdit_dateChanged(const QDate &date);
+    void on_issueDateEdit_dateTimeChanged(const QDateTime &dateTime);
     void on_paymentTermsLineEdit_textChanged(const QString &arg1);
     void on_lineItemsTableWidget_cellChanged(int row, int column);
-
 private:
+    Ui::CreateEditInvoiceDialog *ui;
+    int currentInvoiceId;
+    bool isEditMode;
+
     void setupConnections();
     void setupLineItemsTable();
     void populateClientComboBox();
@@ -52,8 +55,7 @@ private:
     void on_dueDateEdit_dateTimeChanged(const QDateTime &dateTime);
     void saveInvoice(const QString& status);
 
-    Ui::CreateEditInvoiceDialog *ui;
-    int currentInvoiceId;
+
 };
 
 #endif // CREATEEDITINVOICEDIALOG_H

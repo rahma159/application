@@ -6,15 +6,31 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>852</width>
-    <height>997</height>
+    <width>827</width>
+    <height>543</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>Creat/Edit  New Invoice</string>
   </property>
-  <layout class="QVBoxLayout" name="verticalLayout_2">
-   <item>
+  <layout class="QGridLayout" name="gridLayout">
+   <item row="0" column="0">
+    <spacer name="horizontalSpacer_2">
+     <property name="orientation">
+      <enum>Qt::Orientation::Horizontal</enum>
+     </property>
+     <property name="sizeType">
+      <enum>QSizePolicy::Policy::Preferred</enum>
+     </property>
+     <property name="sizeHint" stdset="0">
+      <size>
+       <width>40</width>
+       <height>20</height>
+      </size>
+     </property>
+    </spacer>
+   </item>
+   <item row="0" column="1">
     <widget class="QScrollArea" name="scrollArea">
      <property name="widgetResizable">
       <bool>true</bool>
@@ -23,9 +39,9 @@
       <property name="geometry">
        <rect>
         <x>0</x>
-        <y>0</y>
-        <width>832</width>
-        <height>977</height>
+        <y>-282</y>
+        <width>701</width>
+        <height>805</height>
        </rect>
       </property>
       <layout class="QVBoxLayout" name="verticalLayout_3">
@@ -34,12 +50,45 @@
          <item>
           <widget class="QGroupBox" name="clientGroupBox">
            <property name="title">
-            <string>Client Section</string>
+            <string>👤Client Section</string>
            </property>
            <layout class="QHBoxLayout" name="horizontalLayout_2">
             <item>
              <layout class="QGridLayout" name="clientLayout">
+              <item row="1" column="1">
+               <widget class="QLabel" name="clientDetailsLabel">
+                <property name="text">
+                 <string>Client Details:</string>
+                </property>
+               </widget>
+              </item>
+              <item row="1" column="0">
+               <spacer name="horizontalSpacer_6">
+                <property name="orientation">
+                 <enum>Qt::Orientation::Horizontal</enum>
+                </property>
+                <property name="sizeType">
+                 <enum>QSizePolicy::Policy::Preferred</enum>
+                </property>
+                <property name="sizeHint" stdset="0">
+                 <size>
+                  <width>40</width>
+                  <height>20</height>
+                 </size>
+                </property>
+               </spacer>
+              </item>
               <item row="0" column="1">
+               <widget class="QLabel" name="clientSelectLabel">
+                <property name="text">
+                 <string>Client Select:</string>
+                </property>
+               </widget>
+              </item>
+              <item row="1" column="2">
+               <widget class="QTextEdit" name="clientDetailsTextEdit"/>
+              </item>
+              <item row="0" column="2">
                <widget class="QComboBox" name="clientSelectComboBox">
                 <item>
                  <property name="text">
@@ -53,22 +102,21 @@
                 </item>
                </widget>
               </item>
-              <item row="0" column="0">
-               <widget class="QLabel" name="clientSelectLabel">
-                <property name="text">
-                 <string>Client Select:</string>
+              <item row="1" column="3">
+               <spacer name="horizontalSpacer_7">
+                <property name="orientation">
+                 <enum>Qt::Orientation::Horizontal</enum>
                 </property>
-               </widget>
-              </item>
-              <item row="1" column="0">
-               <widget class="QLabel" name="clientDetailsLabel">
-                <property name="text">
-                 <string>Client Details:</string>
+                <property name="sizeType">
+                 <enum>QSizePolicy::Policy::Preferred</enum>
                 </property>
-               </widget>
-              </item>
-              <item row="1" column="1">
-               <widget class="QTextEdit" name="clientDetailsTextEdit"/>
+                <property name="sizeHint" stdset="0">
+                 <size>
+                  <width>40</width>
+                  <height>20</height>
+                 </size>
+                </property>
+               </spacer>
               </item>
              </layout>
             </item>
@@ -78,9 +126,25 @@
          <item>
           <widget class="QGroupBox" name="detailsGroupBox">
            <property name="title">
-            <string>Invoice Details Section</string>
+            <string>📄Invoice Details Section</string>
            </property>
            <layout class="QHBoxLayout" name="horizontalLayout">
+            <item>
+             <spacer name="horizontalSpacer_8">
+              <property name="orientation">
+               <enum>Qt::Orientation::Horizontal</enum>
+              </property>
+              <property name="sizeType">
+               <enum>QSizePolicy::Policy::Preferred</enum>
+              </property>
+              <property name="sizeHint" stdset="0">
+               <size>
+                <width>40</width>
+                <height>20</height>
+               </size>
+              </property>
+             </spacer>
+            </item>
             <item>
              <layout class="QGridLayout" name="detailsLayout">
               <item row="0" column="0">
@@ -93,7 +157,7 @@
               <item row="1" column="0">
                <widget class="QLabel" name="IssueDateLabel">
                 <property name="text">
-                 <string>Issue Date:</string>
+                 <string>📅Issue Date:</string>
                 </property>
                </widget>
               </item>
@@ -107,7 +171,7 @@
               <item row="3" column="0">
                <widget class="QLabel" name="dueDateLabel">
                 <property name="text">
-                 <string>Due Date:</string>
+                 <string>📅Due Date:</string>
                 </property>
                </widget>
               </item>
@@ -125,16 +189,32 @@
               </item>
              </layout>
             </item>
+            <item>
+             <spacer name="horizontalSpacer_9">
+              <property name="orientation">
+               <enum>Qt::Orientation::Horizontal</enum>
+              </property>
+              <property name="sizeType">
+               <enum>QSizePolicy::Policy::Preferred</enum>
+              </property>
+              <property name="sizeHint" stdset="0">
+               <size>
+                <width>40</width>
+                <height>20</height>
+               </size>
+              </property>
+             </spacer>
+            </item>
            </layout>
           </widget>
          </item>
          <item>
           <widget class="QGroupBox" name="lineItemsGroupBox">
            <property name="title">
-            <string>Line Items Section</string>
+            <string>📋Line Items Section</string>
            </property>
-           <layout class="QVBoxLayout" name="verticalLayout_4">
-            <item>
+           <layout class="QGridLayout" name="gridLayout_2">
+            <item row="0" column="1">
              <layout class="QVBoxLayout" name="lineItemsLayout">
               <item>
                <widget class="QTableWidget" name="lineItemsTableWidget">
@@ -200,14 +280,14 @@
                 <item>
                  <widget class="QPushButton" name="removeLineItemButton">
                   <property name="text">
-                   <string>Remove Line Item</string>
+                   <string>➖Remove Line Item</string>
                   </property>
                  </widget>
                 </item>
                 <item>
                  <widget class="QPushButton" name="addLineItemButton">
                   <property name="text">
-                   <string>Add Line Item</string>
+                   <string>➕Add Line Item</string>
                   </property>
                  </widget>
                 </item>
@@ -228,6 +308,38 @@
               </item>
              </layout>
             </item>
+            <item row="0" column="0">
+             <spacer name="horizontalSpacer_10">
+              <property name="orientation">
+               <enum>Qt::Orientation::Horizontal</enum>
+              </property>
+              <property name="sizeType">
+               <enum>QSizePolicy::Policy::Preferred</enum>
+              </property>
+              <property name="sizeHint" stdset="0">
+               <size>
+                <width>40</width>
+                <height>20</height>
+               </size>
+              </property>
+             </spacer>
+            </item>
+            <item row="0" column="2">
+             <spacer name="horizontalSpacer_11">
+              <property name="orientation">
+               <enum>Qt::Orientation::Horizontal</enum>
+              </property>
+              <property name="sizeType">
+               <enum>QSizePolicy::Policy::Preferred</enum>
+              </property>
+              <property name="sizeHint" stdset="0">
+               <size>
+                <width>40</width>
+                <height>20</height>
+               </size>
+              </property>
+             </spacer>
+            </item>
            </layout>
           </widget>
          </item>
@@ -236,10 +348,26 @@
            <item>
             <widget class="QGroupBox" name="notesGroupBox">
              <property name="title">
-              <string>Notes Section</string>
+              <string>📝Notes Section</string>
              </property>
-             <layout class="QVBoxLayout" name="verticalLayout">
-              <item>
+             <layout class="QGridLayout" name="gridLayout_3">
+              <item row="0" column="0">
+               <spacer name="horizontalSpacer_12">
+                <property name="orientation">
+                 <enum>Qt::Orientation::Horizontal</enum>
+                </property>
+                <property name="sizeType">
+                 <enum>QSizePolicy::Policy::Preferred</enum>
+                </property>
+                <property name="sizeHint" stdset="0">
+                 <size>
+                  <width>40</width>
+                  <height>20</height>
+                 </size>
+                </property>
+               </spacer>
+              </item>
+              <item row="0" column="1">
                <layout class="QVBoxLayout" name="notesLayout">
                 <item>
                  <widget class="QLabel" name="notesLabel">
@@ -253,6 +381,22 @@
                 </item>
                </layout>
               </item>
+              <item row="0" column="2">
+               <spacer name="horizontalSpacer_13">
+                <property name="orientation">
+                 <enum>Qt::Orientation::Horizontal</enum>
+                </property>
+                <property name="sizeType">
+                 <enum>QSizePolicy::Policy::Preferred</enum>
+                </property>
+                <property name="sizeHint" stdset="0">
+                 <size>
+                  <width>40</width>
+                  <height>20</height>
+                 </size>
+                </property>
+               </spacer>
+              </item>
              </layout>
             </widget>
            </item>
@@ -261,9 +405,25 @@
          <item>
           <widget class="QGroupBox" name="totalsGroupBox">
            <property name="title">
-            <string>Totals Section</string>
+            <string>💰Totals Section</string>
            </property>
            <layout class="QHBoxLayout" name="horizontalLayout_4">
+            <item>
+             <spacer name="horizontalSpacer_14">
+              <property name="orientation">
+               <enum>Qt::Orientation::Horizontal</enum>
+              </property>
+              <property name="sizeType">
+               <enum>QSizePolicy::Policy::Preferred</enum>
+              </property>
+              <property name="sizeHint" stdset="0">
+               <size>
+                <width>40</width>
+                <height>20</height>
+               </size>
+              </property>
+             </spacer>
+            </item>
             <item>
              <layout class="QFormLayout" name="totalsFormLayout">
               <item row="0" column="0">
@@ -310,18 +470,34 @@
               </item>
              </layout>
             </item>
+            <item>
+             <spacer name="horizontalSpacer_15">
+              <property name="orientation">
+               <enum>Qt::Orientation::Horizontal</enum>
+              </property>
+              <property name="sizeType">
+               <enum>QSizePolicy::Policy::Preferred</enum>
+              </property>
+              <property name="sizeHint" stdset="0">
+               <size>
+                <width>40</width>
+                <height>20</height>
+               </size>
+              </property>
+             </spacer>
+            </item>
            </layout>
           </widget>
          </item>
          <item>
           <layout class="QHBoxLayout" name="horizontalLayout_5">
            <item>
-            <spacer name="horizontalSpacer_2">
+            <spacer name="horizontalSpacer_4">
              <property name="orientation">
               <enum>Qt::Orientation::Horizontal</enum>
              </property>
              <property name="sizeType">
-              <enum>QSizePolicy::Policy::Minimum</enum>
+              <enum>QSizePolicy::Policy::Expanding</enum>
              </property>
              <property name="sizeHint" stdset="0">
               <size>
@@ -334,16 +510,32 @@
            <item>
             <widget class="QPushButton" name="saveDraftButton">
              <property name="text">
-              <string>Save Draft</string>
+              <string>✏️Save Draft</string>
              </property>
             </widget>
            </item>
            <item>
             <widget class="QPushButton" name="saveAndSendButton">
              <property name="text">
-              <string>Save And Send</string>
+              <string>✈️Save And Send</string>
              </property>
             </widget>
+           </item>
+           <item>
+            <spacer name="horizontalSpacer_16">
+             <property name="orientation">
+              <enum>Qt::Orientation::Horizontal</enum>
+             </property>
+             <property name="sizeType">
+              <enum>QSizePolicy::Policy::Preferred</enum>
+             </property>
+             <property name="sizeHint" stdset="0">
+              <size>
+               <width>40</width>
+               <height>20</height>
+              </size>
+             </property>
+            </spacer>
            </item>
           </layout>
          </item>
@@ -368,16 +560,32 @@
            <item>
             <widget class="QPushButton" name="cancelInvoiceButton">
              <property name="text">
-              <string>Cancel</string>
+              <string>❌Cancel</string>
              </property>
             </widget>
            </item>
            <item>
-            <widget class="QPushButton" name="previewButton">
+            <widget class="QPushButton" name="previousButton">
              <property name="text">
-              <string>Preview</string>
+              <string>👁️Preview</string>
              </property>
             </widget>
+           </item>
+           <item>
+            <spacer name="horizontalSpacer_17">
+             <property name="orientation">
+              <enum>Qt::Orientation::Horizontal</enum>
+             </property>
+             <property name="sizeType">
+              <enum>QSizePolicy::Policy::Preferred</enum>
+             </property>
+             <property name="sizeHint" stdset="0">
+              <size>
+               <width>40</width>
+               <height>20</height>
+              </size>
+             </property>
+            </spacer>
            </item>
           </layout>
          </item>
@@ -386,6 +594,22 @@
       </layout>
      </widget>
     </widget>
+   </item>
+   <item row="0" column="2">
+    <spacer name="horizontalSpacer_5">
+     <property name="orientation">
+      <enum>Qt::Orientation::Horizontal</enum>
+     </property>
+     <property name="sizeType">
+      <enum>QSizePolicy::Policy::Preferred</enum>
+     </property>
+     <property name="sizeHint" stdset="0">
+      <size>
+       <width>40</width>
+       <height>20</height>
+      </size>
+     </property>
+    </spacer>
    </item>
   </layout>
  </widget>

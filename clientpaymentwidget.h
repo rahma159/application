@@ -15,6 +15,7 @@ class ClientPaymentWidget : public QDialog
 
 public:
     // Enum defined within the class scope (or outside if preferred)
+    // Enum to represent the selected payment method internally
     enum PaymentMethod {
         Unknown,
         PayPal,
@@ -26,42 +27,68 @@ public:
     ~ClientPaymentWidget();
 
     // --- Public Methods to Set Data ---
+    // Sets the invoice details displayed in the summary section
     void setInvoiceDetails(const QString& invoiceNumber, const QString& amountDue,
                            const QString& issueDate, const QString& dueDate);
+    // Sets the personalized welcome message
     void setWelcomeMessage(const QString& clientName);
-    // Removed setBankTransferInfo as it's now handled internally
 
 
 private slots:
-    // --- Slots for UI elements (Auto-connected or manually connected) ---
-    void on_proceedToPaymentButton_clicked();
-    void on_downloadPdfButton_clicked(); // <<< ADDED DECLARATION
-    void on_payByPayPalRadio_toggled(bool checked); // <<< ADDED DECLARATION
-    void on_payByCardRadio_toggled(bool checked); // <<< ADDED DECLARATION
-    void on_payByBankTransferRadio_toggled(bool checked); // <<< ADDED DECLARATION
+    // --- Slots for UI elements (Auto-connected via on_ObjectName_SignalName) ---
 
-    // Optional slot for custom PayPal button if you add one
-    // void initiatePayPalPayment(); // Renamed from on_payPalPayButton_clicked
+    // Triggered when the main "Proceed To Payment" button is clicked
+    void on_proceedToPaymentButton_clicked();
+
+    // Triggered when the "Download PDF" button is clicked
+    void on_downloadPdfButton_clicked();
+
+    // Triggered when the PayPal radio button state changes
+    void on_payByPayPalRadio_toggled(bool checked);
+
+    // Triggered when the Credit Card radio button state changes
+    void on_payByCardRadio_toggled(bool checked);
+
+    // Triggered when the Bank Transfer radio button state changes
+    void on_payByBankTransferRadio_toggled(bool checked);
+
+    void on_payPalPayButton_clicked();
+    void on_editBankDetailsButton_clicked();
+    void on_saveBankDetailsButton_clicked();
+    void on_cancelEditBankDetailsButton_clicked();
 
 private:
-    // --- Helper Methods (Declarations) ---
+    QString m_bankName;
+    QString m_accountHolder;
+    QString m_iban;
+    QString m_bic;
+
     void updateBankTransferInfoDisplay();
+    // Validates the input fields on the credit card form
     bool validateCardDetails();
+    // Central method to handle the payment flow based on selected method
     void handlePaymentProcessing();
-    void processPayPalPayment();        // <<< ADDED DECLARATION
-    void processCreditCardPayment();    // <<< ADDED DECLARATION
-    void processBankTransfer();         // <<< ADDED DECLARATION
-    void showError(const QString &message); // <<< ADDED DECLARATION
-    void clearError();                  // <<< ADDED DECLARATION
-    void resetPaymentUiState();         // <<< ADDED DECLARATION
-
+    // Contains logic specific to PayPal payment (simulation/integration)
+    void processPayPalPayment();
+    // Contains logic specific to Credit Card payment (validation/simulation/integration)
+    void processCreditCardPayment();
+    // Contains logic specific to Bank Transfer instructions/confirmation
+    void processBankTransfer();
+    // Displays an error message in the designated label
+    void showError(const QString &message);
+    // Clears any currently displayed error message
+    void clearError();
+    // Resets the progress bar and re-enables the payment button
+    void resetPaymentUiState();
+    bool simulateBackendPayPalOrderCreation(QString& approvalUrl, QString& errorMsg);
     // --- Member Variables ---
-    Ui::ClientPaymentWidget *ui; // Pointer to UI elements
+    Ui::ClientPaymentWidget *ui; // Pointer to the UI elements created in Qt Designer
 
-    QString m_invoiceNumber;    // <<< ADDED DECLARATION
-    QString m_amountDueStr;     // <<< ADDED DECLARATION
+    // Store invoice details for potential use in payment processing (e.g., reference)
+    QString m_invoiceNumber;
+    QString m_amountDueStr; // Store amount string for potential gateway use
 
-    // int currentInvoiceId; // Removed if not needed for loadInvoiceDetails pattern
+    void loadBankDetailsToEditFields();
 };
 
 #endif // CLIENTPAYMENTWIDGET_H

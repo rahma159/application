@@ -1,6 +1,6 @@
 #include "deleteinvoicedialog.h"
 #include "ui_deleteinvoicedialog.h"
-#include "invoices.h" // Include Invoices header for the static remove function
+#include "invoicemanagementwidget.h" // Include Invoices header for the static remove function
 
 #include <QMessageBox>
 #include <QDebug>

@@ -16,6 +16,7 @@
 #include <QtWidgets/QMenuBar>
 #include <QtWidgets/QPushButton>
 #include <QtWidgets/QStatusBar>
+#include <QtWidgets/QToolBar>
 #include <QtWidgets/QWidget>
 
 QT_BEGIN_NAMESPACE
@@ -26,10 +27,10 @@ public:
     QWidget *centralwidget;
     QHBoxLayout *horizontalLayout;
     QPushButton *manageInvoicesButton;
-    QPushButton *adminPaymentsButton;
     QPushButton *settingsButton;
-    QMenuBar *menubar;
     QStatusBar *statusbar;
+    QToolBar *toolBar;
+    QMenuBar *menubar;
 
     void setupUi(QMainWindow *MainWindow)
     {
@@ -45,24 +46,22 @@ public:
 
         horizontalLayout->addWidget(manageInvoicesButton);
 
-        adminPaymentsButton = new QPushButton(centralwidget);
-        adminPaymentsButton->setObjectName("adminPaymentsButton");
-
-        horizontalLayout->addWidget(adminPaymentsButton);
-
         settingsButton = new QPushButton(centralwidget);
         settingsButton->setObjectName("settingsButton");
 
         horizontalLayout->addWidget(settingsButton);
 
         MainWindow->setCentralWidget(centralwidget);
+        statusbar = new QStatusBar(MainWindow);
+        statusbar->setObjectName("statusbar");
+        MainWindow->setStatusBar(statusbar);
+        toolBar = new QToolBar(MainWindow);
+        toolBar->setObjectName("toolBar");
+        MainWindow->addToolBar(Qt::ToolBarArea::TopToolBarArea, toolBar);
         menubar = new QMenuBar(MainWindow);
         menubar->setObjectName("menubar");
         menubar->setGeometry(QRect(0, 0, 717, 21));
         MainWindow->setMenuBar(menubar);
-        statusbar = new QStatusBar(MainWindow);
-        statusbar->setObjectName("statusbar");
-        MainWindow->setStatusBar(statusbar);
 
         retranslateUi(MainWindow);
 
@@ -73,8 +72,8 @@ public:
     {
         MainWindow->setWindowTitle(QCoreApplication::translate("MainWindow", "MainWindow", nullptr));
         manageInvoicesButton->setText(QCoreApplication::translate("MainWindow", "Manage Invoices", nullptr));
-        adminPaymentsButton->setText(QCoreApplication::translate("MainWindow", "Admin Payments", nullptr));
         settingsButton->setText(QCoreApplication::translate("MainWindow", "Settings", nullptr));
+        toolBar->setWindowTitle(QCoreApplication::translate("MainWindow", "toolBar", nullptr));
     } // retranslateUi
 
 };

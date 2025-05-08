@@ -1,6 +1,9 @@
 
-QT += core gui sql widgets
-QT += core gui widgets sql printsupport
+QT += core gui widgets sql printsupport network
+QT += charts
+
+
+
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
 CONFIG += c++17
@@ -10,46 +13,41 @@ CONFIG += c++17
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
-    clientdashboardwidget.cpp \
     clientpaymentwidget.cpp \
     connection.cpp \
     createeditinvoicedialog.cpp \
     deleteinvoicedialog.cpp \
-    invoicelineitem.cpp \
     invoicemanagementwidget.cpp \
-    invoices.cpp \
     main.cpp \
     mainwindow.cpp \
-    settingsdialog.cpp
+    settingsdialog.cpp \
+    statisticsdialog.cpp
 
 HEADERS += \
-    clientdashboardwidget.h \
     clientpaymentwidget.h \
     connection.h \
     createeditinvoicedialog.h \
     deleteinvoicedialog.h \
-    invoicelineitem.h \
     invoicemanagementwidget.h \
-    invoices.h \
     mainwindow.h \
-    settingsdialog.h
+    settingsdialog.h \
+    statisticsdialog.h
+
 
 FORMS += \
-    clientdashboardwidget.ui \
     clientpaymentwidget.ui \
     createeditinvoicedialog.ui \
     deleteinvoicedialog.ui \
     invoicemanagementwidget.ui \
     mainwindow.ui \
-    settingsdialog.ui
+    settingsdialog.ui \
+    statisticsdialog.ui
 
-# Default rules for deployment.
-qnx: target.path = /tmp/$${TARGET}/bin
-else: unix:!android: target.path = /opt/$${TARGET}/bin
-!isEmpty(target.path): INSTALLS += target
 
 DISTFILES += \
-    style.qss
+    client_payment_style.qss \
+    settings_style.qss \
+    style_payment.qss
 
 RESOURCES += \
     Resources.qrc
@@ -57,3 +55,5 @@ RESOURCES += \
 qnx: target.path = /tmp/$${TARGET}/bin
 else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
+
+CONFIG(release, debug|release):CONFIG -= sanitizer address_sanitizer

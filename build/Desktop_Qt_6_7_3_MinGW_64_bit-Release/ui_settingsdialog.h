@@ -15,6 +15,7 @@
 #include <QtWidgets/QComboBox>
 #include <QtWidgets/QDialog>
 #include <QtWidgets/QFormLayout>
+#include <QtWidgets/QGridLayout>
 #include <QtWidgets/QHBoxLayout>
 #include <QtWidgets/QHeaderView>
 #include <QtWidgets/QLabel>
@@ -33,7 +34,7 @@ QT_BEGIN_NAMESPACE
 class Ui_SettingsDialog
 {
 public:
-    QHBoxLayout *horizontalLayout_5;
+    QHBoxLayout *horizontalLayout_6;
     QVBoxLayout *mainSettingsLayout;
     QTabWidget *SettingsTabWidget;
     QWidget *tab;
@@ -45,11 +46,14 @@ public:
     QLineEdit *companyAddressInput;
     QLabel *companyVATIDLabel;
     QLineEdit *companyVATIDInput;
-    QLineEdit *companyLogoPathInput;
-    QPushButton *browseButton;
     QLabel *companyLogoLabel;
+    QLineEdit *companyLogoPathInput;
+    QHBoxLayout *horizontalLayout_5;
+    QSpacerItem *horizontalSpacer_2;
+    QPushButton *browseButton;
+    QSpacerItem *verticalSpacer;
     QWidget *tab_2;
-    QVBoxLayout *verticalLayout_2;
+    QHBoxLayout *horizontalLayout_7;
     QFormLayout *invoiceOptionsLayout;
     QLabel *numberPrefixLabel;
     QLineEdit *numberPrefixInput;
@@ -59,11 +63,14 @@ public:
     QComboBox *defaultTermsComboBox;
     QLabel *VATRatesLabel;
     QTableWidget *VATRatesTable;
-    QPushButton *removeVatRateButton;
+    QSpacerItem *verticalSpacer_3;
+    QGridLayout *gridLayout;
     QPushButton *addVatRateButton;
+    QSpacerItem *horizontalSpacer_4;
+    QPushButton *removeVatRateButton;
     QCheckBox *enableRemindersCheckBox;
-    QSpinBox *daysBeforeDueSpinBox;
     QLabel *daysBeforeDueLabel;
+    QSpinBox *daysBeforeDueSpinBox;
     QLabel *daysAfterDueLabel;
     QSpinBox *daysAfterDueSpinBox_2;
     QCheckBox *enableOverdueIoTAlertCheckBox;
@@ -74,16 +81,16 @@ public:
     QWidget *tab_4;
     QHBoxLayout *horizontalLayout_4;
     QFormLayout *paymentGatewayLayout;
+    QLabel *stripeEnableLabel;
+    QCheckBox *stripeEnableCheckBox;
     QLabel *stripeApiKeyLabel;
     QLineEdit *stripeApiKeyInput;
+    QLabel *payPalEnableLabel;
+    QCheckBox *payPalEnableCheckBox;
     QLabel *payPalClientIdLabel;
     QLineEdit *payPalClientIdInput;
     QLabel *payPalSecretLabel;
     QLineEdit *payPalSecretInput;
-    QCheckBox *stripeEnableCheckBox;
-    QCheckBox *payPalEnableCheckBox;
-    QLabel *stripeEnableLabel;
-    QLabel *payPalEnableLabel;
     QWidget *tab_3;
     QHBoxLayout *horizontalLayout_3;
     QVBoxLayout *emailTemplateLayout;
@@ -100,9 +107,9 @@ public:
     {
         if (SettingsDialog->objectName().isEmpty())
             SettingsDialog->setObjectName("SettingsDialog");
-        SettingsDialog->resize(749, 568);
-        horizontalLayout_5 = new QHBoxLayout(SettingsDialog);
-        horizontalLayout_5->setObjectName("horizontalLayout_5");
+        SettingsDialog->resize(754, 529);
+        horizontalLayout_6 = new QHBoxLayout(SettingsDialog);
+        horizontalLayout_6->setObjectName("horizontalLayout_6");
         mainSettingsLayout = new QVBoxLayout();
         mainSettingsLayout->setObjectName("mainSettingsLayout");
         SettingsTabWidget = new QTabWidget(SettingsDialog);
@@ -143,20 +150,33 @@ public:
 
         companyInfoLayout->setWidget(2, QFormLayout::FieldRole, companyVATIDInput);
 
+        companyLogoLabel = new QLabel(tab);
+        companyLogoLabel->setObjectName("companyLogoLabel");
+
+        companyInfoLayout->setWidget(3, QFormLayout::LabelRole, companyLogoLabel);
+
         companyLogoPathInput = new QLineEdit(tab);
         companyLogoPathInput->setObjectName("companyLogoPathInput");
 
         companyInfoLayout->setWidget(3, QFormLayout::FieldRole, companyLogoPathInput);
 
+        horizontalLayout_5 = new QHBoxLayout();
+        horizontalLayout_5->setObjectName("horizontalLayout_5");
+        horizontalSpacer_2 = new QSpacerItem(40, 20, QSizePolicy::Policy::Expanding, QSizePolicy::Policy::Minimum);
+
+        horizontalLayout_5->addItem(horizontalSpacer_2);
+
         browseButton = new QPushButton(tab);
         browseButton->setObjectName("browseButton");
 
-        companyInfoLayout->setWidget(4, QFormLayout::FieldRole, browseButton);
+        horizontalLayout_5->addWidget(browseButton);
 
-        companyLogoLabel = new QLabel(tab);
-        companyLogoLabel->setObjectName("companyLogoLabel");
 
-        companyInfoLayout->setWidget(3, QFormLayout::LabelRole, companyLogoLabel);
+        companyInfoLayout->setLayout(4, QFormLayout::FieldRole, horizontalLayout_5);
+
+        verticalSpacer = new QSpacerItem(20, 40, QSizePolicy::Policy::Minimum, QSizePolicy::Policy::Expanding);
+
+        companyInfoLayout->setItem(5, QFormLayout::FieldRole, verticalSpacer);
 
 
         horizontalLayout->addLayout(companyInfoLayout);
@@ -164,8 +184,8 @@ public:
         SettingsTabWidget->addTab(tab, QString());
         tab_2 = new QWidget();
         tab_2->setObjectName("tab_2");
-        verticalLayout_2 = new QVBoxLayout(tab_2);
-        verticalLayout_2->setObjectName("verticalLayout_2");
+        horizontalLayout_7 = new QHBoxLayout(tab_2);
+        horizontalLayout_7->setObjectName("horizontalLayout_7");
         invoiceOptionsLayout = new QFormLayout();
         invoiceOptionsLayout->setObjectName("invoiceOptionsLayout");
         numberPrefixLabel = new QLabel(tab_2);
@@ -208,30 +228,43 @@ public:
 
         invoiceOptionsLayout->setWidget(3, QFormLayout::FieldRole, VATRatesTable);
 
-        removeVatRateButton = new QPushButton(tab_2);
-        removeVatRateButton->setObjectName("removeVatRateButton");
+        verticalSpacer_3 = new QSpacerItem(20, 40, QSizePolicy::Policy::Minimum, QSizePolicy::Policy::Minimum);
 
-        invoiceOptionsLayout->setWidget(5, QFormLayout::FieldRole, removeVatRateButton);
+        invoiceOptionsLayout->setItem(4, QFormLayout::FieldRole, verticalSpacer_3);
 
+        gridLayout = new QGridLayout();
+        gridLayout->setObjectName("gridLayout");
         addVatRateButton = new QPushButton(tab_2);
         addVatRateButton->setObjectName("addVatRateButton");
 
-        invoiceOptionsLayout->setWidget(4, QFormLayout::FieldRole, addVatRateButton);
+        gridLayout->addWidget(addVatRateButton, 0, 0, 1, 1);
+
+        horizontalSpacer_4 = new QSpacerItem(40, 20, QSizePolicy::Policy::Expanding, QSizePolicy::Policy::Minimum);
+
+        gridLayout->addItem(horizontalSpacer_4, 0, 2, 1, 1);
+
+        removeVatRateButton = new QPushButton(tab_2);
+        removeVatRateButton->setObjectName("removeVatRateButton");
+
+        gridLayout->addWidget(removeVatRateButton, 0, 1, 1, 1);
+
+
+        invoiceOptionsLayout->setLayout(5, QFormLayout::FieldRole, gridLayout);
 
         enableRemindersCheckBox = new QCheckBox(tab_2);
         enableRemindersCheckBox->setObjectName("enableRemindersCheckBox");
 
         invoiceOptionsLayout->setWidget(6, QFormLayout::FieldRole, enableRemindersCheckBox);
 
-        daysBeforeDueSpinBox = new QSpinBox(tab_2);
-        daysBeforeDueSpinBox->setObjectName("daysBeforeDueSpinBox");
-
-        invoiceOptionsLayout->setWidget(7, QFormLayout::FieldRole, daysBeforeDueSpinBox);
-
         daysBeforeDueLabel = new QLabel(tab_2);
         daysBeforeDueLabel->setObjectName("daysBeforeDueLabel");
 
         invoiceOptionsLayout->setWidget(7, QFormLayout::LabelRole, daysBeforeDueLabel);
+
+        daysBeforeDueSpinBox = new QSpinBox(tab_2);
+        daysBeforeDueSpinBox->setObjectName("daysBeforeDueSpinBox");
+
+        invoiceOptionsLayout->setWidget(7, QFormLayout::FieldRole, daysBeforeDueSpinBox);
 
         daysAfterDueLabel = new QLabel(tab_2);
         daysAfterDueLabel->setObjectName("daysAfterDueLabel");
@@ -269,7 +302,7 @@ public:
         invoiceOptionsLayout->setWidget(11, QFormLayout::FieldRole, ioTDeviceAddressInput);
 
 
-        verticalLayout_2->addLayout(invoiceOptionsLayout);
+        horizontalLayout_7->addLayout(invoiceOptionsLayout);
 
         SettingsTabWidget->addTab(tab_2, QString());
         tab_4 = new QWidget();
@@ -278,6 +311,16 @@ public:
         horizontalLayout_4->setObjectName("horizontalLayout_4");
         paymentGatewayLayout = new QFormLayout();
         paymentGatewayLayout->setObjectName("paymentGatewayLayout");
+        stripeEnableLabel = new QLabel(tab_4);
+        stripeEnableLabel->setObjectName("stripeEnableLabel");
+
+        paymentGatewayLayout->setWidget(0, QFormLayout::LabelRole, stripeEnableLabel);
+
+        stripeEnableCheckBox = new QCheckBox(tab_4);
+        stripeEnableCheckBox->setObjectName("stripeEnableCheckBox");
+
+        paymentGatewayLayout->setWidget(0, QFormLayout::FieldRole, stripeEnableCheckBox);
+
         stripeApiKeyLabel = new QLabel(tab_4);
         stripeApiKeyLabel->setObjectName("stripeApiKeyLabel");
 
@@ -287,6 +330,16 @@ public:
         stripeApiKeyInput->setObjectName("stripeApiKeyInput");
 
         paymentGatewayLayout->setWidget(1, QFormLayout::FieldRole, stripeApiKeyInput);
+
+        payPalEnableLabel = new QLabel(tab_4);
+        payPalEnableLabel->setObjectName("payPalEnableLabel");
+
+        paymentGatewayLayout->setWidget(2, QFormLayout::LabelRole, payPalEnableLabel);
+
+        payPalEnableCheckBox = new QCheckBox(tab_4);
+        payPalEnableCheckBox->setObjectName("payPalEnableCheckBox");
+
+        paymentGatewayLayout->setWidget(2, QFormLayout::FieldRole, payPalEnableCheckBox);
 
         payPalClientIdLabel = new QLabel(tab_4);
         payPalClientIdLabel->setObjectName("payPalClientIdLabel");
@@ -308,26 +361,6 @@ public:
 
         paymentGatewayLayout->setWidget(4, QFormLayout::FieldRole, payPalSecretInput);
 
-        stripeEnableCheckBox = new QCheckBox(tab_4);
-        stripeEnableCheckBox->setObjectName("stripeEnableCheckBox");
-
-        paymentGatewayLayout->setWidget(0, QFormLayout::FieldRole, stripeEnableCheckBox);
-
-        payPalEnableCheckBox = new QCheckBox(tab_4);
-        payPalEnableCheckBox->setObjectName("payPalEnableCheckBox");
-
-        paymentGatewayLayout->setWidget(2, QFormLayout::FieldRole, payPalEnableCheckBox);
-
-        stripeEnableLabel = new QLabel(tab_4);
-        stripeEnableLabel->setObjectName("stripeEnableLabel");
-
-        paymentGatewayLayout->setWidget(0, QFormLayout::LabelRole, stripeEnableLabel);
-
-        payPalEnableLabel = new QLabel(tab_4);
-        payPalEnableLabel->setObjectName("payPalEnableLabel");
-
-        paymentGatewayLayout->setWidget(2, QFormLayout::LabelRole, payPalEnableLabel);
-
 
         horizontalLayout_4->addLayout(paymentGatewayLayout);
 
@@ -339,9 +372,6 @@ public:
         emailTemplateLayout = new QVBoxLayout();
         emailTemplateLayout->setObjectName("emailTemplateLayout");
         templateSelectComboBox = new QComboBox(tab_3);
-        templateSelectComboBox->addItem(QString());
-        templateSelectComboBox->addItem(QString());
-        templateSelectComboBox->addItem(QString());
         templateSelectComboBox->setObjectName("templateSelectComboBox");
 
         emailTemplateLayout->addWidget(templateSelectComboBox);
@@ -388,12 +418,12 @@ public:
         mainSettingsLayout->addLayout(horizontalLayout_2);
 
 
-        horizontalLayout_5->addLayout(mainSettingsLayout);
+        horizontalLayout_6->addLayout(mainSettingsLayout);
 
 
         retranslateUi(SettingsDialog);
 
-        SettingsTabWidget->setCurrentIndex(2);
+        SettingsTabWidget->setCurrentIndex(3);
 
 
         QMetaObject::connectSlotsByName(SettingsDialog);
@@ -402,37 +432,33 @@ public:
     void retranslateUi(QDialog *SettingsDialog)
     {
         SettingsDialog->setWindowTitle(QCoreApplication::translate("SettingsDialog", "Dialog", nullptr));
-        companyNameLabel->setText(QCoreApplication::translate("SettingsDialog", "Company Name:", nullptr));
-        companyAddressLabel->setText(QCoreApplication::translate("SettingsDialog", "Company Address:", nullptr));
-        companyVATIDLabel->setText(QCoreApplication::translate("SettingsDialog", "Company VATID:", nullptr));
-        browseButton->setText(QCoreApplication::translate("SettingsDialog", "Browse", nullptr));
-        companyLogoLabel->setText(QCoreApplication::translate("SettingsDialog", "Company Logo:", nullptr));
-        SettingsTabWidget->setTabText(SettingsTabWidget->indexOf(tab), QCoreApplication::translate("SettingsDialog", "Company Info", nullptr));
-        numberPrefixLabel->setText(QCoreApplication::translate("SettingsDialog", "Number Prefix:", nullptr));
+        companyNameLabel->setText(QCoreApplication::translate("SettingsDialog", "\360\237\217\242Company Name:", nullptr));
+        companyAddressLabel->setText(QCoreApplication::translate("SettingsDialog", "\360\237\217\242Company Address:", nullptr));
+        companyVATIDLabel->setText(QCoreApplication::translate("SettingsDialog", "\360\237\217\242Company VATID:", nullptr));
+        companyLogoLabel->setText(QCoreApplication::translate("SettingsDialog", "\360\237\226\274\357\270\217Company Logo:", nullptr));
+        browseButton->setText(QCoreApplication::translate("SettingsDialog", "\360\237\223\202Browse", nullptr));
+        SettingsTabWidget->setTabText(SettingsTabWidget->indexOf(tab), QCoreApplication::translate("SettingsDialog", "\360\237\217\242 Company Info", nullptr));
+        numberPrefixLabel->setText(QCoreApplication::translate("SettingsDialog", "\360\237\223\204Number Prefix:", nullptr));
         nextNumberLabel->setText(QCoreApplication::translate("SettingsDialog", "Next Number:", nullptr));
         defaultTermsLabel->setText(QCoreApplication::translate("SettingsDialog", "Default Terms:", nullptr));
-        VATRatesLabel->setText(QCoreApplication::translate("SettingsDialog", "VAT Rates:", nullptr));
-        removeVatRateButton->setText(QCoreApplication::translate("SettingsDialog", "remove Vat Rate", nullptr));
-        addVatRateButton->setText(QCoreApplication::translate("SettingsDialog", "Add Vat Rate", nullptr));
-        enableRemindersCheckBox->setText(QCoreApplication::translate("SettingsDialog", "Enable Reminders Check", nullptr));
-        daysBeforeDueLabel->setText(QCoreApplication::translate("SettingsDialog", "Before Due:", nullptr));
-        daysAfterDueLabel->setText(QCoreApplication::translate("SettingsDialog", "After Due:", nullptr));
-        enableOverdueIoTAlertCheckBox->setText(QCoreApplication::translate("SettingsDialog", "Enable Overdue IoT Alert Check", nullptr));
+        VATRatesLabel->setText(QCoreApplication::translate("SettingsDialog", "\360\237\252\231VAT Rates:", nullptr));
+        addVatRateButton->setText(QCoreApplication::translate("SettingsDialog", "\342\236\225Add Vat Rate", nullptr));
+        removeVatRateButton->setText(QCoreApplication::translate("SettingsDialog", "\342\236\226Remove Vat Rate", nullptr));
+        enableRemindersCheckBox->setText(QCoreApplication::translate("SettingsDialog", "\360\237\224\224Enable Reminders Check", nullptr));
+        daysBeforeDueLabel->setText(QCoreApplication::translate("SettingsDialog", "\342\217\260Before Due:", nullptr));
+        daysAfterDueLabel->setText(QCoreApplication::translate("SettingsDialog", "\342\217\260After Due:", nullptr));
+        enableOverdueIoTAlertCheckBox->setText(QCoreApplication::translate("SettingsDialog", "\360\237\232\250Enable Overdue IoT Alert Check", nullptr));
         ioTAlertDaysLabel->setText(QCoreApplication::translate("SettingsDialog", "Alert Days:", nullptr));
-        ioTDeviceAddressLabel->setText(QCoreApplication::translate("SettingsDialog", "IoT Device Address:", nullptr));
-        SettingsTabWidget->setTabText(SettingsTabWidget->indexOf(tab_2), QCoreApplication::translate("SettingsDialog", "Invoice Options", nullptr));
-        stripeApiKeyLabel->setText(QCoreApplication::translate("SettingsDialog", "Stripe Api Key:", nullptr));
-        payPalClientIdLabel->setText(QCoreApplication::translate("SettingsDialog", "PayPal Client ID:", nullptr));
-        payPalSecretLabel->setText(QCoreApplication::translate("SettingsDialog", "PayPal Secret:", nullptr));
+        ioTDeviceAddressLabel->setText(QCoreApplication::translate("SettingsDialog", "\360\237\214\220IoT Device Address:", nullptr));
+        SettingsTabWidget->setTabText(SettingsTabWidget->indexOf(tab_2), QCoreApplication::translate("SettingsDialog", "\342\232\231\357\270\217 Invoice Options", nullptr));
+        stripeEnableLabel->setText(QCoreApplication::translate("SettingsDialog", "\360\237\222\263Enable Stripe:", nullptr));
         stripeEnableCheckBox->setText(QCoreApplication::translate("SettingsDialog", "Stripe Enable Check", nullptr));
+        stripeApiKeyLabel->setText(QCoreApplication::translate("SettingsDialog", "\360\237\224\221Stripe Api Key:", nullptr));
+        payPalEnableLabel->setText(QCoreApplication::translate("SettingsDialog", "\360\237\205\277\357\270\217Enable PayPal:", nullptr));
         payPalEnableCheckBox->setText(QCoreApplication::translate("SettingsDialog", "PayPal Enable Check", nullptr));
-        stripeEnableLabel->setText(QCoreApplication::translate("SettingsDialog", " Enable Stripe:", nullptr));
-        payPalEnableLabel->setText(QCoreApplication::translate("SettingsDialog", "Enable PayPal:", nullptr));
-        SettingsTabWidget->setTabText(SettingsTabWidget->indexOf(tab_4), QCoreApplication::translate("SettingsDialog", "Payment Gateways", nullptr));
-        templateSelectComboBox->setItemText(0, QCoreApplication::translate("SettingsDialog", "New Invoice", nullptr));
-        templateSelectComboBox->setItemText(1, QCoreApplication::translate("SettingsDialog", "Reminder", nullptr));
-        templateSelectComboBox->setItemText(2, QCoreApplication::translate("SettingsDialog", "etc", nullptr));
-
+        payPalClientIdLabel->setText(QCoreApplication::translate("SettingsDialog", "\360\237\221\244PayPal Client ID:", nullptr));
+        payPalSecretLabel->setText(QCoreApplication::translate("SettingsDialog", "\360\237\224\221PayPal Secret:", nullptr));
+        SettingsTabWidget->setTabText(SettingsTabWidget->indexOf(tab_4), QCoreApplication::translate("SettingsDialog", "\360\237\224\214Payment Gateways", nullptr));
         subjectInput->setText(QCoreApplication::translate("SettingsDialog", "Subject ", nullptr));
         bodyInput->setHtml(QCoreApplication::translate("SettingsDialog", "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
 "<html><head><meta name=\"qrichtext\" content=\"1\" /><meta charset=\"utf-8\" /><style type=\"text/css\">\n"
@@ -444,9 +470,9 @@ public:
 "<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-family:'monospace'; font-size:13px; color:#768390; background-color:#242629;\">Body</span></p>\n"
 "<p style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:'monospace'; font-size:13px; color:#768390;\"><br /></p></body></html>", nullptr));
         placeholdersInfoLabel->setText(QCoreApplication::translate("SettingsDialog", "Placeholders Info:", nullptr));
-        SettingsTabWidget->setTabText(SettingsTabWidget->indexOf(tab_3), QCoreApplication::translate("SettingsDialog", "Email Templates", nullptr));
-        saveButton->setText(QCoreApplication::translate("SettingsDialog", "Save", nullptr));
-        cancelButton->setText(QCoreApplication::translate("SettingsDialog", "Cancel", nullptr));
+        SettingsTabWidget->setTabText(SettingsTabWidget->indexOf(tab_3), QCoreApplication::translate("SettingsDialog", "\360\237\223\247 Email Templates", nullptr));
+        saveButton->setText(QCoreApplication::translate("SettingsDialog", "\360\237\222\276Save", nullptr));
+        cancelButton->setText(QCoreApplication::translate("SettingsDialog", "\342\235\214Cancel", nullptr));
     } // retranslateUi
 
 };

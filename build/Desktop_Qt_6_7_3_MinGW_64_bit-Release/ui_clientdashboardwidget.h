@@ -39,7 +39,7 @@ public:
     {
         if (ClientDashboardWidget->objectName().isEmpty())
             ClientDashboardWidget->setObjectName("ClientDashboardWidget");
-        ClientDashboardWidget->resize(400, 300);
+        ClientDashboardWidget->resize(685, 449);
         horizontalLayout_2 = new QHBoxLayout(ClientDashboardWidget);
         horizontalLayout_2->setObjectName("horizontalLayout_2");
         mainLayout = new QVBoxLayout();

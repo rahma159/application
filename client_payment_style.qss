@@ -1,0 +1,195 @@
+/* ClientPaymentWidget Style - Consistent with settings_style.qss */
+
+/* --- Main Widget/Dialog --- */
+/* Assuming the main widget is ClientPaymentWidget */
+QWidget#ClientPaymentWidget {
+    background-color: #f5f7fa; /* Light background */
+    color: #374151;           /* Default text color */
+}
+
+/* --- GroupBoxes for Sections --- */
+/* Apply to #invoiceSummaryArea, #paymentMethodSection, #bankDetailsGroup (use YOUR object names) */
+QGroupBox {
+    background-color: white; /* White background for content */
+    border: 1px solid #d1d5db;
+    border-radius: 6px;
+    margin-top: 15px;        /* Space above groupbox */
+    padding: 15px;           /* Inner padding */
+    padding-top: 30px;       /* More padding at top for title */
+}
+
+QGroupBox::title {
+    subcontrol-origin: margin;
+    subcontrol-position: top left;
+    left: 10px;
+    padding: 2px 8px;         /* Padding around title text */
+    background-color: white;  /* Background to cover border */
+    color: #4a6fa5;           /* Primary blue title */
+    font-weight: bold;
+    font-size: 11pt;          /* Slightly larger title */
+    border: 1px solid #d1d5db; /* Optional: border around title */
+    border-radius: 4px;       /* Optional: rounded title background */
+    margin-top: -12px;        /* Pull title up over the top border */
+}
+
+/* --- Labels --- */
+QLabel {
+    color: #374151;
+    background-color: transparent;
+    padding: 2px 0px;
+    font-weight: 500; /* Medium weight */
+}
+
+/* Specific Labels */
+QLabel#welcomeLabel {
+    font-size: 14pt;
+    font-weight: bold;
+    color: #4a6fa5; /* Primary blue */
+    margin-bottom: 10px;
+    padding-left: 5px; /* Align with groupbox padding */
+}
+
+/* Labels in the summary area - Assuming they are direct children or in a layout */
+QGroupBox#invoiceSummaryArea QLabel {
+    font-size: 10pt;
+    padding: 4px 0; /* More vertical space */
+}
+
+/* Style for the static text labels like "Invoice Number:" */
+/* If using QFormLayout, this might not be needed */
+/* QLabel#invoiceNumberLabel, QLabel#amountDueLabel, QLabel#issueDateLabel, QLabel#dueDateLabel { */
+/*     font-weight: bold; */
+/* } */
+
+/* Style for the value labels like "78", "R$6,00" */
+/* Use object names from your UI file */
+QLabel#invoiceNumberValueLabel, QLabel#amountDueValueLabel,
+QLabel#issueDateValueLabel, QLabel#dueDateValueLabel {
+    font-weight: normal;
+    color: #1f2937; /* Darker text for values */
+    padding-left: 8px; /* Space between label and value if not using QFormLayout */
+}
+
+/* Placeholder text styling (e.g., [Bank Name Not Set]) */
+/* Use object names from your UI */
+QLabel#bankNameDisplayLabel, QLabel#accountHolderDisplayLabel,
+QLabel#bankNameInputLabel, QLabel#accountHolderInputLabel,
+QLabel#ibanInputLabel, QLabel#bicInputLabel {
+    color: #6b7280;      /* Medium grey for unset/placeholder */
+    font-style: italic;
+}
+/* Style when it has actual data (needs C++ logic to switch styles/clear placeholder text) */
+/* QLabel#bankNameDisplayLabel[hasData="true"] { font-style: normal; color: #1f2937; } */
+
+
+QLabel#payPalInfoLabel, QLabel#bankTransferInfoLabel, QLabel#creditCardInfoLabel {
+    font-size: 9pt;
+    color: #6b7280; /* Medium grey for info text */
+    padding: 8px 0;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    /* Optional: border-top: 1px dashed #e5e7eb; */
+}
+
+
+/* --- Input Widgets (Credit Card / Bank Details) --- */
+QLineEdit {
+    background-color: white;
+    color: #333333;
+    border: 1px solid #d1d5db;
+    border-radius: 4px;
+    padding: 6px 8px;
+    selection-background-color: #4a6fa5;
+    selection-color: white;
+    min-height: 20px;
+}
+
+QLineEdit:focus {
+    border: 1px solid #4a6fa5;
+}
+
+QLineEdit[readOnly="true"] { /* Style read-only fields differently */
+    background-color: #f9fafb;
+    color: #6b7280;
+}
+
+
+/* --- Radio Buttons --- */
+QRadioButton {
+    color: #374151;
+    spacing: 8px;
+    padding: 5px 0; /* Add vertical spacing */
+}
+
+QRadioButton::indicator {
+    width: 16px;
+    height: 16px;
+}
+
+QRadioButton::indicator::unchecked {
+    border: 1px solid #d1d5db;
+    border-radius: 8px; /* Make it round */
+    background-color: white;
+}
+QRadioButton::indicator::unchecked:hover {
+    border: 1px solid #4a6fa5;
+}
+
+QRadioButton::indicator::checked {
+    border: 1px solid #4a6fa5; /* Blue border */
+    border-radius: 8px;
+    background-color: qradialgradient(cx:0.5, cy:0.5, radius: 0.4, fx:0.5, fy:0.5, stop:0 #4a6fa5, stop:1 white); /* Blue center */
+}
+
+/* --- Buttons --- */
+/* Primary Action Buttons */
+QPushButton#proceedButton, QPushButton#saveBankButton, QPushButton#payWithPayPalButton {
+    background-color: #4a6fa5; /* Primary blue */
+    color: white;
+    border: none;
+    border-radius: 4px;
+    padding: 8px 20px; /* More padding */
+    font-weight: 500;
+    min-width: 100px;
+}
+QPushButton#proceedButton:hover, QPushButton#saveBankButton:hover, QPushButton#payWithPayPalButton:hover {
+    background-color: #3a5a8f; /* Darker blue hover */
+}
+QPushButton#proceedButton:pressed, QPushButton#saveBankButton:pressed, QPushButton#payWithPayPalButton:pressed {
+    background-color: #2c4a7e; /* Even darker pressed */
+}
+QPushButton#proceedButton:disabled, QPushButton#saveBankButton:disabled, QPushButton#payWithPayPalButton:disabled {
+    background-color: #9db2d1;
+    color: #f0f0f0;
+}
+
+
+/* Secondary/Neutral Buttons */
+QPushButton#downloadPdfButton, QPushButton#configureBankButton, QPushButton#cancelBankButton {
+    background-color: white;
+    color: #4a6fa5;        /* Blue text */
+    border: 1px solid #d1d5db; /* Standard border */
+    font-weight: normal;
+    border-radius: 4px;
+    padding: 7px 18px;
+    min-width: 85px;
+}
+QPushButton#downloadPdfButton:hover, QPushButton#configureBankButton:hover, QPushButton#cancelBankButton:hover {
+    background-color: #f9fafb;
+    border-color: #adb5bd;
+}
+QPushButton#downloadPdfButton:pressed, QPushButton#configureBankButton:pressed, QPushButton#cancelBankButton:pressed {
+    background-color: #e5e7eb;
+    border-color: #adb5bd;
+}
+
+/* Specific button tweaks if needed */
+QPushButton#configureBankButton {
+    /* Maybe make it look more like a link */
+    /* border: none; background: transparent; text-decoration: underline; min-width: 0; */
+}
+
+
+/* --- Layout Spacing (Example) --- */
+/* Add margins to specific layouts if needed */
+/* QVBoxLayout#paymentMethodLayout { margin-bottom: 15px; } */

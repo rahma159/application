@@ -2,7 +2,10 @@
 #define SETTINGSDIALOG_H
 
 #include <QDialog>
+#include <QMap>
+#include <QPair>
 
+// Forward declare UI class
 namespace Ui {
 class SettingsDialog;
 }
@@ -15,43 +18,53 @@ public:
     explicit SettingsDialog(QWidget *parent = nullptr);
     ~SettingsDialog();
 
-private slots: // <<< Make sure it's inside this section (or public/protected slots)
-    // --- Slots matching objectNames from Object Inspector ---
+    // Static methods for external access to settings
+    static QString getSetting(const QString& key, const QString& defaultValue = "");
+    static int getSettingInt(const QString& key, int defaultValue = 0);
+    static bool getSettingBool(const QString& key, bool defaultValue = false);
+    static bool setSetting(const QString& key, const QVariant& value);
 
+private slots:
+    // UI interaction slots
     void on_saveButton_clicked();
     void on_cancelButton_clicked();
-
-    // Company Info Tab
-    void on_BrowseButton_clicked(); // <<< ADD THIS LINE HERE
-
-    // Invoice Options Tab
+    void on_browseButton_clicked();
     void on_addVatRateButton_clicked();
     void on_removeVatRateButton_clicked();
-
-    // Payment Gateways Tab - Checkboxes
-    void on_stripeEnableCheckBox_toggled(bool checked);
-    void on_payPalEnableCheckBox_toggled(bool checked);
-
-    // Email Templates Tab
-    void on_templateSelectComboBox_currentIndexChanged(int index); // Corrected name
-
-    // Reminders/IoT Checkboxes (Invoice Options Tab)
-    void on_enableRemindersCheckBox_toggled(bool checked);
-    void on_enableOverdueIoTAlertCheckBox_toggled(bool checked);
+    void on_templateSelectComboBox_currentIndexChanged(int index);
 
 private:
     Ui::SettingsDialog *ui;
 
-    // Helper functions
-    void loadSettings();
-    void saveSettings();
-    void setupConnections();
-    void updatePaymentGatewayState();
-    void updateReminderState();
-    void updateIotState();
-    void loadEmailTemplate(int index);
-    void saveEmailTemplate(int index);
-    void populateVatRatesTable();
-};
+    // Constants for VAT table columns
+    enum VatTableColumns {
+        VAT_DESCRIPTION_COL = 0,
+        VAT_RATE_COL = 1
+    };
 
+    // Email template data storage
+    QMap<QString, QPair<QString, QString>> m_emailTemplateData;
+    int m_previousTemplateIndex;
+    bool m_loadingSettings;
+
+    // Core methods
+    void loadSettingsFromDb();
+    bool saveSettingsToDb();
+
+    // VAT rates handling
+    void loadVatRatesFromDb();
+    bool saveVatRatesToDb();
+
+    // Email templates handling
+    void loadAllEmailTemplatesFromDb();
+    bool saveAllEmailTemplatesToDb();
+
+    // Template UI helpers
+    void saveUiContentToMap(const QString& templateKey);
+    void loadTemplateFromMapToUiByKey(const QString& templateKey);
+
+    // Utility methods
+    bool validateVatRates() const;
+    bool validatePaymentSettings() const;
+};
 #endif // SETTINGSDIALOG_H

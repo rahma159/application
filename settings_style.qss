@@ -1,0 +1,277 @@
+/* --- Main Settings Dialog --- */
+QDialog#SettingsDialog {
+    background-color: #f5f7fa; /* Light background from your example */
+    color: #333333; /* Default text color */
+}
+
+/* --- Tab Widget Styling --- */
+QTabWidget::pane {
+    border: 1px solid #d1d5db; /* Border color from example */
+    background-color: white;   /* Keep pane white */
+    border-top: none;          /* Tabs will cover the top */
+    padding: 15px;             /* Add some padding inside the tab content area */
+    border-bottom-left-radius: 4px; /* Match tab bar style */
+    border-bottom-right-radius: 4px;
+    border-top-right-radius: 4px; /* If tabs are on left, adjust this */
+}
+
+QTabWidget::tab-bar {
+    alignment: left; /* Keep tabs on top */
+}
+
+QTabBar::tab {
+    background-color: #e5e7eb; /* Slightly darker background for unselected */
+    color: #4b5563;           /* Dark grey text for unselected */
+    border: 1px solid #d1d5db;
+    border-bottom: none;      /* Connect to pane */
+    padding: 8px 18px;        /* Adjust padding */
+    margin-right: -1px;       /* Overlap borders slightly */
+    border-top-left-radius: 4px;
+    border-top-right-radius: 4px;
+}
+
+QTabBar::tab:selected {
+    background-color: white;   /* Selected tab matches pane */
+    color: #4a6fa5;           /* Use primary blue for selected text */
+    border-color: #d1d5db;
+    border-bottom-color: white; /* Make bottom border blend with pane */
+    font-weight: bold;
+}
+
+QTabBar::tab:hover:!selected {
+    background-color: #f0f0f0; /* Lighter hover */
+    color: #333333;
+}
+
+QTabBar::tab:last {
+    margin-right: 0;
+}
+
+/* --- Input Widgets --- */
+QLineEdit, QSpinBox, QComboBox, QTextEdit, QDateEdit, QDateTimeEdit { /* Added Date/DateTime Edits */
+    background-color: white;
+    color: #333333;
+    border: 1px solid #d1d5db; /* Border from example */
+    border-radius: 4px;       /* Radius from example */
+    padding: 6px 8px;         /* Adjust padding */
+    selection-background-color: #4a6fa5; /* Primary blue for selection */
+    selection-color: white;
+    min-height: 20px; /* Ensure a minimum height */
+}
+
+QLineEdit:focus, QSpinBox:focus, QComboBox:focus, QTextEdit:focus, QDateEdit:focus, QDateTimeEdit:focus {
+    border: 1px solid #4a6fa5; /* Primary blue border on focus */
+    /* Consider adding a subtle glow */
+    /* box-shadow: 0 0 3px #7aa5e1; */
+}
+
+/* ComboBox Arrow */
+QComboBox::drop-down {
+    subcontrol-origin: padding;
+    subcontrol-position: top right;
+    width: 25px;
+    border-left-width: 1px;
+    border-left-color: #d1d5db;
+    border-left-style: solid;
+    border-top-right-radius: 4px;
+    border-bottom-right-radius: 4px;
+    background-color: #f9fafb; /* Subtle background */
+}
+QComboBox::down-arrow {
+    image: url(:/icons/down_arrow.png); /* Add a suitable down arrow icon to your resources */
+                                        /* Or use a default character: content: "▼"; */
+    width: 10px;
+    height: 10px;
+}
+QComboBox::down-arrow:on { /* Optional: slightly move arrow when dropdown is open */
+    top: 1px; left: 1px;
+}
+
+/* SpinBox Buttons */
+QSpinBox::up-button, QSpinBox::down-button {
+    subcontrol-origin: border;
+    background-color: #f9fafb; /* Subtle background */
+    border-left: 1px solid #d1d5db;
+    width: 20px;
+    border-radius: 0px; /* Keep square with input field */
+}
+QSpinBox::up-button {
+    subcontrol-position: top right;
+    border-bottom: 1px solid #f0f0f0; /* Subtle separator */
+    border-top-right-radius: 4px;
+}
+QSpinBox::down-button {
+    subcontrol-position: bottom right;
+    border-bottom-right-radius: 4px;
+}
+QSpinBox::up-button:hover, QSpinBox::down-button:hover {
+    background-color: #e5e7eb;
+}
+QSpinBox::up-arrow {
+    image: url(:/icons/up_arrow.png); /* Add up arrow icon */
+    width: 9px; height: 9px;
+}
+QSpinBox::down-arrow {
+    image: url(:/icons/down_arrow.png); /* Use same down arrow icon */
+    width: 9px; height: 9px;
+}
+
+
+/* --- Buttons --- */
+/* Default Button Style (like Save) */
+QPushButton {
+    background-color: #4a6fa5; /* Primary blue */
+    color: white;
+    border: none;
+    border-radius: 4px;
+    padding: 7px 18px; /* Adjust padding */
+    font-weight: 500; /* Slightly less bold */
+    min-width: 85px; /* Adjust min width */
+}
+
+QPushButton:hover {
+    background-color: #3a5a8f; /* Darker blue hover */
+}
+
+QPushButton:pressed {
+    background-color: #2c4a7e; /* Even darker pressed */
+}
+QPushButton:disabled {
+    background-color: #9db2d1; /* Lighter blue when disabled */
+    color: #f0f0f0;
+}
+/* Style for secondary buttons like 'Cancel' or 'Browse' */
+QPushButton#cancelButton, QPushButton#browseButton,
+QPushButton#addVatRateButton, QPushButton#removeVatRateButton {  /* Ensure Object Names Match */
+    background-color: white;
+    color: #4a6fa5;  /* Text color: primary blue  */
+    border: 1px solid #d1d5db;  /* Standard border */
+    font-weight: normal;  /* No bold for these  */
+}
+
+QPushButton#cancelButton:hover, QPushButton#browseButton:hover,
+QPushButton#addVatRateButton:hover, QPushButton#removeVatRateButton:hover {
+    background-color: #f9fafb; /* Light grey hover */
+    border-color: #adb5bd;    /* Slightly darker border on hover */
+}
+
+QPushButton#cancelButton:pressed, QPushButton#browseButton:pressed,
+QPushButton#addVatRateButton:pressed, QPushButton#removeVatRateButton:pressed {
+    background-color: #e5e7eb; /* Light grey pressed */
+    border-color: #adb5bd;
+}
+
+
+/* --- Labels --- */
+QLabel {
+    color: #374151; /* Slightly darker grey for labels */
+    background-color: transparent;
+    padding: 2px 0px;
+    font-weight: 500; /* Medium weight */
+}
+/* Labels paired with inputs in a form layout */
+QFormLayout QLabel {
+    padding-top: 8px; /* Align better with input fields padding */
+    padding-right: 5px; /* Add space between label and input */
+}
+
+/* --- QTableWidget (VAT Rates Table) --- */
+QTableWidget#VATRatesTable { /* Target specific table */
+    background-color: white;
+    color: #333333;
+    border: 0.8px solid #d1d5db; /* Match input border */
+    gridline-color: #e5e7eb;   /* Lighter grid lines */
+    alternate-background-color: #f9fafb; /* Subtle row alternation */
+    selection-background-color: #dbeafe; /* Light blue selection */
+    selection-color: #1e3a8a;           /* Dark blue selected text */
+    min-height: 85px; /* <<< INCREASED: Make the table taller (adjust px as needed) */
+                       /* You might need 150px, 200px, etc. depending on space */
+}
+
+/* Target the header specifically within the VATRatesTable */
+QTableWidget#VATRatesTable QHeaderView::section {
+    background-color: #4a6fa5; /* <<< CHANGED: Use primary blue background */
+    color: white;              /* <<< CHANGED: Use white text for contrast */
+    padding: 6px 8px;          /* Adjust padding if needed */
+    border: none;              /* <<< CHANGED: Remove borders for a flatter look with solid bg */
+    font-weight: bold;         /* Make header text bold */
+    text-align: left;          /* Align header text left (default usually) */
+}
+
+/* Remove specific horizontal header styling if border:none is used above */
+/* If you want vertical lines between headers again, uncomment below and comment out border: none above */
+/*
+QTableWidget#VATRatesTable QHeaderView::section:horizontal {
+     border-bottom: 1px solid #3a5a8f; // Darker blue bottom border
+     border-right: 1px solid #6b8cbf; // Lighter blue right border
+}
+QTableWidget#VATRatesTable QHeaderView::section:horizontal:last {
+     border-right: none; // No right border on the last header
+}
+*/
+
+/* Keep the style for the QLineEdit when editing inside the table */
+QTableWidget#VATRatesTable QLineEdit {
+    border: 1px solid #4a6fa5;
+    background-color: #FFFFF0;
+}
+
+/* --- End of VAT Table specific styles --- */
+
+
+/* --- CheckBox --- */
+QCheckBox {
+    spacing: 7px; /* Space between checkbox and text */
+    color: #333333;  /* Default text color */
+}
+QCheckBox::indicator {
+    width: 16px;
+    height: 16px;
+    border: 1px solid #d1d5db; /* Input border color (same as others) */
+    border-radius: 3px;
+    background-color: white;
+}
+QCheckBox::indicator:hover {
+    border-color: #4a6fa5;
+}
+
+QCheckBox::indicator:checked {
+    background-color: #4a6fa5; /* Primary blue */
+    border-color: #4a6fa5;
+    /* You might include a checkmark image here too */
+    /* image: url(:/icons/checkmark_white.png); */
+}
+
+QCheckBox::indicator:unchecked:hover {
+    border-color: #3a5a8f; /* Darker blue on hover if unchecked */
+}
+
+
+/* --- Placeholders Info Label --- */
+QLabel#placeholdersInfoLabel {
+    font-style: normal;
+    font-weight: normal;
+    color: #6b7280; /* Medium grey */
+    font-size: 9pt;
+    margin-top: 10px; /* Add some space above it */
+}
+
+/* --- GroupBox Styling (If you use GroupBoxes within tabs) --- */
+QGroupBox {
+    border: 1px solid #d1d5db;
+    border-radius: 6px;
+    margin-top: 15px; /* Space above groupbox */
+    padding: 10px;
+    padding-top: 25px; /* Space for the title */
+    background-color: white; /* White background for content inside */
+}
+
+QGroupBox::title {
+    subcontrol-origin: margin;
+    subcontrol-position: top left;
+    left: 10px;
+    padding: 0px 5px 0px 5px;
+    background-color: white; /* Background to cover border */
+    color: #4a6fa5; /* Primary blue title */
+    font-weight: bold;
+}

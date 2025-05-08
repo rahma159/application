@@ -1,5 +1,7 @@
 <RCC>
-    <qresource prefix="/res">
-        <file>background.jpg</file>
+    <qresource prefix="/styles">
+        <file>settings_style.qss</file>
+        <file>client_payment_style.qss</file>
+        <file>style_payment.qss</file>
     </qresource>
 </RCC>

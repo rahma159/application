@@ -33,6 +33,73 @@ QT_WARNING_DISABLE_GCC("-Wuseless-cast")
 namespace {
 
 #ifdef QT_MOC_HAS_STRINGDATA
+struct qt_meta_stringdata_CLASSEmailServiceENDCLASS_t {};
+constexpr auto qt_meta_stringdata_CLASSEmailServiceENDCLASS = QtMocHelpers::stringData(
+    "EmailService"
+);
+#else  // !QT_MOC_HAS_STRINGDATA
+#error "qtmochelpers.h not found or too old."
+#endif // !QT_MOC_HAS_STRINGDATA
+} // unnamed namespace
+
+Q_CONSTINIT static const uint qt_meta_data_CLASSEmailServiceENDCLASS[] = {
+
+ // content:
+      12,       // revision
+       0,       // classname
+       0,    0, // classinfo
+       0,    0, // methods
+       0,    0, // properties
+       0,    0, // enums/sets
+       0,    0, // constructors
+       0,       // flags
+       0,       // signalCount
+
+       0        // eod
+};
+
+Q_CONSTINIT const QMetaObject EmailService::staticMetaObject = { {
+    QMetaObject::SuperData::link<QObject::staticMetaObject>(),
+    qt_meta_stringdata_CLASSEmailServiceENDCLASS.offsetsAndSizes,
+    qt_meta_data_CLASSEmailServiceENDCLASS,
+    qt_static_metacall,
+    nullptr,
+    qt_incomplete_metaTypeArray<qt_meta_stringdata_CLASSEmailServiceENDCLASS_t,
+        // Q_OBJECT / Q_GADGET
+        QtPrivate::TypeAndForceComplete<EmailService, std::true_type>
+    >,
+    nullptr
+} };
+
+void EmailService::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, void **_a)
+{
+    (void)_o;
+    (void)_id;
+    (void)_c;
+    (void)_a;
+}
+
+const QMetaObject *EmailService::metaObject() const
+{
+    return QObject::d_ptr->metaObject ? QObject::d_ptr->dynamicMetaObject() : &staticMetaObject;
+}
+
+void *EmailService::qt_metacast(const char *_clname)
+{
+    if (!_clname) return nullptr;
+    if (!strcmp(_clname, qt_meta_stringdata_CLASSEmailServiceENDCLASS.stringdata0))
+        return static_cast<void*>(this);
+    return QObject::qt_metacast(_clname);
+}
+
+int EmailService::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
+{
+    _id = QObject::qt_metacall(_c, _id, _a);
+    return _id;
+}
+namespace {
+
+#ifdef QT_MOC_HAS_STRINGDATA
 struct qt_meta_stringdata_CLASSInvoiceManagementWidgetENDCLASS_t {};
 constexpr auto qt_meta_stringdata_CLASSInvoiceManagementWidgetENDCLASS = QtMocHelpers::stringData(
     "InvoiceManagementWidget",
@@ -42,10 +109,23 @@ constexpr auto qt_meta_stringdata_CLASSInvoiceManagementWidgetENDCLASS = QtMocHe
     "on_newInvoiceButton_clicked",
     "on_editInvoiceButton_clicked",
     "on_deleteInvoiceButton_clicked",
+    "on_sendInvoiceButton_clicked",
+    "on_markAsPaidButton_clicked",
+    "on_exportInvoiceListPdfButton_clicked",
+    "on_exportFecButton_clicked",
+    "on_sortComboBox_currentIndexChanged",
+    "index",
     "on_tableView_selectionChanged",
     "QItemSelection",
     "selected",
-    "deselected"
+    "deselected",
+    "on_tableView_activated",
+    "QModelIndex",
+    "handleTableViewClicked",
+    "on_viewStatisticsButton_clicked",
+    "on_payInvoiceButton_clicked",
+    "forceSendTestReminders",
+    "manualTestReminder"
 );
 #else  // !QT_MOC_HAS_STRINGDATA
 #error "qtmochelpers.h not found or too old."
@@ -58,7 +138,7 @@ Q_CONSTINIT static const uint qt_meta_data_CLASSInvoiceManagementWidgetENDCLASS[
       12,       // revision
        0,       // classname
        0,    0, // classinfo
-       6,   14, // methods
+      17,   14, // methods
        0,    0, // properties
        0,    0, // enums/sets
        0,    0, // constructors
@@ -66,12 +146,23 @@ Q_CONSTINIT static const uint qt_meta_data_CLASSInvoiceManagementWidgetENDCLASS[
        0,       // signalCount
 
  // slots: name, argc, parameters, tag, flags, initial metatype offsets
-       1,    0,   50,    2, 0x08,    1 /* Private */,
-       3,    0,   51,    2, 0x08,    2 /* Private */,
-       4,    0,   52,    2, 0x08,    3 /* Private */,
-       5,    0,   53,    2, 0x08,    4 /* Private */,
-       6,    0,   54,    2, 0x08,    5 /* Private */,
-       7,    2,   55,    2, 0x08,    6 /* Private */,
+       1,    0,  116,    2, 0x08,    1 /* Private */,
+       3,    0,  117,    2, 0x08,    2 /* Private */,
+       4,    0,  118,    2, 0x08,    3 /* Private */,
+       5,    0,  119,    2, 0x08,    4 /* Private */,
+       6,    0,  120,    2, 0x08,    5 /* Private */,
+       7,    0,  121,    2, 0x08,    6 /* Private */,
+       8,    0,  122,    2, 0x08,    7 /* Private */,
+       9,    0,  123,    2, 0x08,    8 /* Private */,
+      10,    0,  124,    2, 0x08,    9 /* Private */,
+      11,    1,  125,    2, 0x08,   10 /* Private */,
+      13,    2,  128,    2, 0x08,   12 /* Private */,
+      17,    1,  133,    2, 0x08,   15 /* Private */,
+      19,    1,  136,    2, 0x08,   17 /* Private */,
+      20,    0,  139,    2, 0x08,   19 /* Private */,
+      21,    0,  140,    2, 0x08,   20 /* Private */,
+      22,    0,  141,    2, 0x0a,   21 /* Public */,
+      23,    0,  142,    2, 0x0a,   22 /* Public */,
 
  // slots: parameters
     QMetaType::Void,
@@ -79,7 +170,18 @@ Q_CONSTINIT static const uint qt_meta_data_CLASSInvoiceManagementWidgetENDCLASS[
     QMetaType::Void,
     QMetaType::Void,
     QMetaType::Void,
-    QMetaType::Void, 0x80000000 | 8, 0x80000000 | 8,    9,   10,
+    QMetaType::Void,
+    QMetaType::Void,
+    QMetaType::Void,
+    QMetaType::Void,
+    QMetaType::Void, QMetaType::Int,   12,
+    QMetaType::Void, 0x80000000 | 14, 0x80000000 | 14,   15,   16,
+    QMetaType::Void, 0x80000000 | 18,   12,
+    QMetaType::Void, 0x80000000 | 18,   12,
+    QMetaType::Void,
+    QMetaType::Void,
+    QMetaType::Void,
+    QMetaType::Void,
 
        0        // eod
 };
@@ -103,10 +205,35 @@ Q_CONSTINIT const QMetaObject InvoiceManagementWidget::staticMetaObject = { {
         QtPrivate::TypeAndForceComplete<void, std::false_type>,
         // method 'on_deleteInvoiceButton_clicked'
         QtPrivate::TypeAndForceComplete<void, std::false_type>,
+        // method 'on_sendInvoiceButton_clicked'
+        QtPrivate::TypeAndForceComplete<void, std::false_type>,
+        // method 'on_markAsPaidButton_clicked'
+        QtPrivate::TypeAndForceComplete<void, std::false_type>,
+        // method 'on_exportInvoiceListPdfButton_clicked'
+        QtPrivate::TypeAndForceComplete<void, std::false_type>,
+        // method 'on_exportFecButton_clicked'
+        QtPrivate::TypeAndForceComplete<void, std::false_type>,
+        // method 'on_sortComboBox_currentIndexChanged'
+        QtPrivate::TypeAndForceComplete<void, std::false_type>,
+        QtPrivate::TypeAndForceComplete<int, std::false_type>,
         // method 'on_tableView_selectionChanged'
         QtPrivate::TypeAndForceComplete<void, std::false_type>,
         QtPrivate::TypeAndForceComplete<const QItemSelection &, std::false_type>,
-        QtPrivate::TypeAndForceComplete<const QItemSelection &, std::false_type>
+        QtPrivate::TypeAndForceComplete<const QItemSelection &, std::false_type>,
+        // method 'on_tableView_activated'
+        QtPrivate::TypeAndForceComplete<void, std::false_type>,
+        QtPrivate::TypeAndForceComplete<const QModelIndex &, std::false_type>,
+        // method 'handleTableViewClicked'
+        QtPrivate::TypeAndForceComplete<void, std::false_type>,
+        QtPrivate::TypeAndForceComplete<const QModelIndex &, std::false_type>,
+        // method 'on_viewStatisticsButton_clicked'
+        QtPrivate::TypeAndForceComplete<void, std::false_type>,
+        // method 'on_payInvoiceButton_clicked'
+        QtPrivate::TypeAndForceComplete<void, std::false_type>,
+        // method 'forceSendTestReminders'
+        QtPrivate::TypeAndForceComplete<void, std::false_type>,
+        // method 'manualTestReminder'
+        QtPrivate::TypeAndForceComplete<void, std::false_type>
     >,
     nullptr
 } };
@@ -122,13 +249,24 @@ void InvoiceManagementWidget::qt_static_metacall(QObject *_o, QMetaObject::Call 
         case 2: _t->on_newInvoiceButton_clicked(); break;
         case 3: _t->on_editInvoiceButton_clicked(); break;
         case 4: _t->on_deleteInvoiceButton_clicked(); break;
-        case 5: _t->on_tableView_selectionChanged((*reinterpret_cast< std::add_pointer_t<QItemSelection>>(_a[1])),(*reinterpret_cast< std::add_pointer_t<QItemSelection>>(_a[2]))); break;
+        case 5: _t->on_sendInvoiceButton_clicked(); break;
+        case 6: _t->on_markAsPaidButton_clicked(); break;
+        case 7: _t->on_exportInvoiceListPdfButton_clicked(); break;
+        case 8: _t->on_exportFecButton_clicked(); break;
+        case 9: _t->on_sortComboBox_currentIndexChanged((*reinterpret_cast< std::add_pointer_t<int>>(_a[1]))); break;
+        case 10: _t->on_tableView_selectionChanged((*reinterpret_cast< std::add_pointer_t<QItemSelection>>(_a[1])),(*reinterpret_cast< std::add_pointer_t<QItemSelection>>(_a[2]))); break;
+        case 11: _t->on_tableView_activated((*reinterpret_cast< std::add_pointer_t<QModelIndex>>(_a[1]))); break;
+        case 12: _t->handleTableViewClicked((*reinterpret_cast< std::add_pointer_t<QModelIndex>>(_a[1]))); break;
+        case 13: _t->on_viewStatisticsButton_clicked(); break;
+        case 14: _t->on_payInvoiceButton_clicked(); break;
+        case 15: _t->forceSendTestReminders(); break;
+        case 16: _t->manualTestReminder(); break;
         default: ;
         }
     } else if (_c == QMetaObject::RegisterMethodArgumentMetaType) {
         switch (_id) {
         default: *reinterpret_cast<QMetaType *>(_a[0]) = QMetaType(); break;
-        case 5:
+        case 10:
             switch (*reinterpret_cast<int*>(_a[1])) {
             default: *reinterpret_cast<QMetaType *>(_a[0]) = QMetaType(); break;
             case 1:
@@ -159,13 +297,13 @@ int InvoiceManagementWidget::qt_metacall(QMetaObject::Call _c, int _id, void **_
     if (_id < 0)
         return _id;
     if (_c == QMetaObject::InvokeMetaMethod) {
-        if (_id < 6)
+        if (_id < 17)
             qt_static_metacall(this, _c, _id, _a);
-        _id -= 6;
+        _id -= 17;
     } else if (_c == QMetaObject::RegisterMethodArgumentMetaType) {
-        if (_id < 6)
+        if (_id < 17)
             qt_static_metacall(this, _c, _id, _a);
-        _id -= 6;
+        _id -= 17;
     }
     return _id;
 }

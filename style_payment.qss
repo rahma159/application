@@ -1,0 +1,151 @@
+/* Main Colors */
+QWidget {
+    background-color: #f5f7fa;
+    color: #4a6fa5;
+}
+
+QHeaderView::section {
+    background-color: #4a6fa5;
+    color: white;
+    padding: 5px;
+    border: none;
+    font-weight: bold;
+}
+
+QPushButton {
+    background-color: #4a6fa5;
+    border-radius: 4px;
+    padding: 5px 10px;
+    min-width: 80px;
+}
+
+QPushButton:hover {
+    background-color: #3a5a8f;
+}
+
+QLineEdit, QComboBox, QDateEdit {
+    border: 1px solid #d1d5db;
+    border-radius: 4px;
+    padding: 5px;
+}
+
+QTabWidget::pane {
+    border: 1px solid #d1d5db;
+    background: white;
+}
+
+/* Sidebar Style */
+#sidebar {
+    background-color: #2c3e50;
+    width: 50px;
+}
+
+#sidebar:hover {
+    width: 200px;
+}
+
+#sidebar QPushButton {
+    background: transparent;
+    text-align: left;
+    padding-left: 15px;
+    color: white;
+    border: none;
+}
+
+#sidebar QPushButton:hover {
+    background-color: #34495e;
+}
+
+#sidebar QPushButton[iconOnly="true"] {
+    padding: 10px;
+    text-align: center;
+}
+QTableView {
+    gridline-color: #e5e7eb;
+    alternate-background-color: #f9fafb;
+    selection-background-color: #dbeafe;
+}
+
+QTableView::item {
+    padding: 1.1px;
+    border-bottom: 1px solid #e5e7eb;
+}
+
+QTableView::item:selected {
+    background-color: #dbeafe;
+    color: black;
+}
+/* Form Group Style */
+QGroupBox {
+    border: 1px solid #d1d5db;
+    border-radius: 6px;
+    margin-top: 10px;
+    padding-top: 20px;
+    font-weight: bold;
+}
+
+QGroupBox::title {
+    subcontrol-origin: margin;
+    left: 10px;
+    padding: 0 5px;
+}
+/* Action Menu */
+#actionMenu {
+    background-color: white;
+    border: 1px solid #d1d5db;
+    border-radius: 4px;
+}
+
+#actionMenu::item {
+    padding: 8px 20px;
+}
+
+#actionMenu::item:selected {
+    background-color: #ebf4ff;
+}
+// Create a sidebar widget
+QWidget *sidebar = new QWidget();
+sidebar->setObjectName("sidebar");
+QVBoxLayout *sidebarLayout = new QVBoxLayout();
+
+// Add menu button with icon
+QPushButton *menuBtn = new QPushButton(QIcon(":/icons/menu.svg"), "");
+menuBtn->setProperty("iconOnly", true);
+sidebarLayout->addWidget(menuBtn);
+
+// Add other actions as hidden buttons that appear on hover
+QPushButton *newInvoiceBtn = new QPushButton(QIcon(":/icons/add.svg"), tr("New Invoice"));
+sidebarLayout->addWidget(newInvoiceBtn);
+// Add more buttons...
+
+sidebar->setLayout(sidebarLayout);
+// Configure your table
+tableView->setStyleSheet("QTableView { font-size: 12px; }");
+tableView->verticalHeader()->hide();
+tableView->setShowGrid(false);
+tableView->setAlternatingRowColors(true);
+tableView->setSelectionBehavior(QAbstractItemView::SelectRows);
+// Group related form elements
+QGroupBox *clientGroup = new QGroupBox(tr("Client Section"));
+QFormLayout *clientLayout = new QFormLayout();
+clientGroup->setLayout(clientLayout);
+/* Status Labels */
+.status-paid {
+    color: #10b981;
+    background-color: #d1fae5;
+    padding: 2px 8px;
+    border-radius: 10px;
+}
+
+.status-unpaid {
+    color: #ef4444;
+    background-color: #fee2e2;
+    padding: 2px 8px;
+    border-radius: 10px;
+}
+QGroupBox, QTableView {
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+
+
+
